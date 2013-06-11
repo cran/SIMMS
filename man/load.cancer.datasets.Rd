@@ -1,0 +1,33 @@
+\name{load.cancer.datasets}
+\alias{load.cancer.datasets}
+\title{Load all cancer meta-analysis datasets}
+\description{Returns a list of lists containing all cancer meta-analysis datasets}
+\usage{
+load.cancer.datasets(
+  tumour.only = TRUE, with.survival.only = TRUE,
+  datasets.to.load = 'all', data.types = c('mRNA'),
+  datasets.file = 'datasets.txt', data.directory = '.',
+  verbose = FALSE, subset = NULL
+  );
+}
+\arguments{
+  \item{tumour.only}{Logical indicating if we should only load tumour samples (TRUE, the default)}
+  \item{with.survival.only}{Logical indicating if we should only load samples with survival data (TRUE, the default)}
+  \item{datasets.to.load}{A vector of datasets to be loaded.  If 'all', then all available datasets are loaded}
+  \item{data.types}{A vector of molecular datatypes to load. Defaults to c('mRNA')}
+  \item{datasets.file}{A file in data.directory containing a listing of all usable datasets}
+  \item{data.directory}{A directory containing all data-files to be loaded}
+  \item{verbose}{Logical indicating whether or not status messages should be given}
+  \item{subset}{A list with a Field and Entry component specifying a subset of patients to be selected whose annotation Field matches Entry}
+}
+\value{Returns a meta-analysis list of lists}
+\author{Paul C. Boutros}
+\examples{
+data.dir <- get.program.defaults()[["test.data.dir"]];
+x1 <- load.cancer.datasets(
+  datasets.to.load = c('Breastdata1'),
+  data.types = c("mRNA"),
+  data.directory = data.dir
+  );
+}
+\keyword{IO}

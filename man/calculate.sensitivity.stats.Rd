@@ -1,0 +1,13 @@
+\name{calculate.sensitivity.stats}
+\alias{calculate.sensitivity.stats}
+\title{Computes sensitivity measures}
+\description{Computes sensitivity measures: TP, FP, TN, FN, Sensitivity, Specificity, Accuracy}
+\usage{
+calculate.sensitivity.stats(all.data = NULL);
+}
+\arguments{
+  \item{all.data}{A data matrix containing predicted and real risk groups}
+}
+\value{A vector containing TP, FP, TN, FN, Sensitivity, Specificity, Accuracy}
+\author{Syed Haider}
+\keyword{Sensitivity,Specificity}

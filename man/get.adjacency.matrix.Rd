@@ -1,0 +1,17 @@
+\name{get.adjacency.matrix}
+\alias{get.adjacency.matrix}
+\title{A utility function to convert tab delimited networks file into adjacency matrices}
+\description{A utility function to convert tab-delimited networks file into adjacency matrices}
+\usage{
+get.adjacency.matrix(subnets.file = NULL);
+}
+\arguments{
+  \item{subnets.file}{A tab-delimited file containing networks. New networks start with a new line with '#' at the begining of network name and subsequent lines contain a binary interaction per line}
+}
+\value{A list of adjacency matrices}
+\author{Syed Haider}
+\examples{
+subnets.file <- get.program.defaults()[["subnets.file"]];
+all.adjacency.matrices <- get.adjacency.matrix(subnets.file);
+}
+\keyword{Networks}

@@ -1,0 +1,22 @@
+export(
+	derive.network.features,
+	prepare.training.validation.datasets,
+	fit.survivalmodel,
+	pred.survivalmodel,
+	create.survivalplots,
+	get.program.defaults,
+	calculate.meta.survival,
+	calculate.network.coefficients,
+	get.adjacency.matrix,
+	get.chisq.stats,
+	make.matrix,
+	create.survobj,
+	load.cancer.datasets,
+	dichotomize.dataset,
+	dichotomize.meta.dataset,
+	fit.coxmodel,
+	fit.interaction.model,
+	create.KM.plot,
+	create.sensitivity.plot,
+	calculate.sensitivity.stats
+	)
