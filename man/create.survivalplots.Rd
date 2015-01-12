@@ -5,9 +5,12 @@
 \usage{
 create.survivalplots(
   data.directory = ".", output.directory = ".", training.datasets = NULL, 
-  validation.datasets = NULL, top.n.features = 25, truncate.survival = 100,
-  survtime.cutoffs = c(seq(5,10,1)), main.title = FALSE,
-  KM.plotting.fun = "create.KM.plot", resolution = 100
+  validation.datasets = NULL, top.n.features = 25, 
+  learning.algorithms = c("backward", "forward"), 
+  truncate.survival = 100, survtime.cutoffs = c(seq(5,10,1)), 
+  main.title = FALSE, KM.plotting.fun = "create.KM.plot", 
+  plot.univariate.data = FALSE, plot.multivariate.data = TRUE,
+  resolution = 100
   );
 }
 \arguments{
@@ -16,11 +19,14 @@ create.survivalplots(
   \item{training.datasets}{A vector containing names of training datasets}
   \item{validation.datasets}{A vector containing names of validation datasets}
   \item{top.n.features}{A numeric value specifying how many top ranked features will be used for univariate survival modelling}
+  \item{learning.algorithms}{A character vector specifying which learning algorithm to be used for model fitting and feature selection. Defaults to c('backward', 'forward'). Available options are: c('backward', 'forward', 'glm')}
   \item{truncate.survival}{A numeric value specifying survival truncation in years. Defaults to 100 years which effectively means no truncation}
   \item{survtime.cutoffs}{A vector containing survival cutoff time points to be used for dichotomization of patients into risk groups for senstivity analysis}
   \item{main.title}{A logical to specify plot's main title. Defaults to FASLE}
   \item{KM.plotting.fun}{A string containing the name of the method to use for plotting KM curves. Defaults to \code{create.KM.plot}}
-  \item{resolution}{A numeric value specifying resolution of the tiff images of KM survival curves. Defaults to 100}
+  \item{plot.univariate.data}{Logical to indicate whether to plot univariate results for all subnetworks. Default to FALSE}
+  \item{plot.multivariate.data}{Logical to indicate whether to plot multivariate results for all subnetworks. Defaults to TRUE}
+  \item{resolution}{A numeric value specifying resolution of the png images of KM survival curves. Defaults to 100}
 }
 \value{The KM survival curves are stored under \code{output.directory}/graphs/}
 \author{Syed Haider}

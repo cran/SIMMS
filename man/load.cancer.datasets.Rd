@@ -5,14 +5,15 @@
 \usage{
 load.cancer.datasets(
   tumour.only = TRUE, with.survival.only = TRUE,
-  datasets.to.load = 'all', data.types = c('mRNA'),
-  datasets.file = 'datasets.txt', data.directory = '.',
-  verbose = FALSE, subset = NULL
+  truncate.survival = 100, datasets.to.load = 'all',
+  data.types = c('mRNA'), datasets.file = 'datasets.txt', 
+  data.directory = '.', verbose = FALSE, subset = NULL
   );
 }
 \arguments{
   \item{tumour.only}{Logical indicating if we should only load tumour samples (TRUE, the default)}
   \item{with.survival.only}{Logical indicating if we should only load samples with survival data (TRUE, the default)}
+  \item{truncate.survival}{A numeric value specifying survival truncation in years. Defaults to 100 years which effectively means no truncation}
   \item{datasets.to.load}{A vector of datasets to be loaded.  If 'all', then all available datasets are loaded}
   \item{data.types}{A vector of molecular datatypes to load. Defaults to c('mRNA')}
   \item{datasets.file}{A file in data.directory containing a listing of all usable datasets}

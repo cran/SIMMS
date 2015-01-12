@@ -5,7 +5,6 @@ create.sensitivity.plot <- function(riskscore = NULL, riskgroup = NULL, survtime
 	# output directories
 	out.dir <- paste(output.directory, "/output/", sep = "");
 	graphs.dir <- paste(output.directory, "/graphs/", sep = "");
-	logs.dir <- paste(output.directory, "/logs/", sep = "");
 
 	# add a column for hypothetical class label based on survtime based dichotomization
 	all.data <- cbind(all.data, "real.survival.group" = rep(NA, nrow(all.data)));
@@ -18,13 +17,13 @@ create.sensitivity.plot <- function(riskscore = NULL, riskgroup = NULL, survtime
 	current.type <- getOption("bitmapType");
 	options(bitmapType = "cairo");
 
-	tiff(
-		filename = paste(graphs.dir, file.stem, ".tiff", sep = ""),
+	png(
+		filename = paste(graphs.dir, file.stem, ".png", sep = ""),
 		height = 5,
 		width = 5,
 		units = "in",
-		res = resolution,
-		compression = "lzw"
+		res = resolution
+		#,compression = "lzw"
 		);
 	par(
 		mfrow = c(1,1),

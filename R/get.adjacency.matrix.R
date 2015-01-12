@@ -24,7 +24,7 @@ get.adjacency.matrix <- function(subnets.file = NULL) {
 				vertices <- "";
 				interactions <- "";
 				}
-			graph.name <- make.names(subnets[i]);
+			graph.name <- make.names(gsub("\t$", "", subnets[i]));
 			}
 		else {
 			id.p1.p2 <- unlist(strsplit(subnets[i], "\t"));

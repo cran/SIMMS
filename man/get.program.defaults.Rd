@@ -8,7 +8,7 @@ get.program.defaults(networks.database = "default");
 \arguments{
   \item{networks.database}{Name of the pathway networks database. Default to NCI PID/Reactome/Biocarta i-e "default"}
 }
-\value{Returns path to the directory where the contents of this package are installed and names of other input files}
+\value{Returns a list of paths to the input directories/files where the contents of this package are installed}
 \author{Syed Haider}
 \examples{
 program.data <- get.program.defaults();

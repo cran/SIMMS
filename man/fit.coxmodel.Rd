@@ -5,7 +5,8 @@
 \usage{
 fit.coxmodel(
   groups, survobj, stages = NA,
-  rounding = 3, other.data = NULL
+  rounding = 3, other.data = NULL,
+  data.type.ordinal = FALSE
   );
 }
 \arguments{
@@ -14,8 +15,9 @@ fit.coxmodel(
   \item{stages}{DEPRECATED!  Use other.data instead.}
   \item{rounding}{How many digits of precision should be returned?}
   \item{other.data}{A data-frame (or matrix?) of variables to be controlled in the Cox model. If null, no adjustment is done.  No interactions are fit.}
+  \item{data.type.ordinal}{Logical indicating whether to treat this datatype as ordinal. Defaults to FALSE}
 }
-\value{A vector containing: HR, lower 95\% CI of HR, upper 95\% CI of HR, P-value (for groups), number of samples (total with group assignments, although some may not be included in fit for other reasons so this is an upper-limit).}
+\value{A list containing two elements. \code{cox.stats} containing a vector or matrix: HR, lower 95\% CI of HR, upper 95\% CI of HR, P-value (for groups), number of samples (total with group assignments, although some may not be included in fit for other reasons so this is an upper-limit). \code{cox.obj} containing coxph model object}
 \author{Paul C. Boutros}
 \examples{
 survtime <- sample(seq(0.1,10,0.1), 100, replace = TRUE);

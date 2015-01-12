@@ -5,7 +5,8 @@
 \usage{
 calculate.meta.survival(
   feature.name, expression.data, 
-  survival.data, rounding = 3, other.data = NULL
+  survival.data, rounding = 3, other.data = NULL,
+  data.type.ordinal = FALSE
   );
 }
 \arguments{
@@ -14,6 +15,7 @@ calculate.meta.survival(
   \item{survival.data}{A list where each component is an object of class Surv}
   \item{rounding}{How many digits after the decimal place to include}
   \item{other.data}{A list of other covariates to be passed to the Cox model (all elements in this list are used}
+  \item{data.type.ordinal}{Logical indicating whether to treat this datatype as ordinal. Defaults to FALSE}
 }
 \value{Returns a vector containing the HR, p-value, n, and 95\% confidence limits of the HR (see fit.coxmodel() for details)}
 \author{Paul C. Boutros}

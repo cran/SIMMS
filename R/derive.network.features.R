@@ -1,4 +1,4 @@
-derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), subset = NULL, networks.database = "default", ...) {
+derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cnv"), feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
 
 	# verify that we got appropriate input data
 	to.abort <- FALSE;
@@ -21,11 +21,9 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 	# create the output directories
 	out.dir <- paste(output.directory, "/output/", sep = "");
 	graphs.dir <- paste(output.directory, "/graphs/", sep = "");
-	logs.dir <- paste(output.directory, "/logs/", sep = "");
 
 	dir.create(out.dir, recursive = TRUE);
 	dir.create(graphs.dir, recursive = TRUE);
-	dir.create(logs.dir, recursive = TRUE);
 
 	# create a function dynamically
 	dynamic.function <- get(feature.selection.fun, mode = "function");
@@ -34,7 +32,9 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 		output.directory = out.dir,
 		training.datasets = feature.selection.datasets,
 		data.types = data.types,
+		data.types.ordinal = data.types.ordinal,
 		subnets.file.flattened = subnets.file.flattened,
+		truncate.survival = truncate.survival,
 		subset = subset,
 		...
 		);
@@ -65,6 +65,13 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 			col.names = NA,
 			sep = "\t"
 			);
+
+		con <- gzfile(
+			paste(out.dir, "/coxph_nodes__", all.training.names, "__datatype_", data.type, "_models.gz", sep=""), 
+			"wb"
+			);
+		serialize(coef.nodes.edges[[data.type]][["cox.uv"]], con);
+		close(con);
 		}
 
 	# lets compute subnetwork feature scores
@@ -82,10 +89,10 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 		for (subnet in names(all.adjacency.matrices)) {
 
 			# initialise the scores for each of the model
+			# PCB: consider giving the models names (nodes-only, edges-only, nodes+edges) instead of "1", "2", and "3" 
 			subnet.scores[["1"]][[subnet]] <- 0;
 			subnet.scores[["2"]][[subnet]] <- 0;
 			subnet.scores[["3"]][[subnet]] <- 0;
-			# PCB: consider giving the models names (nodes-only, edges-only, nodes+edges) instead of "1", "2", and "3" 
 
 			# go over all data types and sum the scores
 			for (data.type in data.types) {
@@ -102,6 +109,8 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 				adjacency.matrix <- adjacency.matrix[nodes, nodes];
 
 				# nodes score
+				# NOTE: for ordinal data types, feature selection is conducted on the 
+				# beta/coef for smallest P value group/level
 				nodes.valid <- which( coxph.nodes[nodes, "P"] <= p.threshold );
 				if (length(nodes.valid) > 0) {
 					nodes.valid <- nodes[nodes.valid];

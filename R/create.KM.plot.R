@@ -1,8 +1,4 @@
-create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, truncate.survival = 100, file.name = NULL, main.title = "", resolution = 100) {
-
-	# truncate survival
-	survstat[survtime > truncate.survival] <- 0;
-	survtime[survtime > truncate.survival] <- truncate.survival;
+create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, file.name = NULL, main.title = "", resolution = 100) {
 	
 	# make appropriate data structure for coxph
 	all.data <- data.frame("riskgroup" = riskgroup, "survtime" = survtime, "survstat" =  survstat);
@@ -22,13 +18,13 @@ create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, 
 	current.type <- getOption("bitmapType");
 	options(bitmapType = "cairo");
 
-	tiff(
+	png(
 		filename = file.name,
 		height = 5,
 		width = 5,
 		units = "in",
-		res = resolution,
-		compression = "lzw"
+		res = resolution
+		#,compression = "lzw"
 		);
 	par(
 		mfrow = c(1,1),

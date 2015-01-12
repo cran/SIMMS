@@ -6,7 +6,8 @@
 calculate.network.coefficients(
   data.directory = ".", output.directory = ".",
   training.datasets = NULL, data.types = c("mRNA"),
-  subnets.file.flattened = NULL, subset = NULL
+  data.types.ordinal = c("cnv"), subnets.file.flattened = NULL,
+  truncate.survival = 100, subset = NULL
   );
 }
 \arguments{
@@ -14,7 +15,9 @@ calculate.network.coefficients(
   \item{output.directory}{Path to the output folder where intermediate and results files will be saved}
   \item{training.datasets}{A vector containing names of training datasets}
   \item{data.types}{A vector of molecular datatypes to load. Defaults to c('mRNA')}
+  \item{data.types.ordinal}{A vector of molecular datatypes to be treated as ordinal. Defaults to c('cnv')}
   \item{subnets.file.flattened}{File containing all the binary ineractions derived from pathway-derived networks}
+  \item{truncate.survival}{A numeric value specifying survival truncation in years. Defaults to 100 years which effectively means no truncation}
   \item{subset}{A list with a Field and Entry component specifying a subset of patients to be selected whose annotation Field matches Entry}
 }
 \value{Returns a list of matrices for each of the data types. Matrices contain nodes HR/P, edges HR and edges P.}

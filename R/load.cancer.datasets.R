@@ -1,4 +1,4 @@
-load.cancer.datasets <- function(tumour.only = TRUE, with.survival.only = TRUE, datasets.to.load = 'all', data.types = c('mRNA'), datasets.file = 'datasets.txt', data.directory = '.', verbose = FALSE, subset = NULL) {
+load.cancer.datasets <- function(tumour.only = TRUE, with.survival.only = TRUE, truncate.survival = 100, datasets.to.load = 'all', data.types = c('mRNA'), datasets.file = 'datasets.txt', data.directory = '.', verbose = FALSE, subset = NULL) {
 
 	# read in the listing of all datasets
 	datasets <- read.table(
@@ -56,6 +56,9 @@ load.cancer.datasets <- function(tumour.only = TRUE, with.survival.only = TRUE, 
 		if (!("survtime.unit" %in% colnames(annotation))) {
 			annotation$survtime.unit <- annotation[,datasets$survtime.unit[datasets$dataset == dataset]];
 			}
+
+		# handle survtime <= 0
+		annotation$survtime[annotation$survtime <= 0] <- 1e-05;
 
 		# only keep samples with survival data
 		if (with.survival.only) {
@@ -116,7 +119,7 @@ load.cancer.datasets <- function(tumour.only = TRUE, with.survival.only = TRUE, 
 				}
 
 			# save survival objects
-			all.survobj[[dataset]] <- create.survobj(annotation = annotation);
+			all.survobj[[dataset]] <- SIMMS::create.survobj(annotation = annotation, truncate.survival = truncate.survival);
 			}
 		else {
 			stop("\n\nDataset: [", dataset, "] does not have any valid data to process. Please remove from feature selection, training and validation dataset vectors\n\n");

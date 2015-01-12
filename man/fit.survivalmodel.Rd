@@ -1,7 +1,7 @@
 \name{fit.survivalmodel}
 \alias{fit.survivalmodel}
 \title{Trains a multivariate survival model}
-\description{Trains a multivariate survival model and conducts feature selection using both backward elimination and forward selection, independently.}
+\description{Trains a multivariate survival model and conducts feature selection using both backward elimination and forward selection, independently. TO BE DEPRECATED AND HAS BEEN REPLACED BY \code{create.classifier.multivariate}}
 \usage{
 fit.survivalmodel(
   data.directory = ".", output.directory = ".",
@@ -20,6 +20,9 @@ fit.survivalmodel(
 }
 \value{The output files are stored under \code{output.directory}/output/}
 \author{Syed Haider}
+\seealso{
+\code{create.classifier.multivariate}
+}
 \examples{
 # see package's main documentation
 }

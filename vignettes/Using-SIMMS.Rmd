@@ -1,0 +1,260 @@
+---
+title: ""
+author: ""
+date: ""
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SIMMS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+  %\SweaveUTF8
+---
+<link href="GitHub2.css" rel="stylesheet">
+
+## Subnetwork Integration for Multi-modal Signatures (SIMMS)
+### Author(s): Syed Haider, Paul C. Boutros
+### Maintainer: Syed Haider (Syed.Haider@oicr.on.ca)
+### Dated: `r Sys.Date()`
+
+
+# Table of Contents
+  * [Overview](#Overview)
+  * [Networks database](#Networks-database)
+  * [Molecular profiles and clinical data](#Molecular-profiles-and-clinical-data)
+  * [Example R-script](#Example-R-script)
+  * [Output](#Output)
+ 
+## Overview <a id = "Overview"></a>
+SIMMS enables intergration of molecular profiles with functional networks such as protein-protein interaction networks. This document shows how to use SIMMS from a simple use case of integrating mRNA abundance data with pathways derived protein-protein networks, through to more sophisticated use cases of integrating multiple molecular profiles such as mRNA abundance, DNA copy-number and DNA-methylation data. Note, SIMMS requires patient outcome data as dependent variable. In current implementation, it works with survival data `Survival time, Survival status`. Please setup the dataset metadata directories before using SIMMS.
+
+There are a couple of directories that one needs to setup and ensure the contents are in correct format. These directories contain:
+
+- Networks database (optional)
+- Molecular profiles and clinical data
+
+The structure and format of these inputs is described below.
+
+## Networks database <a id = "Networks-database"></a>
+SIMMS rely on functionally or computationally derived networks in order to meaningfully integrate molecular profiles. By default, SIMMS package has a built in database of pathway derived protein-protein interaction networks extracted from (a dated version) Reactome, BioCarta and NCI-PID. This database can be accessed through various SIMMS functions using the parameter setting `networks.database = "default"`. If you would like to create your own networks database for subsequent use with SIMMS, please note that the networks database is organised in two files: 
+
+	pathway_based_networks.txt
+	pathway_based_networks_flattened.txt
+ 
+File `pathway_based_networks.txt` contains all the subnetworks. For instance a hypothetical subnetwork of five genes `ERBB2, EGFR, MKI67, ESR1, PGR` with four interactions `(PGR-ESR1, EGFR-ERBB2, EGFR-PGR, MKI67-ESR1)`, and another hypothetical subnetwork of three genes PDK1, AKT3 and PIK3CA with two interactions `(PDK1-PIK3CA, AKT3-PIK3CA)` using Entrez Gene IDs would look like (tab-delimited):
+
+	#ID=0001	NAME=Module.1
+	ID=0001	5241	2099
+	ID=0001	1956	2064
+	ID=0001	1956	5241
+	ID=0001	4288	2099
+	#ID=0002	NAME=Module.2
+	ID=0002	5163	5290
+	ID=0002	10000	5290
+
+Please note that the only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional \_at suffix in the molecular data files).
+
+File `pathway_based_networks_flattened.txt` is a non-redundant, without self-interactions, quick lookup table of all the pairwise interactions present in the file `pathway_based_networks.txt`. This should not contain the subnetwork name and ID annotations. For example, the contents of this file for the above-mentioned subnetworks would look like (tab-delimited):
+
+	GeneID1	GeneID2
+	5241	2099
+	1956	2064
+	1956	5241
+	4288	2099
+	5163	5290
+	10000	5290	
+
+Please note that only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional \_at suffix in the molecular data files). If you have a gene list without known interactions, and would like to try Node-only model (model 2), you can create a subnetwork with random interactions in `pathway_based_networks.txt` as long as all the features (genes) are present and connected. Same goes for `pathway_based_networks_flattened.txt`.
+
+The two database files are placed inside a directory you wish to call your database. For example: `MyNetworkDB`, and this directory should be placed under:
+
+> SIMMS/inst/programdata/networkdb/
+
+You would need to build and install SIMMS package again and your networks database should be available to use through relevant SIMMS' functions with parameter setting `networks.database = "MyNetworkDB"`
+
+## Molecular profiles and clinical data <a id = "Molecular-profiles-and-clinical-data"></a>
+The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls `(-2,-1,0,1,2) or (-1,0,1)` representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The molecular profiles are strictly tab-delimited, feature (gene) by sample matrices. Genes should be represented using Entrez IDs followed by \_at suffix. For mRNA abundance data, if you have pre-processed your data with [BrainArray Entrez CDFs](http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp) Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by \_at suffix (e.g 5290_at). 
+
+Clinical profiles are strictly tab-delimited, sample by annotation matrices. The annotation columns must contain survival columns `Survival time, Survival status, Survival time unit`. The row names should match the column names in the molecular profiles' matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below. 
+
+Both molecular and clinical annotations are read by SIMMS through a tab-delimited metadata file called `datasets.txt`. An example of the contents of this file are shown below:
+
+	dataset	mRNA	cnv	methylation	annotations	survstat	survtime	survtime.unit
+	Breastdata1	mRNA_abundance.txt	CNV.txt	DNA_methylation.txt	patient_annotation.txt	e.os	t.os	t.os.unit
+	Breastdata2	mRNA_abundance.txt	CNV.txt	DNA_methylation.txt	patient_annotation.txt	e.os	t.os	t.os.unit
+
+
+Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of `Survival status, Survival time and Survival time units`, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset `testdata` containing metadata file `datasets.txt`, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under: 
+
+> SIMMS/inst/programdata/testdata/
+
+There is no need to drop your datasets inside the package, or need to rebuild the package. You can just point to your datasets through SIMMS package keeping them anywhere on your filesystem.
+
+## Example R-script <a id = "Example-R-script"></a>
+Lets start with a simple case. We have two mRNA abundance datasets; `Breastdata1, Breastdata2`. We would like to identify prognostic biomarkers using Breastdata1 and validate on Breastdata2. Assuming these two datasets are setup correctly (as described in the previous section), a typical workflow would be:
+
+```{r, results = "hide", message = FALSE}
+options("warn" = -1);
+
+# load SIMMS library
+library("SIMMS");
+
+# path of the data directory containing Breastdata1/ and Breastdata2/ subdirectories
+data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
+
+# path of the directory where results will be stored
+output.directory <- "~/SIMMSoutput/";
+
+# molecular profiles to be used
+data.types <- c("mRNA");
+
+# feature selection datasets
+# name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s
+feature.selection.datasets <- c("Breastdata1");
+
+# model training datasets, ideally same as feature selection datasets
+# name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s
+training.datasets <- feature.selection.datasets;
+
+# validation datasets
+# name of the dataset directory containing mRNA abundance and annotation profiles of validation dataset/s
+validation.datasets <- c("Breastdata2");
+
+# all the possible P value thresholds that one may consider applying to feature selection process.
+# its the P value of univariate (genewise) Cox model statistics
+feature.selection.p.thresholds <- c(0.5);
+
+# one of the P values above, to be used for subsequent analysis. Not a vector for performance reasons
+feature.selection.p.threshold <- 0.5;
+
+# names of the learning algorithms to be used for the final multivarite model
+learning.algorithms <- c("backward", "forward", "glm");
+
+# top features to be used for model selection (Backwards elimination, Forward selection, GLM)
+# you can try a number of different model selection runs by specifying a vector of top n features
+top.n.features <- c(5);
+
+# truncate survival
+truncate.survival <- 10;
+
+# calculate per feature univariate coefficients in training sets
+derive.network.features(
+	data.directory = data.directory,
+	output.directory = output.directory,
+	data.types = data.types,
+	feature.selection.datasets = feature.selection.datasets,
+	feature.selection.p.thresholds = feature.selection.p.thresholds,
+	networks.database = "test", # or "default" for Reactome/BioCarta/NCI-PID
+	truncate.survival = truncate.survival
+	);
+
+# calculate per-subnetwork scores in both training and validation sets
+prepare.training.validation.datasets(
+	data.directory = data.directory,
+	output.directory = output.directory,
+	data.types = data.types,
+	feature.selection.datasets = feature.selection.datasets,
+	datasets = c(training.datasets, validation.datasets),
+	networks.database = "test", # or "default" for Reactome/BioCarta/NCI-PID
+	truncate.survival = truncate.survival
+	);
+
+# iterate over varying top n features, identify and validate survival models
+for (top.n in top.n.features) {
+
+	# create classifier assessing univariate prognostic power of subnetwork modules (Train and Validate)
+	ret <- create.classifier.univariate(
+		data.directory = data.directory,
+		output.directory = output.directory,
+		feature.selection.datasets = feature.selection.datasets,
+		feature.selection.p.threshold = feature.selection.p.threshold,
+		training.datasets = training.datasets,
+		validation.datasets = validation.datasets,
+		top.n.features = top.n
+		);
+
+	# create a multivariate classifier (Train and Validate)
+	ret <- create.classifier.multivariate(
+		data.directory = data.directory,
+		output.directory = output.directory,
+		feature.selection.datasets = feature.selection.datasets,
+		feature.selection.p.threshold = feature.selection.p.threshold,
+		training.datasets = training.datasets,
+		validation.datasets = validation.datasets,
+		learning.algorithms = learning.algorithms,
+		top.n.features = top.n
+		);
+
+	# perform Kaplan-Meier analysis and generate plots
+	create.survivalplots(
+		data.directory = data.directory,
+		output.directory = output.directory,
+		training.datasets = training.datasets,
+		validation.datasets = validation.datasets,
+		top.n.features = top.n,
+		learning.algorithms = learning.algorithms,
+		truncate.survival = truncate.survival,
+		survtime.cutoffs = c(5),
+		main.title = FALSE,
+		KM.plotting.fun = "create.KM.plot",
+		resolution = 100
+		);
+	}
+```
+Please note that a number of parameters such as `output.directory, training.datasets and validations.datasets` are repeatedly passed in various methods. This may look mindless, however, this is because none of the methods return objects that are passed over to the next method/s. The rationale behind this was to keep the memory footprint to bare-minimum by avoiding large R objects passed around. This particular feature also facilitates restarting from any step after deliberate or accidental closure of R environment as everything can be read again from the filesystem. The only compromise is the data footprint on the filesystem. 
+
+The above R-script will generate two sub-directories under the `output.directory` path:
+
+> output/ and
+> graphs/
+
+## Output <a id = "Output"></a>
+SIMMS creates two output directories; `output/ and graphs/`. The contents of these directories are described below:
+
+### output/
+
+> coxph\_nodes\_\_`$training.datasets`\_\_datatype\_`$data.types`.txt
+> coxph\_edges\_coef\_\_`$training.datasets`\_\_datatype\_`$data.types`.txt
+> coxph\_edges\_P\_\_`$training.datasets`\_\_datatype\_`$data.types`.txt
+
+Contains per feature (nodes) univariate Cox proportional hazards model results, and per interaction (gene-gene edge) Cox proportional hazards model results
+
+>	top\_subnets\_score\_\_TRAINING\_`$training.datasets`\_\_model\_`1,2,3`\_\_PV_`$feature.selection.p.thresholds`.txt
+
+Contains per subnetwork scores and is used for subsequent feature selection. Models 1, 2 and 3 refers to Node+Interaction, Node-only and Interaction-only models. Nodel-only (Model-2) is generally the most interpretable and robust model
+
+> riskscores\_uv\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_model\_`1,2,3`\_\_top_`$top.n`.txt
+
+Contains per sample risk scores for each subnetwork, along with Survival time and Survival status. Sample by risk score matrix. First two columns contain survival data
+
+> riskgroups\_uv\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains per sample risk groups for each subnetwork, along with Survival time and Survival status. Sample by risk group matrix. First two columns contain survival data. Risk groups are median-dichotomised (training set) risk scores
+
+> riskscores\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_`backward,forward,glm`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains per sample risk scores estimated by the multivariate Cox proportional hazards model, along with Survival time and Survival status
+
+> riskgroups\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_`backward,forward,glm`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains per sample risk group (along with Survival time and Survival status) generated by median dichotomising risk scores (training set) estimated through the multivariate Cox proportional hazards model
+
+> coxph\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_`backward,forward,glm`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains univariate Cox proportional hazards model results with risk group (derived from multivariate Cox model) as the explanatory variable
+
+> beta\_\_TRAINING\_`$training.datasets`\_\_`backward,forward`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains the fitted coefficients (betas) of the final model following backward elimination and forward selection (separately)
+
+> beta\_\_TRAINING\_`$training.datasets`\_\_`glm`\_\_model\_`1,2,3`\_\_top\_`$top.n`.txt
+
+Contains the fitted coefficients (betas) of the final model following GLMs with LASSO (L1-Penalty) driven feature selection
+
+### graphs/
+> KM\_uv\_\_`all_training,all_validation`\_\_TRAINING\_`$training.datasets`\_\_model\_`1,2,3`\_\_`SubnetworkName`\_\_truncated\_`$truncate.survival`.png
+
+Kaplan-Meier analysis of risk groups generated for each subnetwork through univariate Cox proportional hazards model. These will be generated if parameter `plot.univariate.data` was set to `TRUE` in `create.survivalplots()` as default value is set to `FALSE`.
+
+> KM\_\_`all_training,all_validation`\_\_TRAINING\_`$traning.datasets`\_\_`backward,forward,glm`\_\_model\_`1,2,3`\_\_top\_`$top.n`\_\_truncated\_`$truncate.survival`.png
+
+Kaplan-Meier analysis of risk groups generated through multivariate Cox proportional hazards model

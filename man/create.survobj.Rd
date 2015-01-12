@@ -3,10 +3,14 @@
 \title{Utility function for loading meta-analysis lists}
 \description{Create Surv objects from an annotation-matrix with handling for different time units.}
 \usage{
-create.survobj(annotation);
+create.survobj(
+	annotation = NULL, truncate.survival = 100
+	);
 }
 \arguments{
   \item{annotation}{A patient annotation matrix (patients = rows) with (at least) columns for survtime, survstat, and survtime.unit}
+  \item{truncate.survival}{A numeric value specifying survival truncation in years. Defaults to 100 years which effectively means no truncation}
+
 }
 \value{Returns an object of class Surv}
 \author{Paul C. Boutros}

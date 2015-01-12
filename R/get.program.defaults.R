@@ -22,7 +22,7 @@ get.program.defaults <- function(networks.database = "default") {
 			"program.data.dir" = program.data.dir,
 			"subnets.file" = paste(program.data.dir, "/pathway_based_sub_networks.txt", sep=""),
 			"subnets.file.flattened" = paste(program.data.dir, "/pathway_based_networks_flattened.txt", sep=""),
-			"subnets.file.all" = paste(program.data.dir, "/pathway_based_sub_networks_all.txt", sep=""),
+			"subnets.file.all" = paste(program.data.dir, "/pathway_based_sub_networks_all.txt", sep=""), # only used by BL.pipeline.SIMMS
 			"test.data.dir" = paste(program.data.dir, "../../testdata/", sep="")
 			)
 		);

@@ -1,14 +1,12 @@
-pred.survivalmodel <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), truncate.survival = 100, write.risk.data = TRUE) {
+pred.survivalmodel <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), write.risk.data = TRUE) {
 
 	# output directories
 	out.dir <- paste(output.directory, "/output/", sep = "");
 	graphs.dir <- paste(output.directory, "/graphs/", sep = "");
-	logs.dir <- paste(output.directory, "/logs/", sep = "")
 
 	# program data files and initialise variables
 	all.feature.selection.names <- paste(sort(feature.selection.datasets), collapse="_");
 	all.training.names <- paste(sort(training.datasets), collapse="_");
-	all.validation.names <- paste(sort(validation.datasets), collapse="_");
 	top.subnets <- list();
 	stepAIC.betas <- NULL;
 	all.subnet.scores <- list();
@@ -35,7 +33,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 		for (direction in c("forward", "backward")) {
 			stepAIC.betas <- as.matrix(
 				read.table(
-					file = paste(out.dir, "stepAIC_beta__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep = ""),
+					file = paste(out.dir, "beta__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep = ""),
 					header = TRUE,
 					row.names = 1,
 					sep = "\t"
@@ -51,24 +49,20 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 
 			for (dataset in training.datasets) {
 
-				# multiple betas of this variable with corresponding per-patient scores
+				# multiply betas of this variable with corresponding per-patient scores
 				risk.scores <- stepAIC.betas[selected.variables, "beta"] *
 					all.subnet.scores[[dataset]][[model]][selected.variables, ];
 
 				# if variables > 1, then sum up all the scores once its times corresponding beta
 				if(length(selected.variables) > 1) {risk.scores <- apply(risk.scores, 2, sum)};
 
-				risk.groups <- dichotomize.dataset(risk.scores);
+				risk.groups <- SIMMS::dichotomize.dataset(risk.scores);
 				names(risk.groups) <- colnames(all.subnet.scores[[dataset]][[model]]);
 				survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 				survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
 
-				# truncate survival
-				survstat[survtime > truncate.survival] <- 0;
-				survtime[survtime > truncate.survival] <- truncate.survival;
-
-				coxph.res <- fit.coxmodel(risk.groups, Surv(survtime, survstat));
-				if (!is.nan(coxph.res[4])) {
+				coxph.res <- SIMMS::fit.coxmodel(risk.groups, Surv(survtime, survstat))$cox.stats;
+				if (!is.na(coxph.res[4])) {
 					survdiff.res <- get.chisq.stats(risk.groups, Surv(survtime, survstat));
 					}
 				names(coxph.res) <- coxph.header;
@@ -100,7 +94,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 					sep = "\t"
 					);
 
-				if (!is.nan(coxph.res[4])) {
+				if (!is.na(coxph.res[4])) {
 					write.table(
 						x = t(survdiff.res),,
 						file = paste(out.dir, "survdiff__", dataset, "__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep=""),
@@ -116,9 +110,9 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				}
 
 			# combined training set
-			all.training.groups <- dichotomize.dataset(all.training.risk.scores);
-			coxph.res <- fit.coxmodel(all.training.groups, Surv(all.training.survtime, all.training.survstat));
-			if (!is.nan(coxph.res[4])) {
+			all.training.groups <- SIMMS::dichotomize.dataset(all.training.risk.scores);
+			coxph.res <- SIMMS::fit.coxmodel(all.training.groups, Surv(all.training.survtime, all.training.survstat))$cox.stats;
+			if (!is.na(coxph.res[4])) {
 				survdiff.res <- get.chisq.stats(all.training.groups, Surv(all.training.survtime, all.training.survstat));
 				}
 			names(coxph.res) <- coxph.header;
@@ -149,7 +143,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				sep = "\t"
 				);
 
-			if (!is.nan(coxph.res[4])) {
+			if (!is.na(coxph.res[4])) {
 				write.table(
 					x = t(survdiff.res),
 					file = paste(out.dir, "survdiff__", "all_training", "__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep=""),
@@ -175,21 +169,19 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 
 			for (dataset in validation.datasets) {
 
+				# multiply betas of this variable with corresponding per-patient scores
 				risk.scores <- stepAIC.betas[selected.variables, "beta"] *
 					all.subnet.scores[[dataset]][[model]][selected.variables, ];
 				if(length(selected.variables) > 1) {risk.scores <- apply(risk.scores, 2, sum)};
 
-				risk.groups <- dichotomize.dataset(risk.scores, split.at = all.training.median);
+				risk.groups <- SIMMS::dichotomize.dataset(risk.scores, split.at = all.training.median);
 				names(risk.groups) <- colnames(all.subnet.scores[[dataset]][[model]]); 
 				survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 				survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
 
-				# truncate survival
-				survstat[survtime > truncate.survival] <- 0;
-				survtime[survtime > truncate.survival] <- truncate.survival;
 
-				coxph.res <- fit.coxmodel(risk.groups, Surv(survtime, survstat));
-				if (!is.nan(coxph.res[4])) {
+				coxph.res <- SIMMS::fit.coxmodel(risk.groups, Surv(survtime, survstat))$cox.stats;
+				if (!is.na(coxph.res[4])) {
 					survdiff.res <- get.chisq.stats(risk.groups, Surv(survtime, survstat));
 					}
 				names(coxph.res) <- coxph.header;
@@ -221,7 +213,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 					sep = "\t"
 					);
 				
-				if (!is.nan(coxph.res[4])) {
+				if (!is.na(coxph.res[4])) {
 					write.table(
 						x = t(survdiff.res),
 						file = paste(out.dir, "survdiff__", dataset, "__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep=""),
@@ -237,9 +229,9 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				}
 
 			# combined validation set
-			all.validation.groups <- dichotomize.dataset(all.validation.risk.scores, split.at = all.training.median);
-			coxph.res <- fit.coxmodel(all.validation.groups, Surv(all.validation.survtime, all.validation.survstat));
-			if (!is.nan(coxph.res[4])) {
+			all.validation.groups <- SIMMS::dichotomize.dataset(all.validation.risk.scores, split.at = all.training.median);
+			coxph.res <- SIMMS::fit.coxmodel(all.validation.groups, Surv(all.validation.survtime, all.validation.survstat))$cox.stats;
+			if (!is.na(coxph.res[4])) {
 				survdiff.res <- get.chisq.stats(all.validation.groups, Surv(all.validation.survtime, all.validation.survstat));
 				}
 			names(coxph.res) <- coxph.header;
@@ -270,7 +262,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				sep = "\t"
 				);
 
-			if (!is.nan(coxph.res[4])) {
+			if (!is.na(coxph.res[4])) {
 				write.table(
 					x = t(survdiff.res),
 					file = paste(out.dir, "survdiff__", "all_validation", "__TRAINING_", all.training.names, "__", direction, "__model_", model, "__top_", top.n.features, ".txt", sep=""),
@@ -316,13 +308,9 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 			# lets process the training datasets
 			for (dataset in training.datasets) {
 				risk.scores <- all.subnet.scores[[dataset]][[model]][feature.name, ];
-				risk.groups <- dichotomize.dataset(risk.scores);
+				risk.groups <- SIMMS::dichotomize.dataset(risk.scores);
 				survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 				survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
-
-				# truncate survival
-				survstat[survtime > truncate.survival] <- 0;
-				survtime[survtime > truncate.survival] <- truncate.survival;
 
 				risk.groups.uv[[dataset]] <- cbind(risk.groups.uv[[dataset]], risk.groups);
 				colnames(risk.groups.uv[[dataset]])[ncol(risk.groups.uv[[dataset]])] <- feature.name;
@@ -330,7 +318,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				risk.scores.uv[[dataset]] <- cbind(risk.scores.uv[[dataset]], risk.scores);
 				colnames(risk.scores.uv[[dataset]])[ncol(risk.scores.uv[[dataset]])] <- feature.name;
 
-				coxph.res <- fit.coxmodel(risk.groups, Surv(survtime, survstat));
+				coxph.res <- SIMMS::fit.coxmodel(risk.groups, Surv(survtime, survstat))$cox.stats;
 				names(coxph.res) <- coxph.header;
 				coxph.uv[[dataset]] <- rbind(coxph.uv[[dataset]], coxph.res);
 				rownames(coxph.uv[[dataset]])[nrow(coxph.uv[[dataset]])] <- feature.name;
@@ -341,7 +329,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				}
 
 			# combined training set
-			all.training.groups <- dichotomize.dataset(all.training.risk.scores);
+			all.training.groups <- SIMMS::dichotomize.dataset(all.training.risk.scores);
 
 			risk.groups.uv[["all_training"]] <- cbind(risk.groups.uv[["all_training"]], all.training.groups);
 			colnames(risk.groups.uv[["all_training"]])[ncol(risk.groups.uv[["all_training"]])] <- feature.name;
@@ -349,7 +337,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 			risk.scores.uv[["all_training"]] <- cbind(risk.scores.uv[["all_training"]], all.training.risk.scores);
 			colnames(risk.scores.uv[["all_training"]])[ncol(risk.scores.uv[["all_training"]])] <- feature.name;
 
-			coxph.res <- fit.coxmodel(all.training.groups, Surv(all.training.survtime, all.training.survstat));
+			coxph.res <- SIMMS::fit.coxmodel(all.training.groups, Surv(all.training.survtime, all.training.survstat))$cox.stats;
 			names(coxph.res) <- coxph.header;
 			coxph.uv[["all_training"]] <- rbind(coxph.uv[["all_training"]], coxph.res);
 			rownames(coxph.uv[["all_training"]])[nrow(coxph.uv[["all_training"]])] <- feature.name;
@@ -362,10 +350,6 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 		for (dataset in c(training.datasets, "all_training")) {
 			survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 			survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
-
-			# truncate survival
-			survstat[survtime > truncate.survival] <- 0;
-			survtime[survtime > truncate.survival] <- truncate.survival;
 
 			if (dataset == "all_training") {
 				survtime <- all.training.survtime;
@@ -424,13 +408,9 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 			# let's process the validation datasets
 			for (dataset in validation.datasets) {
 				risk.scores <- all.subnet.scores[[dataset]][[model]][feature.name, ];
-				risk.groups <- dichotomize.dataset(risk.scores, split.at = training.medians[feature.name]);
+				risk.groups <- SIMMS::dichotomize.dataset(risk.scores, split.at = training.medians[feature.name]);
 				survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 				survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
-
-				# truncate survival
-				survstat[survtime > truncate.survival] <- 0;
-				survtime[survtime > truncate.survival] <- truncate.survival;
 
 				risk.groups.uv[[dataset]] <- cbind(risk.groups.uv[[dataset]], risk.groups);
 				colnames(risk.groups.uv[[dataset]])[ncol(risk.groups.uv[[dataset]])] <- feature.name;
@@ -438,7 +418,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				risk.scores.uv[[dataset]] <- cbind(risk.scores.uv[[dataset]], risk.scores);
 				colnames(risk.scores.uv[[dataset]])[ncol(risk.scores.uv[[dataset]])] <- feature.name;
 
-				coxph.res <- fit.coxmodel(risk.groups, Surv(survtime, survstat));
+				coxph.res <- SIMMS::fit.coxmodel(risk.groups, Surv(survtime, survstat))$cox.stats;
 				names(coxph.res) <- coxph.header;
 				coxph.uv[[dataset]] <- rbind(coxph.uv[[dataset]], coxph.res);
 				rownames(coxph.uv[[dataset]])[nrow(coxph.uv[[dataset]])] <- feature.name;
@@ -450,7 +430,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 				}
 
 			# combined validation set
-			all.validation.groups <- dichotomize.dataset(all.validation.risk.scores, split.at = training.medians[feature.name]);
+			all.validation.groups <- SIMMS::dichotomize.dataset(all.validation.risk.scores, split.at = training.medians[feature.name]);
 
 			risk.groups.uv[["all_validation"]] <- cbind(risk.groups.uv[["all_validation"]], all.validation.groups);
 			colnames(risk.groups.uv[["all_validation"]])[ncol(risk.groups.uv[["all_validation"]])] <- feature.name;
@@ -458,7 +438,7 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 			risk.scores.uv[["all_validation"]] <- cbind(risk.scores.uv[["all_validation"]], all.validation.risk.scores);
 			colnames(risk.scores.uv[["all_validation"]])[ncol(risk.scores.uv[["all_validation"]])] <- feature.name;
 
-			coxph.res <- fit.coxmodel(all.validation.groups, Surv(all.validation.survtime, all.validation.survstat));
+			coxph.res <- SIMMS::fit.coxmodel(all.validation.groups, Surv(all.validation.survtime, all.validation.survstat))$cox.stats;
 			names(coxph.res) <- coxph.header;
 			coxph.uv[["all_validation"]] <- rbind(coxph.uv[["all_validation"]], coxph.res);
 			rownames(coxph.uv[["all_validation"]])[nrow(coxph.uv[["all_validation"]])] <- feature.name;
@@ -468,10 +448,6 @@ pred.survivalmodel <- function(data.directory = ".", output.directory = ".", fea
 		for (dataset in c(validation.datasets, "all_validation")) {
 			survtime <- all.subnet.scores[[dataset]][[model]]["survtime", ];
 			survstat <- all.subnet.scores[[dataset]][[model]]["survstat", ];
-
-			# truncate survival
-			survstat[survtime > truncate.survival] <- 0;
-			survtime[survtime > truncate.survival] <- truncate.survival;
 
 			if (dataset == "all_validation") {
 				survtime <- all.validation.survtime;

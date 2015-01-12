@@ -1,4 +1,4 @@
-dichotomize.meta.dataset <- function(feature.name, expression.data, survival.data, other.data = NULL) {
+dichotomize.meta.dataset <- function(feature.name, expression.data, survival.data, other.data = NULL, data.type.ordinal = FALSE) {
 
 	# we'll return the overall groups and survival data to the caller
 	groups   <- vector();
@@ -13,8 +13,13 @@ dichotomize.meta.dataset <- function(feature.name, expression.data, survival.dat
 		expression.values <- as.vector( unlist( expression.values[feature.name,] ) );
 		survival.object   <- survival.data[[i]];
 
-		# dichotomize this dataset
-		dichotomized.results <- dichotomize.dataset(expression.values);
+		# dichotomize this dataset if needed
+		if (!data.type.ordinal) {
+			dichotomized.results <- SIMMS::dichotomize.dataset(expression.values);
+			}
+		else {
+			dichotomized.results <- expression.values;
+			}
 
 		# add the returned data to return-objects
 		groups   <- c(groups,   dichotomized.results);

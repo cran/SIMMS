@@ -1,4 +1,4 @@
-create.survobj <- function(annotation) {
+create.survobj <- function(annotation = NULL, truncate.survival = 100) {
 
 	# localize the survival data
 	survtime <- annotation$survtime;
@@ -23,6 +23,11 @@ create.survobj <- function(annotation) {
 		survobj <- rep(NA, length(survtime));
 		}
 	else {
+		# truncate survival
+		survstat[survtime > truncate.survival] <- 0;
+		survtime[survtime > truncate.survival] <- truncate.survival;
+
+		# create survival object
 		survobj <- Surv(survtime, survstat);
 		}
 

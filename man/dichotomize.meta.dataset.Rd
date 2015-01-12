@@ -5,7 +5,8 @@
 \usage{
 dichotomize.meta.dataset(
   feature.name, expression.data,
-  survival.data, other.data = NULL
+  survival.data, other.data = NULL,
+  data.type.ordinal = FALSE
   );
 }
 \arguments{
@@ -13,6 +14,7 @@ dichotomize.meta.dataset(
   \item{expression.data}{A list where each component is an expression matrix (patients = columns, genes = rows) for a different dataset}
   \item{survival.data}{A list where each component is an object of class Surv}
   \item{other.data}{A list of other covariates to be unlisted in the final output (all elements in this list are used)}
+  \item{data.type.ordinal}{Logical indicating whether to treat this datatype as ordinal. Defaults to FALSE}
 }
 \details{NB: other.data handling of missing components (i.e. those present in only some datasets) has not been debugged (but may work regardless).}
 \value{Returns a list containing components  groups (the median dichotomization), survtime (in the units of the input data), and survstat.  Additional vectors are unlisted from other.data if that parameter is not NULL.}

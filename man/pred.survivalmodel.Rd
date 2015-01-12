@@ -1,14 +1,14 @@
 \name{pred.survivalmodel}
 \alias{pred.survivalmodel}
-\title{Trains a multivariate survival model}
-\description{Predicts the risk score for all the training & datasets, independently. This function predicts the risk score for combined training datasets cohort and validation datasets cohort. The risk score computation is done for multivariate models fit by \code{fit.survivalmodel}. The function also predicts risk scores for each of the \code{top.n.features} independently.}
+\title{Apply a multivariate survival model to validation datasets}
+\description{Predicts the risk score for all the training & datasets, independently. This function also predicts the risk score for combined training datasets cohort and validation datasets cohort. The risk score estimation is done by multivariate models fit by \code{fit.survivalmodel}. The function also predicts risk scores for each of the \code{top.n.features} independently. TO BE DEPRECATED AND HAS BEEN REPLACED BY \code{create.classifier.multivariate}}
 \usage{
 pred.survivalmodel(
   data.directory = ".", output.directory = ".",
   feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05,
   training.datasets = NULL, validation.datasets = NULL,
   top.n.features = 25,  models = c("1", "2", "3"),
-  truncate.survival = 100, write.risk.data = TRUE
+  write.risk.data = TRUE
   );
 }
 \arguments{
@@ -20,11 +20,13 @@ pred.survivalmodel(
   \item{validation.datasets}{A vector containing names of validation datasets}
   \item{top.n.features}{A numeric value specifying how many top ranked features will be used for univariate survival modelling}
   \item{models}{A character vector specifying which of the models ('1' = N+E, '2' = N, '3' = E) to run}
-  \item{truncate.survival}{A numeric value specifying survival truncation in years. Defaults to 100 years which effectively means no truncation}
   \item{write.risk.data}{A toggle to control whether risk scores and patient risk groups should be written to file}
 }
 \value{The output files are stored under \code{output.directory}/output/}
 \author{Syed Haider}
+\seealso{
+\code{create.classifier.multivariate}
+}
 \examples{
 # see package's main documentation
 }
