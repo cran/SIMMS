@@ -1,4 +1,4 @@
-## ----, results = "hide", message = FALSE---------------------------------
+## ----, results = "hide", message = FALSE, eval = TRUE--------------------
 options("warn" = -1);
 
 # load SIMMS library
@@ -8,7 +8,7 @@ library("SIMMS");
 data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
 
 # path of the directory where results will be stored
-output.directory <- "~/SIMMSoutput/";
+output.directory <- tempdir();
 
 # molecular profiles to be used
 data.types <- c("mRNA");

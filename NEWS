@@ -1,0 +1,25 @@
+# SIMMS 1.0.1
+==========================
+
+- Fixed vignettes to comply with CRAN policy of not writing to user's home 
+  directory
+
+# SIMMS 1.0.0
+==========================
+
+- Added Generalised Linear Models (L1-penalty) based Cox models for fitting 
+  multi-subnetwork models
+
+- Added vignettes
+
+- Added full support for discrete data types e.g copy-number aberrations
+
+- General run-time optimisations and exception handling
+
+- Added additional network databases including TCGA MEMo subnetworks for 
+  breast, colon, glioblastoma, kidney and ovarian cancers
+
+# SIMMS 0.0.1
+==========================
+
+- Added SIMMS first implementation

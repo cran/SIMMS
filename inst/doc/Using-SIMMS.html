@@ -60,8 +60,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="maintainer-syed-haider-syed.haideroicr.on.ca" class="section level3">
 <h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@oicr.on.ca">Syed.Haider@oicr.on.ca</a>)</h3>
 </div>
-<div id="dated-2015-02-16" class="section level3">
-<h3>Dated: 2015-02-16</h3>
+<div id="dated-2015-02-22" class="section level3">
+<h3>Dated: 2015-02-22</h3>
 </div>
 </div>
 <div id="table-of-contents" class="section level1">
@@ -121,7 +121,7 @@ ID=0002 10000   5290</code></pre>
 <pre><code>dataset mRNA    cnv methylation annotations survstat    survtime    survtime.unit
 Breastdata1 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
 Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit</code></pre>
-<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time units</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
+<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
 <blockquote>
 <p>SIMMS/inst/programdata/testdata/</p>
 </blockquote>
@@ -139,7 +139,7 @@ Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.t
 data.directory &lt;-<span class="st"> </span><span class="kw">get.program.defaults</span>(<span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>)[[<span class="st">&quot;test.data.dir&quot;</span>]];
 
 <span class="co"># path of the directory where results will be stored</span>
-output.directory &lt;-<span class="st"> &quot;~/SIMMSoutput/&quot;</span>;
+output.directory &lt;-<span class="st"> </span><span class="kw">tempdir</span>();
 
 <span class="co"># molecular profiles to be used</span>
 data.types &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mRNA&quot;</span>);

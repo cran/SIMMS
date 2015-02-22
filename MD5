@@ -1,5 +1,6 @@
-1c9282eaf55ffa75725fcb9dda9ca6df *DESCRIPTION
+ee86049e48b6d9144e1b1fd8bfd7008e *DESCRIPTION
 6e26809a00f965acd2a748ef33265781 *NAMESPACE
+3d1c103dda1446ed49474156d656c468 *NEWS
 e2b1d5027ac8db90a3dc5afac0e0fb07 *R/calculate.meta.survival.R
 83854ed5b03d34d64959a1ce31e4a4cf *R/calculate.network.coefficients.R
 b6de56e9c1a7225c23679d1cf4961a71 *R/calculate.sensitivity.stats.R
@@ -23,9 +24,9 @@ b2e7dac93ea45d3cef1c7cdbfa284f73 *R/get.chisq.stats.R
 a215f3bfd707621aea6865d7984592aa *R/pred.survivalmodel.R
 81562c62cd5267e2810f0c7da551d43a *R/prepare.training.validation.datasets.R
 35fd35f2f070c5b0973263d4680dea98 *build/vignette.rds
-d780b83094581b746acd0793308efc88 *inst/doc/Using-SIMMS.R
-c69eeddbddd82ffde107eded2dea5708 *inst/doc/Using-SIMMS.Rmd
-af181c14ded68bdfde59daa3ae35ab9d *inst/doc/Using-SIMMS.html
+c9d73e1a21e9e1eb4b12be2d60c6b31d *inst/doc/Using-SIMMS.R
+f84ebb932bfef3ac0b7edfbc5fe36a5f *inst/doc/Using-SIMMS.Rmd
+6ea8612459e2e8d054baebc27c325b83 *inst/doc/Using-SIMMS.html
 94fd81bd78b72b5dff57c953e100b848 *inst/programdata/networkdb/MEMo.BRCA/pathway_based_networks_flattened.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks_all.txt
@@ -92,4 +93,4 @@ d68e493ca3a03f191e1a84a49fcfddb6 *man/get.program.defaults.Rd
 915fcee284e896805996771476278ddd *man/pred.survivalmodel.Rd
 433bf3b78f608e142bf49626bf002a74 *man/prepare.training.validation.datasets.Rd
 baac6b96cd8f0a70018aa5bbdd2d7255 *vignettes/GitHub2.css
-c69eeddbddd82ffde107eded2dea5708 *vignettes/Using-SIMMS.Rmd
+f84ebb932bfef3ac0b7edfbc5fe36a5f *vignettes/Using-SIMMS.Rmd
