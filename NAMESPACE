@@ -1,4 +1,34 @@
-exportPattern("^[[:alpha:]]+")
+export(
+	"calculate.meta.survival",
+	"create.sensitivity.plot",
+	"fit.coxmodel",
+	"load.cancer.datasets",
+	"calculate.network.coefficients",
+	"create.survivalplots",
+	"fit.interaction.model",
+	"make.matrix",
+	"calculate.sensitivity.stats",
+	"create.survobj",
+	"fit.survivalmodel",
+	"pred.survivalmodel",
+	"create.KM.plot",
+	"derive.network.features",
+	"get.adjacency.matrix",
+	"prepare.training.validation.datasets",
+	"create.classifier.multivariate",
+	"dichotomize.dataset",
+	"get.chisq.stats",
+	"create.classifier.univariate",
+	"dichotomize.meta.dataset",
+	"get.program.defaults"
+	);
+
 import(survival)
 import(MASS)
 import(glmnet)
+import(xtable)
+
+importFrom("grDevices", "dev.off", "png")
+importFrom("graphics", "legend", "lines", "par", "plot", "text", "title")
+importFrom("stats", "as.formula", "coef", "median", "p.adjust", "pchisq", "predict")
+importFrom("utils", "read.table", "write.table")

@@ -45,8 +45,8 @@ fit.coxmodel <- function(groups, survobj, stages = NA, rounding = 3, other.data 
 		}
 	else {	
 		if (nrow(survobj) == length(stages)) {
-				coxfit <- coxph(survobj ~ groups + stages);
-				}
+			coxfit <- coxph(survobj ~ groups + stages);
+			}
 		else {
 			coxfit <- coxph(survobj ~ groups);
 			}

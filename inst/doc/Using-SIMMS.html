@@ -60,12 +60,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="maintainer-syed-haider-syed.haideroicr.on.ca" class="section level3">
 <h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@oicr.on.ca">Syed.Haider@oicr.on.ca</a>)</h3>
 </div>
-<div id="dated-2015-02-22" class="section level3">
-<h3>Dated: 2015-02-22</h3>
+<div id="dated-2015-09-21" class="section level3">
+<h3>Dated: 2015-09-21</h3>
 </div>
 </div>
-<div id="table-of-contents" class="section level1">
-<h1>Table of Contents</h1>
+<div id="table-of-contents" class="section level2">
+<h2>Table of Contents</h2>
 <ul>
 <li><a href="#Overview">Overview</a></li>
 <li><a href="#Networks-database">Networks database</a></li>
@@ -73,8 +73,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#Example-R-script">Example R-script</a></li>
 <li><a href="#Output">Output</a></li>
 </ul>
+</div>
 <div id="overview" class="section level2">
-<h2>Overview <a id="Overview"></a></h2>
+<h2><a id="Overview"></a> Overview</h2>
 <p>SIMMS enables intergration of molecular profiles with functional networks such as protein-protein interaction networks. This document shows how to use SIMMS from a simple use case of integrating mRNA abundance data with pathways derived protein-protein networks, through to more sophisticated use cases of integrating multiple molecular profiles such as mRNA abundance, DNA copy-number and DNA-methylation data. Note, SIMMS requires patient outcome data as dependent variable. In current implementation, it works with survival data <code>Survival time, Survival status</code>. Please setup the dataset metadata directories before using SIMMS.</p>
 <p>There are a couple of directories that one needs to setup and ensure the contents are in correct format. These directories contain:</p>
 <ul>
@@ -84,7 +85,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>The structure and format of these inputs is described below.</p>
 </div>
 <div id="networks-database" class="section level2">
-<h2>Networks database <a id="Networks-database"></a></h2>
+<h2><a id="Networks-database"></a> Networks database</h2>
 <p>SIMMS rely on functionally or computationally derived networks in order to meaningfully integrate molecular profiles. By default, SIMMS package has a built in database of pathway derived protein-protein interaction networks extracted from (a dated version) Reactome, BioCarta and NCI-PID. This database can be accessed through various SIMMS functions using the parameter setting <code>networks.database = &quot;default&quot;</code>. If you would like to create your own networks database for subsequent use with SIMMS, please note that the networks database is organised in two files:</p>
 <pre><code>pathway_based_networks.txt
 pathway_based_networks_flattened.txt</code></pre>
@@ -114,9 +115,91 @@ ID=0002 10000   5290</code></pre>
 <p>You would need to build and install SIMMS package again and your networks database should be available to use through relevant SIMMS’ functions with parameter setting <code>networks.database = &quot;MyNetworkDB&quot;</code></p>
 </div>
 <div id="molecular-profiles-and-clinical-data" class="section level2">
-<h2>Molecular profiles and clinical data <a id="Molecular-profiles-and-clinical-data"></a></h2>
-<p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The molecular profiles are strictly tab-delimited, feature (gene) by sample matrices. Genes should be represented using Entrez IDs followed by _at suffix. For mRNA abundance data, if you have pre-processed your data with <a href="http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp">BrainArray Entrez CDFs</a> Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by _at suffix (e.g 5290_at).</p>
-<p>Clinical profiles are strictly tab-delimited, sample by annotation matrices. The annotation columns must contain survival columns <code>Survival time, Survival status, Survival time unit</code>. The row names should match the column names in the molecular profiles’ matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below.</p>
+<h2><a id="Molecular-profiles-and-clinical-data"></a> Molecular profiles and clinical data</h2>
+<p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The table below shows the supported/unsupported datatypes and respective examples:</p>
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Mon Sep 21 16:08:55 2015 -->
+<table border="1">
+<tr>
+<th>
+Data type
+</th>
+<th>
+Example data
+</th>
+<th>
+Example profile
+</th>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℝ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0, 2, 1.37, 7.04, 9.68
+</td>
+<td>
+log2 mRNA or miRNA abundance
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℝ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0.1, 0.38, 0.78, 0.22, 0.98
+</td>
+<td>
+DNA methylation beta values
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> }
+</td>
+<td>
+-2, -1, 0, 1, 2
+</td>
+<td>
+copy-number calls. Baseline = 0 (Neutral/Diploid)
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0, 1, 2, 3
+</td>
+<td>
+mutation data. Baseline = 0 (Wildtype)
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> : <em>x ≠ 0</em> }
+</td>
+<td>
+-2, -1, 1, 2
+</td>
+<td>
+Unsupported due to missing baseline 0
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∉ ℝ</em> }
+</td>
+<td>
+WT, Mutant, Gain, Deleted
+</td>
+<td>
+Unsupported due to alphabets
+</td>
+</tr>
+</table>
+<p>Molecular profiles are strictly tab-delimited, and are expected to be in feature (gene) by sample (patient) matrices. Genes should be represented using Entrez IDs followed by _at suffix. For mRNA abundance data, if you have pre-processed your data with <a href="http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp">BrainArray Entrez CDFs</a> Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by _at suffix (e.g 5290_at).</p>
+<p>Clinical profiles are strictly tab-delimited, sample (patient) by annotation matrices. The annotation columns must contain survival columns <code>Survival time, Survival status, Survival time unit</code>. The row names should match the column names in the molecular profiles’ matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below.</p>
 <p>Both molecular and clinical annotations are read by SIMMS through a tab-delimited metadata file called <code>datasets.txt</code>. An example of the contents of this file are shown below:</p>
 <pre><code>dataset mRNA    cnv methylation annotations survstat    survtime    survtime.unit
 Breastdata1 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
@@ -128,7 +211,7 @@ Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.t
 <p>There is no need to drop your datasets inside the package, or need to rebuild the package. You can just point to your datasets through SIMMS package keeping them anywhere on your filesystem.</p>
 </div>
 <div id="example-r-script" class="section level2">
-<h2>Example R-script <a id="Example-R-script"></a></h2>
+<h2><a id="Example-R-script"></a> Example R-script</h2>
 <p>Lets start with a simple case. We have two mRNA abundance datasets; <code>Breastdata1, Breastdata2</code>. We would like to identify prognostic biomarkers using Breastdata1 and validate on Breastdata2. Assuming these two datasets are setup correctly (as described in the previous section), a typical workflow would be:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;warn&quot;</span> =<span class="st"> </span>-<span class="dv">1</span>);
 
@@ -243,7 +326,7 @@ for (top.n in top.n.features) {
 </blockquote>
 </div>
 <div id="output" class="section level2">
-<h2>Output <a id="Output"></a></h2>
+<h2><a id="Output"></a> Output</h2>
 <p>SIMMS creates two output directories; <code>output/ and graphs/</code>. The contents of these directories are described below:</p>
 <div id="output-1" class="section level3">
 <h3>output/</h3>
@@ -294,7 +377,6 @@ for (top.n in top.n.features) {
 <p>KM__<code>all_training,all_validation</code>__TRAINING_<code>$traning.datasets</code>__<code>backward,forward,glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>__truncated_<code>$truncate.survival</code>.png</p>
 </blockquote>
 <p>Kaplan-Meier analysis of risk groups generated through multivariate Cox proportional hazards model</p>
-</div>
 </div>
 </div>
 

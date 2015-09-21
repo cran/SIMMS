@@ -124,7 +124,8 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 
 				# break if necessary
 				# model did not select any variable
-				if ("conf.int" %in% names(model.summary) && is.null(model.summary$conf.int)) {
+				if (!("conf.int" %in% names(model.summary)) ||
+					"conf.int" %in% names(model.summary) && is.null(model.summary$conf.int)) {
 					cat("\nNull Model, no variables selected after stepAIC using MDS model: ", model);
 					next;
 					}

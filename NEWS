@@ -1,3 +1,10 @@
+# SIMMS 1.0.2
+==========================
+
+- Exception handling for interaction model
+- Save selected features for every subnet that pass p.threshold and used in estimating subnet MDS
+- Fixed NAMESPACE to comply with latest CRAN policies of explicit exports/imports
+
 # SIMMS 1.0.1
 ==========================
 

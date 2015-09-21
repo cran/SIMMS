@@ -18,6 +18,7 @@ fit.interaction.model <- function(feature1, feature2, expression.data, survival.
 
 	# fit the interaction Cox model
 	interaction.HR <- interaction.P <- NA;
+	coxmodel <- NULL;
 	survobj <- Surv(groups1$survtime, groups1$survstat);
 
 	# handle the all-missing case smoothly
@@ -34,14 +35,29 @@ fit.interaction.model <- function(feature1, feature2, expression.data, survival.
 
 		# levels not specified as the beta of interaction terms remains unchanged regardless of 
 		# which groups is used as base-line for groups1 and groups2
-		coxmodel <- coxph(survobj ~ factor(groups1$groups) + factor(groups2$groups) + as.numeric(groups1$groups == groups2$groups));
+		tryCatch(
+			expr = {
+				coxmodel <- coxph(
+					survobj ~ factor(groups1$groups) + factor(groups2$groups) + as.numeric(groups1$groups == groups2$groups)
+					)
+				},
+			error = function(ex) {
+				cat("\nInteraction model failed to converge (a known coxph issue) for features: ", feature1, " and ", feature2);
+				}
+			);
 
-		# print(as.numeric(groups1$groups == groups2$groups));
-
+		# extract summary statistics from cox model
 		coxmodel <- summary(coxmodel);
-		interaction.HR <- as.numeric(coxmodel$coefficients[3,2]);
-		interaction.P  <- as.numeric(coxmodel$coefficients[3,5]);
 
+		# check fail to converge case
+		if (c("Class", "Mode") %in% names(coxmodel) 
+			&& coxmodel[["Class"]] == "NULL" && coxmodel[["Mode"]] == "NULL") {
+			# no extra warning needed at this stage, but keep this placeholders for unforeseen coxph cases
+			}
+		else {
+			interaction.HR <- as.numeric(coxmodel$coefficients[3,2]);
+			interaction.P  <- as.numeric(coxmodel$coefficients[3,5]);
+			}
 		}
 
 	# fit the two univariate models

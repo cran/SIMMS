@@ -1,4 +1,27 @@
-## ----, results = "hide", message = FALSE, eval = TRUE--------------------
+## ----xtable, echo=FALSE, results="asis"----------------------------------
+library(xtable);
+
+x <- matrix(
+	data = c(
+		"{ *x ∈ ℝ* : *x ≥ 0* }", "0, 2, 1.37, 7.04, 9.68", "log2 mRNA or miRNA abundance", 
+		"{ *x ∈ ℝ* : *x ≥ 0* }", "0.1, 0.38, 0.78, 0.22, 0.98", "DNA methylation beta values",
+		"{ *x ∈ ℤ* }", "-2, -1, 0, 1, 2", "copy-number calls. Baseline = 0 (Neutral/Diploid)",
+		"{ *x ∈ ℤ* : *x ≥ 0* }", "0, 1, 2, 3", "mutation data. Baseline = 0 (Wildtype)",
+		"{ *x ∈ ℤ* : *x ≠ 0* }", "-2, -1, 1, 2", "Unsupported due to missing baseline 0",
+		"{ *x ∉ ℝ* }", "WT, Mutant, Gain, Deleted", "Unsupported due to alphabets"
+		), 
+	nrow = 6, ncol = 3, byrow = TRUE,
+	dimnames = list(
+		NULL,
+		c("Data type", "Example data", "Example profile")
+		)
+	);
+
+tab <- xtable(x);
+
+print(tab, type = "html", include.rownames = FALSE);
+
+## ---- results = "hide", message = FALSE, eval = TRUE---------------------
 options("warn" = -1);
 
 # load SIMMS library

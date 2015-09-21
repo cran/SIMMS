@@ -13,6 +13,7 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 	subnet.scores <- list();
 	cancer.data <- list();
 	coef.nodes.edges <- list();
+	subnets.selected.features <- list();
 
 	# read cancer datasets
 	cancer.data <- load.cancer.datasets(
@@ -61,7 +62,7 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 			}
 		}
 
-	# lets read coeffients of nodes and edges
+	# lets read coefficients of nodes and edges
 	for (data.type in data.types) {
 
 		# read nodes coefficients & P
@@ -148,7 +149,11 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 				# the patientwise scores correctly given the group/level
 				nodes.valid <- which( coef.nodes.edges[[data.type]][["nodes.coef"]][ nodes, "P" ] <= p.threshold );
 
-				# track nodes and interactions that are seen already by one data-type
+				# store features to save to file system 
+				subnets.selected.features[[data.type]][[subnet]] <- vector();
+				subnets.selected.features[[data.type]][[subnet]] <- nodes[nodes.valid];
+
+				# [inactivated] track nodes and interactions that are seen already by one data-type
 				# and therefore be ignored by the second one if already in the model.
 				# Respects the data.types order eg. mRNA, cnv would give mRNA priority
 				# nodes.valid <- setdiff(nodes.valid, nodes.seen);
@@ -191,7 +196,13 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 									coef.nodes.edges[[data.type]][["cox.uv"]][[node.valid]][, "n"], 
 									na.rm = TRUE
 									) < ordinal.threshold) {
+
 										coef.vector[names(coef.vector)] <- 0;
+
+										# remove from selected genes
+										subnets.selected.features[[data.type]][[subnet]] <<- subnets.selected.features[[data.type]][[subnet]][
+											-which(subnets.selected.features[[data.type]][[subnet]] == node.valid)
+											]; 
 									}
 
 								unlist(as.vector(
@@ -255,6 +266,11 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 							}
 						}
 					}
+
+				# collapse the list of selected genes by comma
+				subnets.selected.features[[data.type]][[subnet]] <- paste(
+					subnets.selected.features[[data.type]][[subnet]], collapse = ", "
+					);
 				}
 			}
 
@@ -271,9 +287,20 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 				file = paste(out.dir, "/patientwise_subnets_score__", dataset, "__TRAINING_", all.feature.selection.names, "__model_", model, ".txt", sep=""),
 				row.names = TRUE,
 				col.names = NA,
-				sep="\t"
+				sep = "\t"
 				);
 			}
+		}
+
+	# save selected features per subnet to filesystem
+	for (data.type in names(subnets.selected.features)) {
+		write.table(
+			x = as.matrix(subnets.selected.features[[data.type]]),
+			file = paste(out.dir, "/subnets_selected_features__TRAINING_", all.feature.selection.names, "__datatype_", data.type, ".txt", sep=""),
+			row.names = TRUE,
+			col.names = NA,
+			sep = "\t"
+			);
 		}
 
 	# recover memory
