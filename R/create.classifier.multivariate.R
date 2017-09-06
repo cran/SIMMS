@@ -1,4 +1,4 @@
-create.classifier.multivariate <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), learning.algorithms = c("backward", "forward"), k.fold.glm = 10, seed.cv.glm = 51214) {
+create.classifier.multivariate <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), learning.algorithms = c("backward", "forward"), alpha.glm = 1, k.fold.glm = 10, seed.cv.glm = 51214) {
 
 	# sanity checks
 	if (top.n.features < 2) {
@@ -186,6 +186,7 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 				model.fit <- cv.glmnet(
 					x = as.matrix(x.T), 
 					y = y.T, 
+					alpha = alpha.glm,
 					standardize = FALSE, 
 					family = "cox", 
 					nfolds = k.fold.glm

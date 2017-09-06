@@ -9,7 +9,7 @@ create.classifier.multivariate(
   training.datasets = NULL, validation.datasets = NULL,
   top.n.features = 25, models = c("1", "2", "3"),
   learning.algorithms = c("backward", "forward"),
-  k.fold.glm = 10, seed.cv.glm = 51214
+  alpha.glm = 1, k.fold.glm = 10, seed.cv.glm = 51214
   );
 }
 \arguments{
@@ -22,8 +22,9 @@ create.classifier.multivariate(
   \item{top.n.features}{A numeric value specifying how many top ranked features will be used for univariate survival modelling}
   \item{models}{A character vector specifying which of the models ('1' = N+E, '2' = N, '3' = E) to run}
   \item{learning.algorithms}{A character vector specifying which learning algorithm to be used for model fitting and feature selection. Defaults to c('backward', 'forward'). Available options are: c('backward', 'forward', 'glm')}
-  \item{k.fold.glm}{A numeric value specifying k-fold cross validation if GLM with L1-penalty method (glm) was chosen in \code{learning.algorithms}}
-  \item{seed.cv.glm}{A numeric value specifying seed for k-fold cross validation if GLM with L1-penalty method (glm) was chosen in \code{learning.algorithms}}
+  \item{alpha.glm}{A numeric value specifying elastic-net mixing parameter alpha, with range alpha raning from [0,1]. 1 for LASSO (default) and 0 for ridge}
+  \item{k.fold.glm}{A numeric value specifying k-fold cross validation if glm was chosen in \code{learning.algorithms}}
+  \item{seed.cv.glm}{A numeric value specifying seed for k-fold cross validation if glm was chosen in \code{learning.algorithms}}
 }
 \value{The output files are stored under \code{output.directory}/output/}
 \author{Syed Haider}

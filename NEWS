@@ -1,3 +1,13 @@
+# SIMMS 1.1.0
+==========================
+
+- Added elastic-net mixing parameter support alpha [0,1] i.e ridge to LASSO
+
+# SIMMS 1.0.3
+==========================
+
+- Added rmarkdown in Suggests section
+
 # SIMMS 1.0.2
 ==========================
 
