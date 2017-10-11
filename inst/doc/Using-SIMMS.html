@@ -1,218 +1,89 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Subnetwork Integration for Multi-modal Signatures (SIMMS)</title>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
-  }
-};
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Styles for R syntax highlighter -->
+
+
+<title></title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
-
-   pre .literal {
-     color: #990073
-   }
-
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
-</style>
-
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
-</script>
-
-
-
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
-
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
-}
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
-
-h1 {
-   font-size:2.2em;
-}
-
-h2 {
-   font-size:1.8em;
-}
-
-h3 {
-   font-size:1.4em;
-}
-
-h4 {
-   font-size:1.0em;
-}
-
-h5 {
-   font-size:0.9em;
-}
-
-h6 {
-   font-size:0.8em;
-}
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
-}
-
-pre, img {
-  max-width: 100%;
-}
-pre {
-  overflow-x: auto;
-}
-pre code {
-   display: block; padding: 0.5em;
-}
-
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
-}
-
-code[class] {
-  background-color: #F8F8F8;
-}
-
-table, td, th {
-  border: none;
-}
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
-}
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
-}
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
-}
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body>
-<p><link href="GitHub2.css" rel="stylesheet"></p>
 
+
+
+
+
+
+
+<p><link href="data:text/css;charset=utf-8,body%20%7B%0Afont%2Dfamily%3A%20Helvetica%2C%20arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E6%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%2010px%3B%0Abackground%2Dcolor%3A%20white%3B%0Apadding%3A%2030px%3B%20%7D%0Abody%20%3E%20%2A%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%20%21important%3B%20%7D%0Abody%20%3E%20%2A%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%20%21important%3B%20%7D%0Aa%20%7B%0Acolor%3A%20%234183C4%3B%20%7D%0Aa%2Eabsent%20%7B%0Acolor%3A%20%23cc0000%3B%20%7D%0Aa%2Eanchor%20%7B%0Adisplay%3A%20block%3B%0Apadding%2Dleft%3A%2030px%3B%0Amargin%2Dleft%3A%20%2D30px%3B%0Acursor%3A%20pointer%3B%0Aposition%3A%20absolute%3B%0Atop%3A%200%3B%0Aleft%3A%200%3B%0Abottom%3A%200%3B%20%7D%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%0Amargin%3A%2020px%200%2010px%3B%0Apadding%3A%200%3B%0Afont%2Dweight%3A%20bold%3B%0A%2Dwebkit%2Dfont%2Dsmoothing%3A%20antialiased%3B%0Acursor%3A%20text%3B%0Aposition%3A%20relative%3B%20%7D%0Ah1%3Ahover%20a%2Eanchor%2C%20h2%3Ahover%20a%2Eanchor%2C%20h3%3Ahover%20a%2Eanchor%2C%20h4%3Ahover%20a%2Eanchor%2C%20h5%3Ahover%20a%2Eanchor%2C%20h6%3Ahover%20a%2Eanchor%20%7B%0Abackground%3A%20url%28data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw%2FeHBhY2tldCBiZWdpbj0i77u%2FIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8%2BIDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI%2FPsQhXeAAAABfSURBVHjaYvz%2F%2Fz8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg%3D%3D%29%20no%2Drepeat%2010px%20center%3B%0Atext%2Ddecoration%3A%20none%3B%20%7D%0Ah1%20tt%2C%20h1%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah2%20tt%2C%20h2%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah3%20tt%2C%20h3%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah4%20tt%2C%20h4%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah5%20tt%2C%20h5%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah6%20tt%2C%20h6%20code%20%7B%0Afont%2Dsize%3A%20inherit%3B%20%7D%0Ah1%20%7B%0Afont%2Dsize%3A%2028px%3B%0Acolor%3A%20black%3B%20%7D%0Ah2%20%7B%0Afont%2Dsize%3A%2024px%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23cccccc%3B%0Acolor%3A%20black%3B%20%7D%0Ah3%20%7B%0Afont%2Dsize%3A%2018px%3B%20%7D%0Ah4%20%7B%0Afont%2Dsize%3A%2016px%3B%20%7D%0Ah5%20%7B%0Afont%2Dsize%3A%2014px%3B%20%7D%0Ah6%20%7B%0Acolor%3A%20%23777777%3B%0Afont%2Dsize%3A%2014px%3B%20%7D%0Ap%2C%20blockquote%2C%20ul%2C%20ol%2C%20dl%2C%20li%2C%20table%2C%20pre%20%7B%0Amargin%3A%2015px%200%3B%20%7D%0Ahr%20%7B%0Abackground%3A%20transparent%20url%28data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw%2FeHBhY2tldCBiZWdpbj0i77u%2FIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8%2BIDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI%2FPqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC%29%20repeat%2Dx%200%200%3B%0Aborder%3A%200%20none%3B%0Acolor%3A%20%23cccccc%3B%0Aheight%3A%204px%3B%0Apadding%3A%200%3B%0A%7D%0Abody%20%3E%20h2%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h1%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h1%3Afirst%2Dchild%20%2B%20h2%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Abody%20%3E%20h3%3Afirst%2Dchild%2C%20body%20%3E%20h4%3Afirst%2Dchild%2C%20body%20%3E%20h5%3Afirst%2Dchild%2C%20body%20%3E%20h6%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Aa%3Afirst%2Dchild%20h1%2C%20a%3Afirst%2Dchild%20h2%2C%20a%3Afirst%2Dchild%20h3%2C%20a%3Afirst%2Dchild%20h4%2C%20a%3Afirst%2Dchild%20h5%2C%20a%3Afirst%2Dchild%20h6%20%7B%0Amargin%2Dtop%3A%200%3B%0Apadding%2Dtop%3A%200%3B%20%7D%0Ah1%20p%2C%20h2%20p%2C%20h3%20p%2C%20h4%20p%2C%20h5%20p%2C%20h6%20p%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Ali%20p%2Efirst%20%7B%0Adisplay%3A%20inline%2Dblock%3B%20%7D%0Ali%20%7B%0Amargin%3A%200%3B%20%7D%0Aul%2C%20ol%20%7B%0Apadding%2Dleft%3A%2030px%3B%20%7D%0Aul%20%3Afirst%2Dchild%2C%20ol%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Adl%20%7B%0Apadding%3A%200%3B%20%7D%0Adl%20dt%20%7B%0Afont%2Dsize%3A%2014px%3B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dstyle%3A%20italic%3B%0Apadding%3A%200%3B%0Amargin%3A%2015px%200%205px%3B%20%7D%0Adl%20dt%3Afirst%2Dchild%20%7B%0Apadding%3A%200%3B%20%7D%0Adl%20dt%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Adl%20dt%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Adl%20dd%20%7B%0Amargin%3A%200%200%2015px%3B%0Apadding%3A%200%2015px%3B%20%7D%0Adl%20dd%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Adl%20dd%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Ablockquote%20%7B%0Aborder%2Dleft%3A%204px%20solid%20%23dddddd%3B%0Apadding%3A%200%2015px%3B%0Acolor%3A%20%23777777%3B%20%7D%0Ablockquote%20%3E%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Ablockquote%20%3E%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Atable%20%7B%0Apadding%3A%200%3Bborder%2Dcollapse%3A%20collapse%3B%20%7D%0Atable%20tr%20%7B%0Aborder%2Dtop%3A%201px%20solid%20%23cccccc%3B%0Abackground%2Dcolor%3A%20white%3B%0Amargin%3A%200%3B%0Apadding%3A%200%3B%20%7D%0Atable%20tr%3Anth%2Dchild%282n%29%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%20%7D%0Atable%20tr%20th%20%7B%0Afont%2Dweight%3A%20bold%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Amargin%3A%200%3B%0Apadding%3A%206px%2013px%3B%20%7D%0Atable%20tr%20td%20%7B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Amargin%3A%200%3B%0Apadding%3A%206px%2013px%3B%20%7D%0Atable%20tr%20th%20%3Afirst%2Dchild%2C%20table%20tr%20td%20%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%20%7D%0Atable%20tr%20th%20%3Alast%2Dchild%2C%20table%20tr%20td%20%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%20%7D%0Aimg%20%7B%0Amax%2Dwidth%3A%20100%25%3B%20%7D%0Aspan%2Eframe%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%20%7D%0Aspan%2Eframe%20%3E%20span%20%7B%0Aborder%3A%201px%20solid%20%23dddddd%3B%0Adisplay%3A%20block%3B%0Afloat%3A%20left%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%200%200%3B%0Apadding%3A%207px%3B%0Awidth%3A%20auto%3B%20%7D%0Aspan%2Eframe%20span%20img%20%7B%0Adisplay%3A%20block%3B%0Afloat%3A%20left%3B%20%7D%0Aspan%2Eframe%20span%20span%20%7B%0Aclear%3A%20both%3B%0Acolor%3A%20%23333333%3B%0Adisplay%3A%20block%3B%0Apadding%3A%205px%200%200%3B%20%7D%0Aspan%2Ealign%2Dcenter%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Aclear%3A%20both%3B%20%7D%0Aspan%2Ealign%2Dcenter%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%20auto%200%3B%0Atext%2Dalign%3A%20center%3B%20%7D%0Aspan%2Ealign%2Dcenter%20span%20img%20%7B%0Amargin%3A%200%20auto%3B%0Atext%2Dalign%3A%20center%3B%20%7D%0Aspan%2Ealign%2Dright%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Aclear%3A%20both%3B%20%7D%0Aspan%2Ealign%2Dright%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%200%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Aspan%2Ealign%2Dright%20span%20img%20%7B%0Amargin%3A%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Aspan%2Efloat%2Dleft%20%7B%0Adisplay%3A%20block%3B%0Amargin%2Dright%3A%2013px%3B%0Aoverflow%3A%20hidden%3B%0Afloat%3A%20left%3B%20%7D%0Aspan%2Efloat%2Dleft%20span%20%7B%0Amargin%3A%2013px%200%200%3B%20%7D%0Aspan%2Efloat%2Dright%20%7B%0Adisplay%3A%20block%3B%0Amargin%2Dleft%3A%2013px%3B%0Aoverflow%3A%20hidden%3B%0Afloat%3A%20right%3B%20%7D%0Aspan%2Efloat%2Dright%20%3E%20span%20%7B%0Adisplay%3A%20block%3B%0Aoverflow%3A%20hidden%3B%0Amargin%3A%2013px%20auto%200%3B%0Atext%2Dalign%3A%20right%3B%20%7D%0Acode%2C%20tt%20%7B%0Amargin%3A%200%202px%3B%0Apadding%3A%200%205px%3B%0Awhite%2Dspace%3A%20nowrap%3B%0Aborder%3A%201px%20solid%20%23eaeaea%3B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20code%20%7B%0Amargin%3A%200%3B%0Apadding%3A%200%3B%0Awhite%2Dspace%3A%20pre%3B%0Aborder%3A%20none%3B%0Abackground%3A%20transparent%3B%20%7D%0A%2Ehighlight%20pre%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%2019px%3B%0Aoverflow%3A%20auto%3B%0Apadding%3A%206px%2010px%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0Aborder%3A%201px%20solid%20%23cccccc%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%2019px%3B%0Aoverflow%3A%20auto%3B%0Apadding%3A%206px%2010px%3B%0Aborder%2Dradius%3A%203px%3B%20%7D%0Apre%20code%2C%20pre%20tt%20%7B%0Abackground%2Dcolor%3A%20transparent%3B%0Aborder%3A%20none%3B%20%7D%0Asup%20%7B%0Afont%2Dsize%3A%200%2E83em%3B%0Avertical%2Dalign%3A%20super%3B%0Aline%2Dheight%3A%200%3B%0A%7D%0A%2A%20%7B%0A%2Dwebkit%2Dprint%2Dcolor%2Dadjust%3A%20exact%3B%0A%7D%0A%40media%20screen%20and%20%28min%2Dwidth%3A%20914px%29%20%7B%0Abody%20%7B%0Awidth%3A%20854px%3B%0Amargin%3A0%20auto%3B%0A%7D%0A%7D%0A%40media%20print%20%7B%0Atable%2C%20pre%20%7B%0Apage%2Dbreak%2Dinside%3A%20avoid%3B%0A%7D%0Apre%20%7B%0Aword%2Dwrap%3A%20break%2Dword%3B%0A%7D%0A%7D" rel="stylesheet"></p>
+<div id="subnetwork-integration-for-multi-modal-signatures-simms" class="section level2">
 <h2>Subnetwork Integration for Multi-modal Signatures (SIMMS)</h2>
-
+<div id="authors-syed-haider-paul-c.-boutros" class="section level3">
 <h3>Author(s): Syed Haider, Paul C. Boutros</h3>
-
+</div>
+<div id="maintainer-syed-haider-syed.haideroicr.on.ca" class="section level3">
 <h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@oicr.on.ca">Syed.Haider@oicr.on.ca</a>)</h3>
-
-<h3>Dated: 2017-09-06</h3>
-
+</div>
+<div id="dated-2017-10-11" class="section level3">
+<h3>Dated: 2017-10-11</h3>
+</div>
+</div>
+<div id="table-of-contents" class="section level2">
 <h2>Table of Contents</h2>
-
 <ul>
 <li><a href="#Overview">Overview</a></li>
 <li><a href="#Networks-database">Networks database</a></li>
@@ -220,30 +91,23 @@ hr {
 <li><a href="#Example-R-script">Example R-script</a></li>
 <li><a href="#Output">Output</a></li>
 </ul>
-
-<h2><a id = "Overview"></a> Overview</h2>
-
+</div>
+<div id="overview" class="section level2">
+<h2><a id="Overview"></a> Overview</h2>
 <p>SIMMS enables intergration of molecular profiles with functional networks such as protein-protein interaction networks. This document shows how to use SIMMS from a simple use case of integrating mRNA abundance data with pathways derived protein-protein networks, through to more sophisticated use cases of integrating multiple molecular profiles such as mRNA abundance, DNA copy-number and DNA-methylation data. Note, SIMMS requires patient outcome data as dependent variable. In current implementation, it works with survival data <code>Survival time, Survival status</code>. Please setup the dataset metadata directories before using SIMMS.</p>
-
 <p>There are a couple of directories that one needs to setup and ensure the contents are in correct format. These directories contain:</p>
-
 <ul>
 <li>Networks database (optional)</li>
 <li>Molecular profiles and clinical data</li>
 </ul>
-
 <p>The structure and format of these inputs is described below.</p>
-
-<h2><a id = "Networks-database"></a> Networks database</h2>
-
-<p>SIMMS rely on functionally or computationally derived networks in order to meaningfully integrate molecular profiles. By default, SIMMS package has a built in database of pathway derived protein-protein interaction networks extracted from (a dated version) Reactome, BioCarta and NCI-PID. This database can be accessed through various SIMMS functions using the parameter setting <code>networks.database = &quot;default&quot;</code>. If you would like to create your own networks database for subsequent use with SIMMS, please note that the networks database is organised in two files: </p>
-
+</div>
+<div id="networks-database" class="section level2">
+<h2><a id="Networks-database"></a> Networks database</h2>
+<p>SIMMS rely on functionally or computationally derived networks in order to meaningfully integrate molecular profiles. By default, SIMMS package has a built in database of pathway derived protein-protein interaction networks extracted from (a dated version) Reactome, BioCarta and NCI-PID. This database can be accessed through various SIMMS functions using the parameter setting <code>networks.database = &quot;default&quot;</code>. If you would like to create your own networks database for subsequent use with SIMMS, please note that the networks database is organised in two files:</p>
 <pre><code>pathway_based_networks.txt
-pathway_based_networks_flattened.txt
-</code></pre>
-
+pathway_based_networks_flattened.txt</code></pre>
 <p>File <code>pathway_based_networks.txt</code> contains all the subnetworks. For instance a hypothetical subnetwork of five genes <code>ERBB2, EGFR, MKI67, ESR1, PGR</code> with four interactions <code>(PGR-ESR1, EGFR-ERBB2, EGFR-PGR, MKI67-ESR1)</code>, and another hypothetical subnetwork of three genes PDK1, AKT3 and PIK3CA with two interactions <code>(PDK1-PIK3CA, AKT3-PIK3CA)</code> using Entrez Gene IDs would look like (tab-delimited):</p>
-
 <pre><code>#ID=0001    NAME=Module.1
 ID=0001 5241    2099
 ID=0001 1956    2064
@@ -251,267 +115,300 @@ ID=0001 1956    5241
 ID=0001 4288    2099
 #ID=0002    NAME=Module.2
 ID=0002 5163    5290
-ID=0002 10000   5290
-</code></pre>
-
+ID=0002 10000   5290</code></pre>
 <p>Please note that the only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional _at suffix in the molecular data files).</p>
-
 <p>File <code>pathway_based_networks_flattened.txt</code> is a non-redundant, without self-interactions, quick lookup table of all the pairwise interactions present in the file <code>pathway_based_networks.txt</code>. This should not contain the subnetwork name and ID annotations. For example, the contents of this file for the above-mentioned subnetworks would look like (tab-delimited):</p>
-
 <pre><code>GeneID1 GeneID2
 5241    2099
 1956    2064
 1956    5241
 4288    2099
 5163    5290
-10000   5290    
-</code></pre>
-
+10000   5290    </code></pre>
 <p>Please note that only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional _at suffix in the molecular data files). If you have a gene list without known interactions, and would like to try Node-only model (model 2), you can create a subnetwork with random interactions in <code>pathway_based_networks.txt</code> as long as all the features (genes) are present and connected. Same goes for <code>pathway_based_networks_flattened.txt</code>.</p>
-
 <p>The two database files are placed inside a directory you wish to call your database. For example: <code>MyNetworkDB</code>, and this directory should be placed under:</p>
-
 <blockquote>
 <p>SIMMS/inst/programdata/networkdb/</p>
 </blockquote>
-
-<p>You would need to build and install SIMMS package again and your networks database should be available to use through relevant SIMMS&#39; functions with parameter setting <code>networks.database = &quot;MyNetworkDB&quot;</code></p>
-
-<h2><a id = "Molecular-profiles-and-clinical-data"></a> Molecular profiles and clinical data</h2>
-
-<p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. 
-Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The table below shows the supported/unsupported datatypes and respective examples:</p>
-
+<p>You would need to build and install SIMMS package again and your networks database should be available to use through relevant SIMMS’ functions with parameter setting <code>networks.database = &quot;MyNetworkDB&quot;</code></p>
+</div>
+<div id="molecular-profiles-and-clinical-data" class="section level2">
+<h2><a id="Molecular-profiles-and-clinical-data"></a> Molecular profiles and clinical data</h2>
+<p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The table below shows the supported/unsupported datatypes and respective examples:</p>
 <!-- html table generated in R 3.3.2 by xtable 1.8-2 package -->
-
-<!-- Wed Sep  6 11:44:20 2017 -->
-
-<table border=1>
-<tr> <th> Data type </th> <th> Example data </th> <th> Example profile </th>  </tr>
-  <tr> <td> { *x ∈ ℝ* : *x ≥ 0* } </td> <td> 0, 2, 1.37, 7.04, 9.68 </td> <td> log2 mRNA or miRNA abundance </td> </tr>
-  <tr> <td> { *x ∈ ℝ* : *x ≥ 0* } </td> <td> 0.1, 0.38, 0.78, 0.22, 0.98 </td> <td> DNA methylation beta values </td> </tr>
-  <tr> <td> { *x ∈ ℤ* } </td> <td> -2, -1, 0, 1, 2 </td> <td> copy-number calls. Baseline = 0 (Neutral/Diploid) </td> </tr>
-  <tr> <td> { *x ∈ ℤ* : *x ≥ 0* } </td> <td> 0, 1, 2, 3 </td> <td> mutation data. Baseline = 0 (Wildtype) </td> </tr>
-  <tr> <td> { *x ∈ ℤ* : *x ≠ 0* } </td> <td> -2, -1, 1, 2 </td> <td> Unsupported due to missing baseline 0 </td> </tr>
-  <tr> <td> { *x ∉ ℝ* } </td> <td> WT, Mutant, Gain, Deleted </td> <td> Unsupported due to alphabets </td> </tr>
-   </table>
-
-<p>Molecular profiles are strictly tab-delimited, and are expected to be in feature (gene) by sample (patient) matrices. Genes should be represented using Entrez IDs followed by _at suffix. For mRNA abundance data, if you have pre-processed your data with <a href="http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp">BrainArray Entrez CDFs</a> Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by _at suffix (e.g 5290_at). </p>
-
-<p>Clinical profiles are strictly tab-delimited, sample (patient) by annotation matrices. The annotation columns must contain survival columns <code>Survival time, Survival status, Survival time unit</code>. The row names should match the column names in the molecular profiles&#39; matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below. </p>
-
+<!-- Wed Oct 11 11:27:03 2017 -->
+<table border="1">
+<tr>
+<th>
+Data type
+</th>
+<th>
+Example data
+</th>
+<th>
+Example profile
+</th>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℝ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0, 2, 1.37, 7.04, 9.68
+</td>
+<td>
+log2 mRNA or miRNA abundance
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℝ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0.1, 0.38, 0.78, 0.22, 0.98
+</td>
+<td>
+DNA methylation beta values
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> }
+</td>
+<td>
+-2, -1, 0, 1, 2
+</td>
+<td>
+copy-number calls. Baseline = 0 (Neutral/Diploid)
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> : <em>x ≥ 0</em> }
+</td>
+<td>
+0, 1, 2, 3
+</td>
+<td>
+mutation data. Baseline = 0 (Wildtype)
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∈ ℤ</em> : <em>x ≠ 0</em> }
+</td>
+<td>
+-2, -1, 1, 2
+</td>
+<td>
+Unsupported due to missing baseline 0
+</td>
+</tr>
+<tr>
+<td>
+{ <em>x ∉ ℝ</em> }
+</td>
+<td>
+WT, Mutant, Gain, Deleted
+</td>
+<td>
+Unsupported due to alphabets
+</td>
+</tr>
+</table>
+<p>Molecular profiles are strictly tab-delimited, and are expected to be in feature (gene) by sample (patient) matrices. Genes should be represented using Entrez IDs followed by _at suffix. For mRNA abundance data, if you have pre-processed your data with <a href="http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp">BrainArray Entrez CDFs</a> Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by _at suffix (e.g 5290_at).</p>
+<p>Clinical profiles are strictly tab-delimited, sample (patient) by annotation matrices. The annotation columns must contain survival columns <code>Survival time, Survival status, Survival time unit</code>. The row names should match the column names in the molecular profiles’ matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below.</p>
 <p>Both molecular and clinical annotations are read by SIMMS through a tab-delimited metadata file called <code>datasets.txt</code>. An example of the contents of this file are shown below:</p>
-
 <pre><code>dataset mRNA    cnv methylation annotations survstat    survtime    survtime.unit
 Breastdata1 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
-Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
-</code></pre>
-
-<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under: </p>
-
+Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit</code></pre>
+<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
 <blockquote>
 <p>SIMMS/inst/programdata/testdata/</p>
 </blockquote>
-
 <p>There is no need to drop your datasets inside the package, or need to rebuild the package. You can just point to your datasets through SIMMS package keeping them anywhere on your filesystem.</p>
-
-<h2><a id = "Example-R-script"></a> Example R-script</h2>
-
+</div>
+<div id="example-r-script" class="section level2">
+<h2><a id="Example-R-script"></a> Example R-script</h2>
 <p>Lets start with a simple case. We have two mRNA abundance datasets; <code>Breastdata1, Breastdata2</code>. We would like to identify prognostic biomarkers using Breastdata1 and validate on Breastdata2. Assuming these two datasets are setup correctly (as described in the previous section), a typical workflow would be:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="st">&quot;warn&quot;</span> =<span class="st"> </span><span class="op">-</span><span class="dv">1</span>);
 
-<pre><code class="r">options(&quot;warn&quot; = -1);
+<span class="co"># load SIMMS library</span>
+<span class="kw">library</span>(<span class="st">&quot;SIMMS&quot;</span>);
 
-# load SIMMS library
-library(&quot;SIMMS&quot;);
+<span class="co"># path of the data directory containing Breastdata1/ and Breastdata2/ subdirectories</span>
+data.directory &lt;-<span class="st"> </span><span class="kw">get.program.defaults</span>(<span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>)[[<span class="st">&quot;test.data.dir&quot;</span>]];
 
-# path of the data directory containing Breastdata1/ and Breastdata2/ subdirectories
-data.directory &lt;- get.program.defaults(networks.database = &quot;test&quot;)[[&quot;test.data.dir&quot;]];
+<span class="co"># path of the directory where results will be stored</span>
+output.directory &lt;-<span class="st"> </span><span class="kw">tempdir</span>();
 
-# path of the directory where results will be stored
-output.directory &lt;- tempdir();
+<span class="co"># molecular profiles to be used</span>
+data.types &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mRNA&quot;</span>);
 
-# molecular profiles to be used
-data.types &lt;- c(&quot;mRNA&quot;);
+<span class="co"># feature selection datasets</span>
+<span class="co"># name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s</span>
+feature.selection.datasets &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Breastdata1&quot;</span>);
 
-# feature selection datasets
-# name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s
-feature.selection.datasets &lt;- c(&quot;Breastdata1&quot;);
+<span class="co"># model training datasets, ideally same as feature selection datasets</span>
+<span class="co"># name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s</span>
+training.datasets &lt;-<span class="st"> </span>feature.selection.datasets;
 
-# model training datasets, ideally same as feature selection datasets
-# name of the dataset directory containing mRNA abundance and annotation profiles of training dataset/s
-training.datasets &lt;- feature.selection.datasets;
+<span class="co"># validation datasets</span>
+<span class="co"># name of the dataset directory containing mRNA abundance and annotation profiles of validation dataset/s</span>
+validation.datasets &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Breastdata2&quot;</span>);
 
-# validation datasets
-# name of the dataset directory containing mRNA abundance and annotation profiles of validation dataset/s
-validation.datasets &lt;- c(&quot;Breastdata2&quot;);
+<span class="co"># all the possible P value thresholds that one may consider applying to feature selection process.</span>
+<span class="co"># its the P value of univariate (genewise) Cox model statistics</span>
+feature.selection.p.thresholds &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>);
 
-# all the possible P value thresholds that one may consider applying to feature selection process.
-# its the P value of univariate (genewise) Cox model statistics
-feature.selection.p.thresholds &lt;- c(0.5);
+<span class="co"># one of the P values above, to be used for subsequent analysis. Not a vector for performance reasons</span>
+feature.selection.p.threshold &lt;-<span class="st"> </span><span class="fl">0.5</span>;
 
-# one of the P values above, to be used for subsequent analysis. Not a vector for performance reasons
-feature.selection.p.threshold &lt;- 0.5;
+<span class="co"># names of the learning algorithms to be used for the final multivarite model</span>
+learning.algorithms &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;backward&quot;</span>, <span class="st">&quot;forward&quot;</span>, <span class="st">&quot;glm&quot;</span>);
 
-# names of the learning algorithms to be used for the final multivarite model
-learning.algorithms &lt;- c(&quot;backward&quot;, &quot;forward&quot;, &quot;glm&quot;);
+<span class="co"># top features to be used for model selection (Backwards elimination, Forward selection, GLM)</span>
+<span class="co"># you can try a number of different model selection runs by specifying a vector of top n features</span>
+top.n.features &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>);
 
-# top features to be used for model selection (Backwards elimination, Forward selection, GLM)
-# you can try a number of different model selection runs by specifying a vector of top n features
-top.n.features &lt;- c(5);
+<span class="co"># truncate survival</span>
+truncate.survival &lt;-<span class="st"> </span><span class="dv">10</span>;
 
-# truncate survival
-truncate.survival &lt;- 10;
-
-# calculate per feature univariate coefficients in training sets
-derive.network.features(
-    data.directory = data.directory,
-    output.directory = output.directory,
-    data.types = data.types,
-    feature.selection.datasets = feature.selection.datasets,
-    feature.selection.p.thresholds = feature.selection.p.thresholds,
-    networks.database = &quot;test&quot;, # or &quot;default&quot; for Reactome/BioCarta/NCI-PID
-    truncate.survival = truncate.survival
+<span class="co"># calculate per feature univariate coefficients in training sets</span>
+<span class="kw">derive.network.features</span>(
+    <span class="dt">data.directory =</span> data.directory,
+    <span class="dt">output.directory =</span> output.directory,
+    <span class="dt">data.types =</span> data.types,
+    <span class="dt">feature.selection.datasets =</span> feature.selection.datasets,
+    <span class="dt">feature.selection.p.thresholds =</span> feature.selection.p.thresholds,
+    <span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>, <span class="co"># or &quot;default&quot; for Reactome/BioCarta/NCI-PID</span>
+    <span class="dt">truncate.survival =</span> truncate.survival
     );
 
-# calculate per-subnetwork scores in both training and validation sets
-prepare.training.validation.datasets(
-    data.directory = data.directory,
-    output.directory = output.directory,
-    data.types = data.types,
-    feature.selection.datasets = feature.selection.datasets,
-    datasets = c(training.datasets, validation.datasets),
-    networks.database = &quot;test&quot;, # or &quot;default&quot; for Reactome/BioCarta/NCI-PID
-    truncate.survival = truncate.survival
+<span class="co"># calculate per-subnetwork scores in both training and validation sets</span>
+<span class="kw">prepare.training.validation.datasets</span>(
+    <span class="dt">data.directory =</span> data.directory,
+    <span class="dt">output.directory =</span> output.directory,
+    <span class="dt">data.types =</span> data.types,
+    <span class="dt">feature.selection.datasets =</span> feature.selection.datasets,
+    <span class="dt">datasets =</span> <span class="kw">c</span>(training.datasets, validation.datasets),
+    <span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>, <span class="co"># or &quot;default&quot; for Reactome/BioCarta/NCI-PID</span>
+    <span class="dt">truncate.survival =</span> truncate.survival
     );
 
-# iterate over varying top n features, identify and validate survival models
-for (top.n in top.n.features) {
+<span class="co"># iterate over varying top n features, identify and validate survival models</span>
+<span class="cf">for</span> (top.n <span class="cf">in</span> top.n.features) {
 
-    # create classifier assessing univariate prognostic power of subnetwork modules (Train and Validate)
-    ret &lt;- create.classifier.univariate(
-        data.directory = data.directory,
-        output.directory = output.directory,
-        feature.selection.datasets = feature.selection.datasets,
-        feature.selection.p.threshold = feature.selection.p.threshold,
-        training.datasets = training.datasets,
-        validation.datasets = validation.datasets,
-        top.n.features = top.n
+    <span class="co"># create classifier assessing univariate prognostic power of subnetwork modules (Train and Validate)</span>
+    ret &lt;-<span class="st"> </span><span class="kw">create.classifier.univariate</span>(
+        <span class="dt">data.directory =</span> data.directory,
+        <span class="dt">output.directory =</span> output.directory,
+        <span class="dt">feature.selection.datasets =</span> feature.selection.datasets,
+        <span class="dt">feature.selection.p.threshold =</span> feature.selection.p.threshold,
+        <span class="dt">training.datasets =</span> training.datasets,
+        <span class="dt">validation.datasets =</span> validation.datasets,
+        <span class="dt">top.n.features =</span> top.n
         );
 
-    # create a multivariate classifier (Train and Validate)
-    ret &lt;- create.classifier.multivariate(
-        data.directory = data.directory,
-        output.directory = output.directory,
-        feature.selection.datasets = feature.selection.datasets,
-        feature.selection.p.threshold = feature.selection.p.threshold,
-        training.datasets = training.datasets,
-        validation.datasets = validation.datasets,
-        learning.algorithms = learning.algorithms,
-        top.n.features = top.n
+    <span class="co"># create a multivariate classifier (Train and Validate)</span>
+    ret &lt;-<span class="st"> </span><span class="kw">create.classifier.multivariate</span>(
+        <span class="dt">data.directory =</span> data.directory,
+        <span class="dt">output.directory =</span> output.directory,
+        <span class="dt">feature.selection.datasets =</span> feature.selection.datasets,
+        <span class="dt">feature.selection.p.threshold =</span> feature.selection.p.threshold,
+        <span class="dt">training.datasets =</span> training.datasets,
+        <span class="dt">validation.datasets =</span> validation.datasets,
+        <span class="dt">learning.algorithms =</span> learning.algorithms,
+        <span class="dt">top.n.features =</span> top.n
         );
 
-    # perform Kaplan-Meier analysis and generate plots
-    create.survivalplots(
-        data.directory = data.directory,
-        output.directory = output.directory,
-        training.datasets = training.datasets,
-        validation.datasets = validation.datasets,
-        top.n.features = top.n,
-        learning.algorithms = learning.algorithms,
-        truncate.survival = truncate.survival,
-        survtime.cutoffs = c(5),
-        main.title = FALSE,
-        KM.plotting.fun = &quot;create.KM.plot&quot;,
-        resolution = 100
+    <span class="co"># perform Kaplan-Meier analysis and generate plots</span>
+    <span class="kw">create.survivalplots</span>(
+        <span class="dt">data.directory =</span> data.directory,
+        <span class="dt">output.directory =</span> output.directory,
+        <span class="dt">training.datasets =</span> training.datasets,
+        <span class="dt">validation.datasets =</span> validation.datasets,
+        <span class="dt">top.n.features =</span> top.n,
+        <span class="dt">learning.algorithms =</span> learning.algorithms,
+        <span class="dt">truncate.survival =</span> truncate.survival,
+        <span class="dt">survtime.cutoffs =</span> <span class="kw">c</span>(<span class="dv">5</span>),
+        <span class="dt">main.title =</span> <span class="ot">FALSE</span>,
+        <span class="dt">KM.plotting.fun =</span> <span class="st">&quot;create.KM.plot&quot;</span>,
+        <span class="dt">resolution =</span> <span class="dv">100</span>
         );
-    }
-</code></pre>
-
-<p>Please note that a number of parameters such as <code>output.directory, training.datasets and validations.datasets</code> are repeatedly passed in various methods. This may look mindless, however, this is because none of the methods return objects that are passed over to the next method/s. The rationale behind this was to keep the memory footprint to bare-minimum by avoiding large R objects passed around. This particular feature also facilitates restarting from any step after deliberate or accidental closure of R environment as everything can be read again from the filesystem. The only compromise is the data footprint on the filesystem. </p>
-
+    }</code></pre></div>
+<p>Please note that a number of parameters such as <code>output.directory, training.datasets and validations.datasets</code> are repeatedly passed in various methods. This may look mindless, however, this is because none of the methods return objects that are passed over to the next method/s. The rationale behind this was to keep the memory footprint to bare-minimum by avoiding large R objects passed around. This particular feature also facilitates restarting from any step after deliberate or accidental closure of R environment as everything can be read again from the filesystem. The only compromise is the data footprint on the filesystem.</p>
 <p>The above R-script will generate two sub-directories under the <code>output.directory</code> path:</p>
-
 <blockquote>
-<p>output/ and
-graphs/</p>
+<p>output/ and graphs/</p>
 </blockquote>
-
-<h2><a id = "Output"></a> Output</h2>
-
+</div>
+<div id="output" class="section level2">
+<h2><a id="Output"></a> Output</h2>
 <p>SIMMS creates two output directories; <code>output/ and graphs/</code>. The contents of these directories are described below:</p>
-
+<div id="output-1" class="section level3">
 <h3>output/</h3>
-
 <blockquote>
-<p>coxph_nodes__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt
-coxph_edges_coef__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt
-coxph_edges_P__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt</p>
+<p>coxph_nodes__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt coxph_edges_coef__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt coxph_edges_P__<code>$training.datasets</code>__datatype_<code>$data.types</code>.txt</p>
 </blockquote>
-
 <p>Contains per feature (nodes) univariate Cox proportional hazards model results, and per interaction (gene-gene edge) Cox proportional hazards model results</p>
-
 <blockquote>
 <p>top_subnets_score__TRAINING_<code>$training.datasets</code>__model_<code>1,2,3</code>__PV_<code>$feature.selection.p.thresholds</code>.txt</p>
 </blockquote>
-
 <p>Contains per subnetwork scores and is used for subsequent feature selection. Models 1, 2 and 3 refers to Node+Interaction, Node-only and Interaction-only models. Nodel-only (Model-2) is generally the most interpretable and robust model</p>
-
 <blockquote>
 <p>riskscores_uv__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains per sample risk scores for each subnetwork, along with Survival time and Survival status. Sample by risk score matrix. First two columns contain survival data</p>
-
 <blockquote>
 <p>riskgroups_uv__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains per sample risk groups for each subnetwork, along with Survival time and Survival status. Sample by risk group matrix. First two columns contain survival data. Risk groups are median-dichotomised (training set) risk scores</p>
-
 <blockquote>
 <p>riskscores__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__<code>backward,forward,glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains per sample risk scores estimated by the multivariate Cox proportional hazards model, along with Survival time and Survival status</p>
-
 <blockquote>
 <p>riskgroups__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__<code>backward,forward,glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains per sample risk group (along with Survival time and Survival status) generated by median dichotomising risk scores (training set) estimated through the multivariate Cox proportional hazards model</p>
-
 <blockquote>
 <p>coxph__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__<code>backward,forward,glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains univariate Cox proportional hazards model results with risk group (derived from multivariate Cox model) as the explanatory variable</p>
-
 <blockquote>
 <p>beta__TRAINING_<code>$training.datasets</code>__<code>backward,forward</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains the fitted coefficients (betas) of the final model following backward elimination and forward selection (separately)</p>
-
 <blockquote>
 <p>beta__TRAINING_<code>$training.datasets</code>__<code>glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>.txt</p>
 </blockquote>
-
 <p>Contains the fitted coefficients (betas) of the final model following GLMs with LASSO (L1-Penalty) driven feature selection</p>
-
+</div>
+<div id="graphs" class="section level3">
 <h3>graphs/</h3>
-
 <blockquote>
 <p>KM_uv__<code>all_training,all_validation</code>__TRAINING_<code>$training.datasets</code>__model_<code>1,2,3</code>__<code>SubnetworkName</code>__truncated_<code>$truncate.survival</code>.png</p>
 </blockquote>
-
 <p>Kaplan-Meier analysis of risk groups generated for each subnetwork through univariate Cox proportional hazards model. These will be generated if parameter <code>plot.univariate.data</code> was set to <code>TRUE</code> in <code>create.survivalplots()</code> as default value is set to <code>FALSE</code>.</p>
-
 <blockquote>
 <p>KM__<code>all_training,all_validation</code>__TRAINING_<code>$traning.datasets</code>__<code>backward,forward,glm</code>__model_<code>1,2,3</code>__top_<code>$top.n</code>__truncated_<code>$truncate.survival</code>.png</p>
 </blockquote>
-
 <p>Kaplan-Meier analysis of risk groups generated through multivariate Cox proportional hazards model</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>

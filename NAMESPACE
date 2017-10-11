@@ -26,6 +26,9 @@ export(
 import(survival)
 import(MASS)
 import(glmnet)
+import(parallel)
+import(doParallel)
+import(foreach)
 import(xtable)
 
 importFrom("grDevices", "dev.off", "png")

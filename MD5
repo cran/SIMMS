@@ -1,11 +1,11 @@
-b2d2618ce009530e798ce7e0bad68e8d *DESCRIPTION
-e9d10c6c613d79dbfb843f391c0f3fb0 *NAMESPACE
-2a99f293842ad6f7b9f076f168c6d1c4 *NEWS
+329bf992df691dde9af47243d61c52cd *DESCRIPTION
+fbc68d8cace107f6deaf29940728a365 *NAMESPACE
+8d957062d492be8e760839d9dba9552d *NEWS
 e2b1d5027ac8db90a3dc5afac0e0fb07 *R/calculate.meta.survival.R
 83854ed5b03d34d64959a1ce31e4a4cf *R/calculate.network.coefficients.R
 b6de56e9c1a7225c23679d1cf4961a71 *R/calculate.sensitivity.stats.R
 7f3dcd5613ba41ab94a6ef4a65521f12 *R/create.KM.plot.R
-eaf2a20244b97c851605b119f63b2c5d *R/create.classifier.multivariate.R
+e2db5b6a284ddaee27d547e0c607201d *R/create.classifier.multivariate.R
 6ec65628933f157f4198dd022f891cad *R/create.classifier.univariate.R
 3a20c785ccb2bca13b83c1a4682aaaf3 *R/create.sensitivity.plot.R
 291147fe7756bec73d1ed3371da8605f *R/create.survivalplots.R
@@ -26,7 +26,7 @@ dd456e761ac5d999d41d7811db42cef7 *R/prepare.training.validation.datasets.R
 6cc782045d9d4efd9d679a29451e6298 *build/vignette.rds
 694cf87d8615a45a4ff48b46efefb2dc *inst/doc/Using-SIMMS.R
 7d355596caaa84be2cf0a75676a75f18 *inst/doc/Using-SIMMS.Rmd
-1c5db47417654b9f7b44485779bf84d5 *inst/doc/Using-SIMMS.html
+3ce186cc1b1c8402ec939d54c4f81ac6 *inst/doc/Using-SIMMS.html
 94fd81bd78b72b5dff57c953e100b848 *inst/programdata/networkdb/MEMo.BRCA/pathway_based_networks_flattened.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks_all.txt
@@ -74,7 +74,7 @@ fbb3f2be96ba7d989dea352ec39454e5 *man/SIMMS.Rd
 3d4dbb03bc3b8ab78873b01fa4549c05 *man/calculate.network.coefficients.Rd
 8c94944fc25971016e9a15ea1788192a *man/calculate.sensitivity.stats.Rd
 35a85032473ebba0384e3a81051b2071 *man/create.KM.plot.Rd
-68b97991228284ae610363f08037531a *man/create.classifier.multivariate.Rd
+d06148f817b4d5375c4096ff2b9c4276 *man/create.classifier.multivariate.Rd
 1d45ce81eea36dc3400e5625c455f981 *man/create.classifier.univariate.Rd
 18477feb61e9eb8239c29b40264034e9 *man/create.sensitivity.plot.Rd
 5bcba5e91cd25b7df017e8f80fa6218a *man/create.survivalplots.Rd

@@ -1,7 +1,13 @@
+# SIMMS 1.1.1
+==========================
+
+- Converted elastic-net mixing parameter alpha [0,1] to search for optimal alpha
+- Implemented parallel processing for glm alpha search space
+
 # SIMMS 1.1.0
 ==========================
 
-- Added elastic-net mixing parameter support alpha [0,1] i.e ridge to LASSO
+- Added elastic-net mixing parameter to support alpha [0,1] i.e ridge to LASSO
 
 # SIMMS 1.0.3
 ==========================

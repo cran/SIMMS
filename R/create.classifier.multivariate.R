@@ -1,4 +1,4 @@
-create.classifier.multivariate <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), learning.algorithms = c("backward", "forward"), alpha.glm = 1, k.fold.glm = 10, seed.cv.glm = 51214) {
+create.classifier.multivariate <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), learning.algorithms = c("backward", "forward"), alpha.glm = c(1), k.fold.glm = 10, seed.cv.glm = 51214, cores.glm = 1) {
 
 	# sanity checks
 	if (top.n.features < 2) {
@@ -55,7 +55,17 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 				}
 			}
 		}
-
+	
+	# create and register cluster in case of parallel computing for glmnet
+	if ("glm" %in% learning.algorithms) {
+	  if (cores.glm > 1) {
+	    computing.cluster <- makeCluster(cores.glm);
+	    registerDoParallel(computing.cluster);
+	  } else {
+	    registerDoSEQ();
+	  }
+	}
+	
 	# run learning algorithm for each model, for feature selection followed by patient risk score prediction
 	for (model in models) {
 
@@ -180,17 +190,47 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 			# GLM net refinement algorithm
 			if (learning.algorithm == "glm") {
 				which.surv.cols <- which(colnames(training.data) %in% c("survtime", "survstat"));
-				x.T <- training.data[, -which.surv.cols];
+				x.T <- as.matrix(training.data[, -which.surv.cols]);
 				y.T <- cbind("time" = training.data[, "survtime"], "status" = training.data[, "survstat"]);
+
+				# initialise glm params
 				set.seed(seed.cv.glm);
-				model.fit <- cv.glmnet(
-					x = as.matrix(x.T), 
-					y = y.T, 
-					alpha = alpha.glm,
-					standardize = FALSE, 
-					family = "cox", 
-					nfolds = k.fold.glm
-					);
+				foldid <- sample(rep(seq(k.fold.glm), length.out = nrow(x.T)));
+				cvm <- rep(NA, length(alpha.glm));
+				model.fit.tmp <- vector("list", length(alpha.glm));
+
+				# traverse through all alpha and perform cross validation
+				if (length(alpha.glm) > k.fold.glm) {
+					model.fit.tmp <- foreach(i = seq_along(alpha.glm), .packages = c("survival", "glmnet")) %dopar% {
+						cv.glmnet(
+							x = x.T, 
+							y = y.T, 
+							alpha = alpha.glm[i], 
+							foldid = foldid, 
+							standardize = FALSE, 
+							family = "cox"
+							)
+						}
+					} else {
+					for (i in seq_along(alpha.glm)) {
+						model.fit.tmp[[i]] <- cv.glmnet(
+							x = x.T, 
+							y = y.T, 
+							alpha = alpha.glm[i], 
+							foldid = foldid, 
+							standardize = FALSE, 
+							family = "cox",
+							parallel = TRUE
+							);
+						}
+					}
+
+				# extract cvm for model with best (min) lambda
+				cvm <- sapply(model.fit.tmp, function(mft) mft$cvm[which(mft$lambda == mft$lambda.min)]);
+
+				# extract the optimal model
+				model.fit <- model.fit.tmp[[which.min(cvm)]];
+				remove(model.fit.tmp);
 
 				# select optimal lambda
 				lambda.to.use <- model.fit$lambda.min;
@@ -465,5 +505,14 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 					);
 				}
 			}
-		}
+	  }
+	  
+  	# stop cluster
+	  if ("glm" %in% learning.algorithms) {
+	    if (cores.glm > 1) {
+	      registerDoSEQ();
+	      stopCluster(computing.cluster);
+	      remove(computing.cluster);
+	    }
+	  }
 	}
