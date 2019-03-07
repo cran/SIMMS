@@ -1,3 +1,21 @@
+#' A utility function to return the inst/ directory of the installed package
+#' and other default settings
+#' 
+#' A utility function to return the inst/ directory of the installed package to
+#' get the test datasets and other program related data contents
+#' 
+#' 
+#' @param networks.database Name of the pathway networks database. Default to
+#' NCI PID/Reactome/Biocarta i-e "default"
+#' @return Returns a list of paths to the input directories/files where the
+#' contents of this package are installed
+#' @author Syed Haider
+#' @keywords IO
+#' @examples
+#' 
+#' program.data <- get.program.defaults();
+#' 
+#' @export get.program.defaults
 get.program.defaults <- function(networks.database = "default") {
 
 	# template file to search for

@@ -5,9 +5,9 @@ x <- matrix(
 	data = c(
 		"{ *x ∈ ℝ* : *x ≥ 0* }", "0, 2, 1.37, 7.04, 9.68", "log2 mRNA or miRNA abundance", 
 		"{ *x ∈ ℝ* : *x ≥ 0* }", "0.1, 0.38, 0.78, 0.22, 0.98", "DNA methylation beta values",
-		"{ *x ∈ ℤ* }", "-2, -1, 0, 1, 2", "copy-number calls. Baseline = 0 (Neutral/Diploid)",
-		"{ *x ∈ ℤ* : *x ≥ 0* }", "0, 1, 2, 3", "mutation data. Baseline = 0 (Wildtype)",
-		"{ *x ∈ ℤ* : *x ≠ 0* }", "-2, -1, 1, 2", "Unsupported due to missing baseline 0",
+		"{ *x ∈ ℤ* }", "-2, -1, 0, 1, 2", "copy-number calls. Reference group = 0 (Neutral/Diploid)",
+		"{ *x ∈ ℤ* : *x ≥ 0* }", "0, 1, 2, 3", "mutation data. Reference group = 0 (Wildtype)",
+		"{ *x ∈ ℤ* : *x ≠ 0* }", "-2, -1, 1, 2", "Unsupported due to missing reference group 0",
 		"{ *x ∉ ℝ* }", "WT, Mutant, Gain, Deleted", "Unsupported due to alphabets"
 		), 
 	nrow = 6, ncol = 3, byrow = TRUE,
@@ -28,7 +28,7 @@ options("warn" = -1);
 library("SIMMS");
 
 # path of the data directory containing Breastdata1/ and Breastdata2/ subdirectories
-data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
+data.directory <- SIMMS::get.program.defaults(networks.database = "test")[["test.data.dir"]];
 
 # path of the directory where results will be stored
 output.directory <- tempdir();

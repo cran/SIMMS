@@ -1,4 +1,63 @@
-prepare.training.validation.datasets <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cnv"), min.ordinal.threshold = c("cnv" = 3), p.threshold = 1, feature.selection.datasets = NULL, datasets = NULL, truncate.survival = 100, networks.database = "default", write.normed.datasets = TRUE, subset = NULL) {
+#' Prepare training and validation datasets
+#' 
+#' Computes per-patient pathway-derived network impact scores across all input
+#' datasets, independently
+#' 
+#' 
+#' @param data.directory Path to the directory containing datasets as specified
+#' by \code{datasets}
+#' @param output.directory Path to the output folder where intermediate and
+#' results files will be saved
+#' @param data.types A vector of molecular datatypes to load. Defaults to
+#' c('mRNA')
+#' @param data.types.ordinal A vector of molecular datatypes to be treated as
+#' ordinal. Defaults to c('cna')
+#' @param min.ordinal.threshold A named vector specifying minimum percent
+#' threshold for each ordinal data type to be used prior to estimating
+#' coefficients. Coefficient for features not satisfying minimum threshold will
+#' not be estimated, and set to 0. Defaults to cna threshold as 3 percent
+#' @param p.threshold P value threshold to be applied for selecting univariate
+#' prognostic features. Defaults to 1
+#' @param feature.selection.datasets A vector containing names of datasets used
+#' for feature selection in function \code{derive.network.features()}
+#' @param datasets A vector containing names of all the datasets to be later
+#' used for training and validation purposes
+#' @param truncate.survival A numeric value specifying survival truncation in
+#' years. Defaults to 100 years which effectively means no truncation
+#' @param networks.database Name of the pathway networks database. Default to
+#' NCI PID/Reactome/Biocarta i-e "default"
+#' @param write.normed.datasets A toggle to control whether processed mRNA and
+#' survival data should be written to file
+#' @param subset A list with a Field and Entry component specifying a subset of
+#' patients to be selected whose annotation Field matches Entry
+#' @return The output files are stored under \code{output.directory}/output/
+#' @author Syed Haider
+#' @keywords IO
+#' @examples
+#' 
+#' # get data directory 
+#' data.directory <- get.program.defaults()[["test.data.dir"]];
+#' 
+#' # initialise params
+#' output.directory <- ".";
+#' data.types <- c("mRNA");
+#' feature.selection.datasets <- c("Breastdata1");
+#' training.datasets <- c("Breastdata1");
+#' validation.datasets <- c("Breastdata1", "Breastdata2");
+#' 
+#' # preparing training and validation datasets.
+#' # Normalisation & patientwise subnet feature scores
+#' prepare.training.validation.datasets(
+#'   data.directory = data.directory,
+#'   output.directory = output.directory,
+#'   data.types =  data.types,
+#'   feature.selection.datasets = feature.selection.datasets,
+#'   datasets = unique(c(training.datasets, validation.datasets)),
+#'   networks.database = "test"
+#'   );
+#' 
+#' @export prepare.training.validation.datasets
+prepare.training.validation.datasets <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), min.ordinal.threshold = c("cna" = 3), p.threshold = 1, feature.selection.datasets = NULL, datasets = NULL, truncate.survival = 100, networks.database = "default", write.normed.datasets = TRUE, subset = NULL) {
 
 	# output directory
 	out.dir <- paste(output.directory, "/output/", sep = "");
@@ -148,21 +207,21 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 				# beta/coef for smallest P value group/level. However, predict() calculates
 				# the patientwise scores correctly given the group/level
 				nodes.valid <- which( coef.nodes.edges[[data.type]][["nodes.coef"]][ nodes, "P" ] <= p.threshold );
+				nodes.valid <- nodes[nodes.valid];
 
 				# store features to save to file system 
 				subnets.selected.features[[data.type]][[subnet]] <- vector();
-				subnets.selected.features[[data.type]][[subnet]] <- nodes[nodes.valid];
+				subnets.selected.features[[data.type]][[subnet]] <- nodes.valid;
 
 				# [inactivated] track nodes and interactions that are seen already by one data-type
 				# and therefore be ignored by the second one if already in the model.
-				# Respects the data.types order eg. mRNA, cnv would give mRNA priority
+				# Respects the data.types order eg. mRNA, cna would give mRNA priority
 				# nodes.valid <- setdiff(nodes.valid, nodes.seen);
 				# nodes.seen <- union(nodes.seen, nodes.valid);
 
 				if (length(nodes.valid) > 0) {
 
-					# initialise variable
-					nodes.valid <- nodes[nodes.valid];
+					# initialise variables
 					tmp.patient.scores <- NULL;
 
 					# process ordinal variables differently
@@ -205,11 +264,18 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 											]; 
 									}
 
+								# m <- model.matrix(~factor(
+								#	t(cancer.data[["all.data"]][[data.type]][[dataset]][node.valid, ]), 
+								#	levels = c("0", "-1", "1")
+								#	), data = lung)[,][, -1, drop = FALSE];
+								# m %*% as.matrix(coef.vector)
+								# below is same but a generic solution to whats above where we 
+								# have to specify the levels correctly.
+								# However, predict() in R is slightly different as it also 
+								# subtract means which is not necessary given that we dont do that for 
+								# continuous variables either and make linear predictions instead
 								unlist(as.vector(
-									coef.vector[as.character(
-										cancer.data[["all.data"]][[data.type]][[dataset]][node.valid, ]
-										)] *
-									cancer.data[["all.data"]][[data.type]][[dataset]][node.valid, ]
+									coef.vector[as.character(cancer.data[["all.data"]][[data.type]][[dataset]][node.valid, ])]
 									));
 								}
 							);
@@ -251,7 +317,7 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 								g2 <- nodes[edge.cols[nodes.i]];
 								if (!is.na(coef.nodes.edges[[data.type]][["edges.P"]][g1, g2]) 
 									& coef.nodes.edges[[data.type]][["edges.P"]][g1, g2] <= p.threshold) {
-									tmp.patient.scores <- coef.nodes.edges[[data.type]][["edges.coef"]][g1, g2] *
+									tmp.patient.scores <- abs(coef.nodes.edges[[data.type]][["edges.coef"]][g1, g2]) *
 										cancer.data[["all.data"]][[data.type]][[dataset]][g1, ] *
 										cancer.data[["all.data"]][[data.type]][[dataset]][g2, ];
 

@@ -1,3 +1,18 @@
+#' Utility function used by \code{get.adjacency.matrix()}
+#' 
+#' Utility function used by \code{get.adjacency.matrix()}
+#' 
+#' 
+#' @param vertices Comma separated list of nodes
+#' @param interactions Comma separated list of edges
+#' @return Returns adjacency matrix
+#' @author Syed Haider
+#' @keywords Networks
+#' @examples
+#' 
+#' x1 <- make.matrix("a,b,c", "a:b,b:c");
+#' 
+#' @export make.matrix
 make.matrix <- function(vertices, interactions) {
 
 	# remove extra comma at the beginning

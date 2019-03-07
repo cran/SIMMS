@@ -1,3 +1,21 @@
+#' Plots Kaplan-meier survival curve for a given risk grouping & survival
+#' params
+#' 
+#' A generic method to plot KM curves
+#' 
+#' 
+#' @param riskgroup A vector containing dichotomized risk groups
+#' @param survtime A vector containing survival time of the samples
+#' @param survstat A vector containing survival status of the samples
+#' @param file.name A string containing full qualified path of the output tiff
+#' file
+#' @param main.title A string specifying main title of the image
+#' @param resolution A numeric value specifying resolution of the tiff image of
+#' KM survival curves. Defaults to 100
+#' @return The KM survival curves are stored under \code{output.dir}/graphs/
+#' @author Syed Haider
+#' @keywords survival,Kaplan-meier
+#' @export create.KM.plot
 create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, file.name = NULL, main.title = "", resolution = 100) {
 	
 	# make appropriate data structure for coxph

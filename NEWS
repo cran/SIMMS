@@ -1,3 +1,17 @@
+TODO:
+- support for centering beyond z-scores
+- predictive models (logistic regression)
+
+# SIMMS 1.1.2
+==========================
+
+- Updates to handling of betas for discrete/nominal variables akin to predict()
+- Formalised terminology for copy-number aberrations as 'cna' instead of 'cnv'
+- Improved interaction model (abs(beta)) such that higher scores are given to 
+  same signed (two) genes. Also fixed the extraction of beta/P from correct interaction row
+  when >2 levels discrete/nominal variables are specified
+- Implemented inline documentation using Roxygen
+
 # SIMMS 1.1.1
 ==========================
 

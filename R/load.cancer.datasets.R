@@ -1,3 +1,38 @@
+#' Load all cancer meta-analysis datasets
+#' 
+#' Returns a list of lists containing all cancer meta-analysis datasets
+#' 
+#' 
+#' @param tumour.only Logical indicating if we should only load tumour samples
+#' (TRUE, the default)
+#' @param with.survival.only Logical indicating if we should only load samples
+#' with survival data (TRUE, the default)
+#' @param truncate.survival A numeric value specifying survival truncation in
+#' years. Defaults to 100 years which effectively means no truncation
+#' @param datasets.to.load A vector of datasets to be loaded.  If 'all', then
+#' all available datasets are loaded
+#' @param data.types A vector of molecular datatypes to load. Defaults to
+#' c('mRNA')
+#' @param datasets.file A file in data.directory containing a listing of all
+#' usable datasets
+#' @param data.directory A directory containing all data-files to be loaded
+#' @param verbose Logical indicating whether or not status messages should be
+#' given
+#' @param subset A list with a Field and Entry component specifying a subset of
+#' patients to be selected whose annotation Field matches Entry
+#' @return Returns a meta-analysis list of lists
+#' @author Paul C. Boutros
+#' @keywords IO
+#' @examples
+#' 
+#' data.dir <- get.program.defaults()[["test.data.dir"]];
+#' x1 <- load.cancer.datasets(
+#'   datasets.to.load = c('Breastdata1'),
+#'   data.types = c("mRNA"),
+#'   data.directory = data.dir
+#'   );
+#' 
+#' @export load.cancer.datasets
 load.cancer.datasets <- function(tumour.only = TRUE, with.survival.only = TRUE, truncate.survival = 100, datasets.to.load = 'all', data.types = c('mRNA'), datasets.file = 'datasets.txt', data.directory = '.', verbose = FALSE, subset = NULL) {
 
 	# read in the listing of all datasets

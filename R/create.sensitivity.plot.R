@@ -1,3 +1,29 @@
+#' Plots sensitivity analysis for class label dichotomization at supplied
+#' survtime cutoffs
+#' 
+#' A method to computer sensitivity, specificity and accuracy at all the
+#' survtime cutoff steps provided
+#' 
+#' 
+#' @param riskscore A vector containing predicted risk scores
+#' @param riskgroup A vector containing dichotomized risk groups
+#' @param survtime A vector containing survival time of the samples
+#' @param survstat A vector containing survival status of the samples
+#' @param survtime.cutoffs A vector containing cutoff time points used to
+#' dichotomize patients into low- and high-risk groups
+#' @param output.directory Path to the output folder where intermediate and
+#' results files will be saved
+#' @param file.stem A string containing base name for image and text files
+#' produced by this method
+#' @param main.title A string specifying main title of the image
+#' @param resolution A numeric value specifying resolution of the tiff image of
+#' KM survival curves. Defaults to 100
+#' @return The sensitivity analysis plots are stored under
+#' \code{output.directory}/graphs/. The sensitivity analysis results are stored
+#' under \code{output.directory}/output/
+#' @author Syed Haider
+#' @keywords survival,sensitivity,specificity,accuracy
+#' @export create.sensitivity.plot
 create.sensitivity.plot <- function(riskscore = NULL, riskgroup = NULL, survtime =  NULL, survstat = NULL, survtime.cutoffs = c(seq(5,10,1)), output.directory = ".", file.stem = NULL, main.title = "", resolution = 100) {
 
 	all.data <- data.frame("riskscore" = riskscore, "riskgroup" = riskgroup, "survtime" = survtime, "survstat" =  survstat);

@@ -1,3 +1,42 @@
+#' Dichotomize and unlist a meta-analysis list
+#' 
+#' Takes a meta-analysis list (and possibly extra data) and median dichotomizes
+#' based on a specific gene, then returns the unlisted data to the caller.
+#' 
+#' NB: other.data handling of missing components (i.e. those present in only
+#' some datasets) has not been debugged (but may work regardless).
+#' 
+#' @param feature.name Character indicate what feature (gene/probe/etc.) should
+#' be extracted for analysis
+#' @param expression.data A list where each component is an expression matrix
+#' (patients = columns, genes = rows) for a different dataset
+#' @param survival.data A list where each component is an object of class Surv
+#' @param other.data A list of other covariates to be unlisted in the final
+#' output (all elements in this list are used)
+#' @param data.type.ordinal Logical indicating whether to treat this datatype
+#' as ordinal. Defaults to FALSE
+#' @return Returns a list containing components groups (the median
+#' dichotomization), survtime (in the units of the input data), and survstat.
+#' Additional vectors are unlisted from other.data if that parameter is not
+#' NULL.
+#' @author Paul C. Boutros
+#' @keywords survival
+#' @examples
+#' 
+#' data.directory <- get.program.defaults()[["test.data.dir"]];
+#' data.types <- c("mRNA");
+#' x1 <- load.cancer.datasets(
+#'   datasets.to.load = c('Breastdata1'),
+#'   data.types = data.types,
+#'   data.directory = data.directory
+#'   );
+#' x2 <- dichotomize.meta.dataset(
+#'   feature.name = "1000_at",
+#'   expression.data = x1$all.data[[data.types[1]]],
+#'   survival.data = x1$all.survobj
+#'   );
+#' 
+#' @export dichotomize.meta.dataset
 dichotomize.meta.dataset <- function(feature.name, expression.data, survival.data, other.data = NULL, data.type.ordinal = FALSE) {
 
 	# we'll return the overall groups and survival data to the caller

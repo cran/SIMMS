@@ -1,4 +1,63 @@
-derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cnv"), feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
+#' Derive univariate features from pathway-derived networks
+#' 
+#' This function fits Cox model to features as well as interaction between
+#' features. The coefficients of features are subsequently used to compute
+#' impact score of each of the pathway-derived networks.
+#' 
+#' 
+#' @param data.directory Path to the directory containing datasets as specified
+#' by \code{feature.selection.datasets}
+#' @param output.directory Path to the output folder where intermediate and
+#' results files will be saved
+#' @param data.types A vector of molecular datatypes to load. Defaults to
+#' c('mRNA')
+#' @param data.types.ordinal A vector of molecular datatypes to be treated as
+#' ordinal. Defaults to c('cna')
+#' @param feature.selection.fun Name of the function to be used to estimate
+#' network coefficients. Defaults to 'calculate.network.coefficients'
+#' @param feature.selection.datasets A vector containing names of training
+#' datasets to be used to compute cox statistics
+#' @param feature.selection.p.thresholds A vector containing P values to be
+#' used as threshold for including features into overall impact score of a
+#' network
+#' @param truncate.survival A numeric value specifying survival truncation in
+#' years. Defaults to 100 years which effectively means no truncation
+#' @param networks.database Name of the pathway networks database. Default to
+#' NCI PID/Reactome/Biocarta i-e "default"
+#' @param subset A list with a Field and Entry component specifying a subset of
+#' patients to be selected from each dataset whose annotation Field matches
+#' Entry
+#' @param ... other params to be passed on to user-defined method for
+#' estimating coefficients of network features
+#' @return The output files are stored under \code{data.directory}/output/
+#' @author Syed Haider
+#' @keywords FeatureSelection
+#' @examples
+#' 
+#' options("warn" = -1);
+#' 
+#' # get data directory 
+#' data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
+#' 
+#' # initialise params
+#' output.directory <- ".";
+#' data.types <- c("mRNA");
+#' feature.selection.datasets <- c("Breastdata1");
+#' feature.selection.p.thresholds <- c(0.05);
+#' 
+#' # estimate network coefficients for all the subnet features
+#' derive.network.features(
+#'   data.directory = data.directory,
+#'   output.directory = output.directory,
+#'   data.types = data.types,
+#'   feature.selection.fun = "calculate.network.coefficients",
+#'   feature.selection.datasets = feature.selection.datasets,
+#'   feature.selection.p.thresholds = feature.selection.p.thresholds,
+#'   networks.database = "test"
+#'   );
+#' 
+#' @export derive.network.features
+derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
 
 	# verify that we got appropriate input data
 	to.abort <- FALSE;

@@ -1,3 +1,41 @@
+#' Apply a multivariate survival model to validation datasets
+#' 
+#' Predicts the risk score for all the training & datasets, independently. This
+#' function also predicts the risk score for combined training datasets cohort
+#' and validation datasets cohort. The risk score estimation is done by
+#' multivariate models fit by \code{fit.survivalmodel}. The function also
+#' predicts risk scores for each of the \code{top.n.features} independently. TO
+#' BE DEPRECATED AND HAS BEEN REPLACED BY \code{create.classifier.multivariate}
+#' 
+#' 
+#' @param data.directory Path to the directory containing datasets as specified
+#' by \code{feature.selection.datasets}, \code{training.datasets},
+#' \code{validation.datasets}
+#' @param output.directory Path to the output folder where intermediate and
+#' results files will be saved
+#' @param feature.selection.datasets A vector containing names of datasets used
+#' for feature selection in function \code{derive.network.features()}
+#' @param feature.selection.p.threshold One of the P values that were used for
+#' feature selection in function \code{derive.network.features()}. This
+#' function does not support vector of P values as used in
+#' \code{derive.network.features()} for performance reasons
+#' @param training.datasets A vector containing names of training datasets
+#' @param validation.datasets A vector containing names of validation datasets
+#' @param top.n.features A numeric value specifying how many top ranked
+#' features will be used for univariate survival modelling
+#' @param models A character vector specifying which of the models ('1' = N+E,
+#' '2' = N, '3' = E) to run
+#' @param write.risk.data A toggle to control whether risk scores and patient
+#' risk groups should be written to file
+#' @return The output files are stored under \code{output.directory}/output/
+#' @author Syed Haider
+#' @seealso \code{create.classifier.multivariate}
+#' @keywords survival
+#' @examples
+#' 
+#' # see package's main documentation
+#' 
+#' @export pred.survivalmodel
 pred.survivalmodel <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), write.risk.data = TRUE) {
 
 	# output directories

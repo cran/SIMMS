@@ -1,4 +1,46 @@
-calculate.network.coefficients <- function(data.directory = ".", output.directory = ".", training.datasets = NULL, data.types = c("mRNA"), data.types.ordinal = c("cnv"), subnets.file.flattened = NULL, truncate.survival = 100, subset = NULL) {
+#' Calculate Cox statistics for input dataset
+#' 
+#' Function to compute hazard ratios for the genes in pathway-derived networks,
+#' by aggregating input datasets into one training cohort. The hazard ratios
+#' are computed for each pair by calculating the HR of each gene independently
+#' and as an interaction (i.e. y = HR(A) + HR(B) + HR(A:B)
+#' 
+#' 
+#' @param data.directory Path to the directory containing datasets as specified
+#' by \code{training.datasets}
+#' @param output.directory Path to the output folder where intermediate and
+#' results files will be saved
+#' @param training.datasets A vector containing names of training datasets
+#' @param data.types A vector of molecular datatypes to load. Defaults to
+#' c('mRNA')
+#' @param data.types.ordinal A vector of molecular datatypes to be treated as
+#' ordinal. Defaults to c('cna')
+#' @param subnets.file.flattened File containing all the binary ineractions
+#' derived from pathway-derived networks
+#' @param truncate.survival A numeric value specifying survival truncation in
+#' years. Defaults to 100 years which effectively means no truncation
+#' @param subset A list with a Field and Entry component specifying a subset of
+#' patients to be selected whose annotation Field matches Entry
+#' @return Returns a list of matrices for each of the data types. Matrices
+#' contain nodes HR/P, edges HR and edges P.
+#' @author Syed Haider & Paul C. Boutros
+#' @keywords survival
+#' @examples
+#' 
+#' options("warn" = -1);
+#' program.data <- get.program.defaults(networks.database = "test");
+#' data.directory <- program.data[["test.data.dir"]];
+#' subnets.file.flattened <- program.data[["subnets.file.flattened"]];
+#' coef.nodes.edges <- calculate.network.coefficients(
+#'   data.directory = data.directory,
+#'   output.directory = ".",
+#'   training.datasets = c("Breastdata1"),
+#'   data.types = c("mRNA"),
+#'   subnets.file.flattened = subnets.file.flattened
+#'   );
+#' 
+#' @export calculate.network.coefficients
+calculate.network.coefficients <- function(data.directory = ".", output.directory = ".", training.datasets = NULL, data.types = c("mRNA"), data.types.ordinal = c("cna"), subnets.file.flattened = NULL, truncate.survival = 100, subset = NULL) {
 
 	all.training.names <- paste(sort(training.datasets), collapse="_");
 	gene.pairs <- read.table(
@@ -15,7 +57,7 @@ calculate.network.coefficients <- function(data.directory = ".", output.director
 	subnets.genes <- paste(subnets.genes, "_at", sep = "");
 	# PCB: does the above line this only works with Affymetrix data or data with an _at trailing and a unique ID before it?
 
-	cancer.data <- load.cancer.datasets(
+	cancer.data <- SIMMS::load.cancer.datasets(
 		truncate.survival = truncate.survival,
 		datasets.to.load = training.datasets, 
 		data.types = data.types, 
@@ -119,14 +161,6 @@ calculate.network.coefficients <- function(data.directory = ".", output.director
 								results[[cox.uv.i]][["cox.stats"]][, "HR"]
 								);
 							colnames(results[[cox.uv.i]][["cox.stats"]])[1] <- "coef";
-
-							# switch signs for levels less that zero because in cox model, zero was baseline
-							# and switching of signs is needed as e.g deletions are smaller in number than zero
-							neg.groups <- which(as.numeric(rownames(results[[cox.uv.i]][["cox.stats"]])) < 0);
-							if (length(neg.groups) > 0) { 
-								results[[cox.uv.i]][["cox.stats"]][neg.groups, "coef"] <- 
-									-results[[cox.uv.i]][["cox.stats"]][neg.groups, "coef"];
-								}
 
 							# if ordinal data type - pick the smallest P
 							min.p <- which(

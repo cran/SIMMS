@@ -17,7 +17,7 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -53,7 +53,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -75,11 +97,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="authors-syed-haider-paul-c.-boutros" class="section level3">
 <h3>Author(s): Syed Haider, Paul C. Boutros</h3>
 </div>
-<div id="maintainer-syed-haider-syed.haideroicr.on.ca" class="section level3">
-<h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@oicr.on.ca">Syed.Haider@oicr.on.ca</a>)</h3>
+<div id="maintainer-syed-haider-syed.haidericr.ac.uk" class="section level3">
+<h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@icr.ac.uk">Syed.Haider@icr.ac.uk</a>)</h3>
 </div>
-<div id="dated-2017-10-11" class="section level3">
-<h3>Dated: 2017-10-11</h3>
+<div id="dated-2019-03-07" class="section level3">
+<h3>Dated: 2019-03-07</h3>
 </div>
 </div>
 <div id="table-of-contents" class="section level2">
@@ -135,8 +157,8 @@ ID=0002 10000   5290</code></pre>
 <div id="molecular-profiles-and-clinical-data" class="section level2">
 <h2><a id="Molecular-profiles-and-clinical-data"></a> Molecular profiles and clinical data</h2>
 <p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The table below shows the supported/unsupported datatypes and respective examples:</p>
-<!-- html table generated in R 3.3.2 by xtable 1.8-2 package -->
-<!-- Wed Oct 11 11:27:03 2017 -->
+<!-- html table generated in R 3.4.4 by xtable 1.8-3 package -->
+<!-- Thu Mar  7 17:44:29 2019 -->
 <table border="1">
 <tr>
 <th>
@@ -179,7 +201,7 @@ DNA methylation beta values
 -2, -1, 0, 1, 2
 </td>
 <td>
-copy-number calls. Baseline = 0 (Neutral/Diploid)
+copy-number calls. Reference group = 0 (Neutral/Diploid)
 </td>
 </tr>
 <tr>
@@ -190,7 +212,7 @@ copy-number calls. Baseline = 0 (Neutral/Diploid)
 0, 1, 2, 3
 </td>
 <td>
-mutation data. Baseline = 0 (Wildtype)
+mutation data. Reference group = 0 (Wildtype)
 </td>
 </tr>
 <tr>
@@ -201,7 +223,7 @@ mutation data. Baseline = 0 (Wildtype)
 -2, -1, 1, 2
 </td>
 <td>
-Unsupported due to missing baseline 0
+Unsupported due to missing reference group 0
 </td>
 </tr>
 <tr>
@@ -219,10 +241,10 @@ Unsupported due to alphabets
 <p>Molecular profiles are strictly tab-delimited, and are expected to be in feature (gene) by sample (patient) matrices. Genes should be represented using Entrez IDs followed by _at suffix. For mRNA abundance data, if you have pre-processed your data with <a href="http://brainarray.mbni.med.umich.edu/brainarray/Database/CustomCDF/genomic_curated_CDF.asp">BrainArray Entrez CDFs</a> Entrez CDF, your data should be SIMMS compatible by default. Otherwise, please map your dataset features e.g genes to Entrez IDs followed by _at suffix (e.g 5290_at).</p>
 <p>Clinical profiles are strictly tab-delimited, sample (patient) by annotation matrices. The annotation columns must contain survival columns <code>Survival time, Survival status, Survival time unit</code>. The row names should match the column names in the molecular profiles’ matrices. These columns in clinical annotation file could be called anything as long as these are correctly identified through the metadata file described below.</p>
 <p>Both molecular and clinical annotations are read by SIMMS through a tab-delimited metadata file called <code>datasets.txt</code>. An example of the contents of this file are shown below:</p>
-<pre><code>dataset mRNA    cnv methylation annotations survstat    survtime    survtime.unit
-Breastdata1 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
-Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit</code></pre>
-<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cnv and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
+<pre><code>dataset mRNA    cna methylation annotations survstat    survtime    survtime.unit
+Breastdata1 mRNA_abundance.txt  CNA.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
+Breastdata2 mRNA_abundance.txt  CNA.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit</code></pre>
+<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cna and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
 <blockquote>
 <p>SIMMS/inst/programdata/testdata/</p>
 </blockquote>
@@ -237,7 +259,7 @@ Breastdata2 mRNA_abundance.txt  CNV.txt DNA_methylation.txt patient_annotation.t
 <span class="kw">library</span>(<span class="st">&quot;SIMMS&quot;</span>);
 
 <span class="co"># path of the data directory containing Breastdata1/ and Breastdata2/ subdirectories</span>
-data.directory &lt;-<span class="st"> </span><span class="kw">get.program.defaults</span>(<span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>)[[<span class="st">&quot;test.data.dir&quot;</span>]];
+data.directory &lt;-<span class="st"> </span>SIMMS<span class="op">::</span><span class="kw">get.program.defaults</span>(<span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>)[[<span class="st">&quot;test.data.dir&quot;</span>]];
 
 <span class="co"># path of the directory where results will be stored</span>
 output.directory &lt;-<span class="st"> </span><span class="kw">tempdir</span>();
