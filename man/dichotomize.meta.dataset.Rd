@@ -5,7 +5,8 @@
 \title{Dichotomize and unlist a meta-analysis list}
 \usage{
 dichotomize.meta.dataset(feature.name, expression.data, survival.data,
-  other.data = NULL, data.type.ordinal = FALSE)
+  other.data = NULL, data.type.ordinal = FALSE,
+  centre.data = "median")
 }
 \arguments{
 \item{feature.name}{Character indicate what feature (gene/probe/etc.) should
@@ -21,15 +22,21 @@ output (all elements in this list are used)}
 
 \item{data.type.ordinal}{Logical indicating whether to treat this datatype
 as ordinal. Defaults to FALSE}
+
+\item{centre.data}{A character string specifying the centre value to be used for 
+scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+as well as for dichotomising data for estimating univariate betas from Cox model.
+Defaults to 'median'}
 }
 \value{
-Returns a list containing components groups (the median
-dichotomization), survtime (in the units of the input data), and survstat.
+Returns a list containing components groups (after dichotomization),
+survtime (in the units of the input data), and survstat.
 Additional vectors are unlisted from other.data if that parameter is not
 NULL.
 }
 \description{
-Takes a meta-analysis list (and possibly extra data) and median dichotomizes
+Takes a meta-analysis list (and possibly extra data) and dichotomizes
 based on a specific gene, then returns the unlisted data to the caller.
 }
 \details{
@@ -53,6 +60,6 @@ x2 <- dichotomize.meta.dataset(
 
 }
 \author{
-Paul C. Boutros
+Syed Haider & Paul C. Boutros
 }
 \keyword{survival}

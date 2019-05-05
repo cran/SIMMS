@@ -81,6 +81,7 @@ prepare.training.validation.datasets(
 	data.directory = data.directory,
 	output.directory = output.directory,
 	data.types = data.types,
+	p.threshold = feature.selection.p.threshold,
 	feature.selection.datasets = feature.selection.datasets,
 	datasets = c(training.datasets, validation.datasets),
 	networks.database = "test", # or "default" for Reactome/BioCarta/NCI-PID

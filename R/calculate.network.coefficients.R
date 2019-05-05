@@ -15,6 +15,11 @@
 #' c('mRNA')
 #' @param data.types.ordinal A vector of molecular datatypes to be treated as
 #' ordinal. Defaults to c('cna')
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
 #' @param subnets.file.flattened File containing all the binary ineractions
 #' derived from pathway-derived networks
 #' @param truncate.survival A numeric value specifying survival truncation in
@@ -40,7 +45,7 @@
 #'   );
 #' 
 #' @export calculate.network.coefficients
-calculate.network.coefficients <- function(data.directory = ".", output.directory = ".", training.datasets = NULL, data.types = c("mRNA"), data.types.ordinal = c("cna"), subnets.file.flattened = NULL, truncate.survival = 100, subset = NULL) {
+calculate.network.coefficients <- function(data.directory = ".", output.directory = ".", training.datasets = NULL, data.types = c("mRNA"), data.types.ordinal = c("cna"), centre.data = "median", subnets.file.flattened = NULL, truncate.survival = 100, subset = NULL) {
 
 	all.training.names <- paste(sort(training.datasets), collapse="_");
 	gene.pairs <- read.table(
@@ -64,25 +69,6 @@ calculate.network.coefficients <- function(data.directory = ".", output.director
 		data.directory = data.directory,
 		subset = subset
 		);
-
-	# DATA PROCESSING
-	scaled.data <- cancer.data;
-
-	# SCALE DATA
-	for (data.type in data.types) {
-		for (i in 1:length(scaled.data[["all.data"]][[data.type]]) ) {
-			if (data.type %in% data.types.ordinal) {
-				scaled.data[["all.data"]][[data.type]][[i]] <- as.data.frame( 
-					scaled.data[["all.data"]][[data.type]][[i]]
-					);
-				}
-			else {
-				scaled.data[["all.data"]][[data.type]][[i]] <- as.data.frame( 
-					t( scale( t(scaled.data[["all.data"]][[data.type]][[i]]) ) ) 
-					);
-				}
-			}
-		}
 
 	# ANALYZE EACH SAMPLE
 	# make the ProbeSet IDs
@@ -130,9 +116,10 @@ calculate.network.coefficients <- function(data.directory = ".", output.director
 			results <- SIMMS::fit.interaction.model(
 				feature1 = gene.pairs$ProbeID1[i],
 				feature2 = gene.pairs$ProbeID2[i],
-				expression.data = scaled.data[["all.data"]][[data.type]],
-				survival.data = scaled.data$all.survobj,
-				data.type.ordinal = data.type.ordinal
+				expression.data = cancer.data[["all.data"]][[data.type]],
+				survival.data = cancer.data$all.survobj,
+				data.type.ordinal = data.type.ordinal,
+				centre.data = centre.data
 				);
 
 			#cat("\nNew pair\t", gene.pairs$ProbeID1[i], "\t", gene.pairs$ProbeID2[i]);

@@ -16,8 +16,13 @@
 #' threshold for each ordinal data type to be used prior to estimating
 #' coefficients. Coefficient for features not satisfying minimum threshold will
 #' not be estimated, and set to 0. Defaults to cna threshold as 3 percent
-#' @param p.threshold P value threshold to be applied for selecting univariate
-#' prognostic features. Defaults to 1
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
+#' @param p.threshold Cox P value threshold to be applied for selecting features 
+#' (e.g. genes) which will contribute to patient risk score estimation. Defaults to 0.5
 #' @param feature.selection.datasets A vector containing names of datasets used
 #' for feature selection in function \code{derive.network.features()}
 #' @param datasets A vector containing names of all the datasets to be later
@@ -57,7 +62,7 @@
 #'   );
 #' 
 #' @export prepare.training.validation.datasets
-prepare.training.validation.datasets <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), min.ordinal.threshold = c("cna" = 3), p.threshold = 1, feature.selection.datasets = NULL, datasets = NULL, truncate.survival = 100, networks.database = "default", write.normed.datasets = TRUE, subset = NULL) {
+prepare.training.validation.datasets <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), min.ordinal.threshold = c("cna" = 3), centre.data = "median", p.threshold = 0.5, feature.selection.datasets = NULL, datasets = NULL, truncate.survival = 100, networks.database = "default", write.normed.datasets = TRUE, subset = NULL) {
 
 	# output directory
 	out.dir <- paste(output.directory, "/output/", sep = "");
@@ -87,8 +92,10 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 	for (data.type in data.types) {
 		for(dataset in names(cancer.data[["all.data"]][[data.type]])) {
 			if (!(data.type %in% data.types.ordinal)) {
+				#cancer.data[["all.data"]][[data.type]][[dataset]] <- 
+				#	t(scale(t(cancer.data[["all.data"]][[data.type]][[dataset]])));
 				cancer.data[["all.data"]][[data.type]][[dataset]] <- 
-					t(scale(t(cancer.data[["all.data"]][[data.type]][[dataset]])));
+					t( centre.scale.dataset(x = t(cancer.data[["all.data"]][[data.type]][[dataset]]), centre.data = centre.data) );
 				}
 			}
 		}
@@ -98,7 +105,7 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 		for (data.type in data.types) {
 			for(dataset in names(cancer.data[["all.data"]][[data.type]])) {
 
-				# write variation data
+				# write molecular data
 				write.table(
 					x = cancer.data[["all.data"]][[data.type]][[dataset]],
 					file = paste(out.dir, "/", dataset, '_', data.type, ".txt", sep = ""),

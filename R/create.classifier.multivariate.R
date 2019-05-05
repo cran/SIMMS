@@ -66,7 +66,7 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 	all.subnet.scores <- list();
 	all.training.data <- NULL;
 	all.validation.data <- NULL;
-	all.training.median = NULL;
+	all.training.median <- NULL;
 	stepAIC.results <- NULL;
 	coxph.header <- c("HR", "95l", "95u", "P", "n");
 

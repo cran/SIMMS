@@ -1,6 +1,6 @@
 #' Dichotomize and unlist a meta-analysis list
 #' 
-#' Takes a meta-analysis list (and possibly extra data) and median dichotomizes
+#' Takes a meta-analysis list (and possibly extra data) and dichotomizes
 #' based on a specific gene, then returns the unlisted data to the caller.
 #' 
 #' NB: other.data handling of missing components (i.e. those present in only
@@ -15,11 +15,16 @@
 #' output (all elements in this list are used)
 #' @param data.type.ordinal Logical indicating whether to treat this datatype
 #' as ordinal. Defaults to FALSE
-#' @return Returns a list containing components groups (the median
-#' dichotomization), survtime (in the units of the input data), and survstat.
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
+#' @return Returns a list containing components groups (after dichotomization),
+#' survtime (in the units of the input data), and survstat.
 #' Additional vectors are unlisted from other.data if that parameter is not
 #' NULL.
-#' @author Paul C. Boutros
+#' @author Syed Haider & Paul C. Boutros
 #' @keywords survival
 #' @examples
 #' 
@@ -37,7 +42,7 @@
 #'   );
 #' 
 #' @export dichotomize.meta.dataset
-dichotomize.meta.dataset <- function(feature.name, expression.data, survival.data, other.data = NULL, data.type.ordinal = FALSE) {
+dichotomize.meta.dataset <- function(feature.name, expression.data, survival.data, other.data = NULL, data.type.ordinal = FALSE, centre.data = "median") {
 
 	# we'll return the overall groups and survival data to the caller
 	groups   <- vector();
@@ -54,7 +59,7 @@ dichotomize.meta.dataset <- function(feature.name, expression.data, survival.dat
 
 		# dichotomize this dataset if needed
 		if (!data.type.ordinal) {
-			dichotomized.results <- SIMMS::dichotomize.dataset(expression.values);
+			dichotomized.results <- SIMMS::dichotomize.dataset(expression.values, split.at = centre.data);
 			}
 		else {
 			dichotomized.results <- expression.values;

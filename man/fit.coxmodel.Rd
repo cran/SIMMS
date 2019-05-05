@@ -48,6 +48,6 @@ fit.coxmodel(
 
 }
 \author{
-Paul C. Boutros, Syed Haider
+Syed Haider & Paul C. Boutros
 }
 \keyword{survival}

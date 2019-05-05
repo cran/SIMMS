@@ -1,6 +1,13 @@
 TODO:
-- support for centering beyond z-scores
 - predictive models (logistic regression)
+
+# SIMMS 1.2.0
+==========================
+
+- support data scaling beyond z-scores including median and custom centering for methylation data.
+- general improvement to documentation
+- improved vignettes explaining how to structure custom network DB and annotation data
+- added censorship tick marks for KM curves
 
 # SIMMS 1.1.2
 ==========================

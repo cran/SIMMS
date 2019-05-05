@@ -104,10 +104,10 @@ fit.coxmodel <- function(groups, survobj, stages = NA, rounding = 3, other.data 
 		return.stats[, "n"] <- table(groups)[rownames(return.stats)];
 		}
 	else {
-		this.hr   <- coxmodel$conf.int[1,1];
-		this.95l  <- coxmodel$conf.int[1,3];
-		this.95u  <- coxmodel$conf.int[1,4];
-		this.pval <- coxmodel$coef[1,5];
+		this.hr   <- coxmodel$conf.int[1, 1];
+		this.95l  <- coxmodel$conf.int[1, 3];
+		this.95u  <- coxmodel$conf.int[1, 4];
+		this.pval <- coxmodel$coef[1, 5];
 		this.n    <- length(groups[!is.na(groups)]);
 
 		# round the major values to a few decimal places

@@ -7,8 +7,8 @@
 calculate.network.coefficients(data.directory = ".",
   output.directory = ".", training.datasets = NULL,
   data.types = c("mRNA"), data.types.ordinal = c("cna"),
-  subnets.file.flattened = NULL, truncate.survival = 100,
-  subset = NULL)
+  centre.data = "median", subnets.file.flattened = NULL,
+  truncate.survival = 100, subset = NULL)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -24,6 +24,12 @@ c('mRNA')}
 
 \item{data.types.ordinal}{A vector of molecular datatypes to be treated as
 ordinal. Defaults to c('cna')}
+
+\item{centre.data}{A character string specifying the centre value to be used for 
+scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+as well as for dichotomising data for estimating univariate betas from Cox model.
+Defaults to 'median'}
 
 \item{subnets.file.flattened}{File containing all the binary ineractions
 derived from pathway-derived networks}

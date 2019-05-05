@@ -21,7 +21,7 @@
 #' @param subset A list with a Field and Entry component specifying a subset of
 #' patients to be selected whose annotation Field matches Entry
 #' @return Returns a meta-analysis list of lists
-#' @author Paul C. Boutros
+#' @author Syed Haider & Paul C. Boutros
 #' @keywords IO
 #' @examples
 #' 

@@ -5,7 +5,8 @@
 \title{Fit a meta-analytic Cox proportional hazards model to a single feature}
 \usage{
 calculate.meta.survival(feature.name, expression.data, survival.data,
-  rounding = 3, other.data = NULL, data.type.ordinal = FALSE)
+  rounding = 3, other.data = NULL, data.type.ordinal = FALSE,
+  centre.data = "median")
 }
 \arguments{
 \item{feature.name}{Character indicate what feature (gene/probe/etc.) should
@@ -23,6 +24,12 @@ be extracted for analysis}
 
 \item{data.type.ordinal}{Logical indicating whether to treat this datatype
 as ordinal. Defaults to FALSE}
+
+\item{centre.data}{A character string specifying the centre value to be used for 
+scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+as well as for dichotomising data for estimating univariate betas from Cox model.
+Defaults to 'median'}
 }
 \value{
 Returns a vector containing the HR, p-value, n, and 95\% confidence

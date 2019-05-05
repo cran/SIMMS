@@ -26,7 +26,7 @@ get.adjacency.matrix <- function(subnets.file = NULL) {
 	vertices <- "";
 	interactions <- "";
 
-	for(i in seq(1,length(subnets),1)) {
+	for(i in seq(1, length(subnets), 1)) {
 
 		# check if its a header line 
 		if (length(grep("^#", subnets[i], perl = TRUE)) > 0) {

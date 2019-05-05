@@ -13,6 +13,11 @@
 #' c('mRNA')
 #' @param data.types.ordinal A vector of molecular datatypes to be treated as
 #' ordinal. Defaults to c('cna')
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
 #' @param feature.selection.fun Name of the function to be used to estimate
 #' network coefficients. Defaults to 'calculate.network.coefficients'
 #' @param feature.selection.datasets A vector containing names of training
@@ -57,7 +62,7 @@
 #'   );
 #' 
 #' @export derive.network.features
-derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
+derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), centre.data = "median", feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
 
 	# verify that we got appropriate input data
 	to.abort <- FALSE;
@@ -92,6 +97,7 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 		training.datasets = feature.selection.datasets,
 		data.types = data.types,
 		data.types.ordinal = data.types.ordinal,
+		centre.data = centre.data,
 		subnets.file.flattened = subnets.file.flattened,
 		truncate.survival = truncate.survival,
 		subset = subset,

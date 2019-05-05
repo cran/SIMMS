@@ -7,10 +7,10 @@
 prepare.training.validation.datasets(data.directory = ".",
   output.directory = ".", data.types = c("mRNA"),
   data.types.ordinal = c("cna"), min.ordinal.threshold = c(cna = 3),
-  p.threshold = 1, feature.selection.datasets = NULL,
-  datasets = NULL, truncate.survival = 100,
-  networks.database = "default", write.normed.datasets = TRUE,
-  subset = NULL)
+  centre.data = "median", p.threshold = 0.5,
+  feature.selection.datasets = NULL, datasets = NULL,
+  truncate.survival = 100, networks.database = "default",
+  write.normed.datasets = TRUE, subset = NULL)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -30,8 +30,14 @@ threshold for each ordinal data type to be used prior to estimating
 coefficients. Coefficient for features not satisfying minimum threshold will
 not be estimated, and set to 0. Defaults to cna threshold as 3 percent}
 
-\item{p.threshold}{P value threshold to be applied for selecting univariate
-prognostic features. Defaults to 1}
+\item{centre.data}{A character string specifying the centre value to be used for 
+scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+as well as for dichotomising data for estimating univariate betas from Cox model.
+Defaults to 'median'}
+
+\item{p.threshold}{Cox P value threshold to be applied for selecting features 
+(e.g. genes) which will contribute to patient risk score estimation. Defaults to 0.5}
 
 \item{feature.selection.datasets}{A vector containing names of datasets used
 for feature selection in function \code{derive.network.features()}}

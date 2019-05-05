@@ -53,6 +53,6 @@ x1 <- load.cancer.datasets(
 
 }
 \author{
-Paul C. Boutros
+Syed Haider & Paul C. Boutros
 }
 \keyword{IO}

@@ -3,6 +3,7 @@
 export(calculate.meta.survival)
 export(calculate.network.coefficients)
 export(calculate.sensitivity.stats)
+export(centre.scale.dataset)
 export(create.KM.plot)
 export(create.classifier.multivariate)
 export(create.classifier.univariate)

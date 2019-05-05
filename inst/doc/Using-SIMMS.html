@@ -100,8 +100,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="maintainer-syed-haider-syed.haidericr.ac.uk" class="section level3">
 <h3>Maintainer: Syed Haider (<a href="mailto:Syed.Haider@icr.ac.uk">Syed.Haider@icr.ac.uk</a>)</h3>
 </div>
-<div id="dated-2019-03-07" class="section level3">
-<h3>Dated: 2019-03-07</h3>
+<div id="dated-2019-05-05" class="section level3">
+<h3>Dated: 2019-05-05</h3>
 </div>
 </div>
 <div id="table-of-contents" class="section level2">
@@ -127,9 +127,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="networks-database" class="section level2">
 <h2><a id="Networks-database"></a> Networks database</h2>
 <p>SIMMS rely on functionally or computationally derived networks in order to meaningfully integrate molecular profiles. By default, SIMMS package has a built in database of pathway derived protein-protein interaction networks extracted from (a dated version) Reactome, BioCarta and NCI-PID. This database can be accessed through various SIMMS functions using the parameter setting <code>networks.database = &quot;default&quot;</code>. If you would like to create your own networks database for subsequent use with SIMMS, please note that the networks database is organised in two files:</p>
-<pre><code>pathway_based_networks.txt
+<pre><code>pathway_based_sub_networks.txt
 pathway_based_networks_flattened.txt</code></pre>
-<p>File <code>pathway_based_networks.txt</code> contains all the subnetworks. For instance a hypothetical subnetwork of five genes <code>ERBB2, EGFR, MKI67, ESR1, PGR</code> with four interactions <code>(PGR-ESR1, EGFR-ERBB2, EGFR-PGR, MKI67-ESR1)</code>, and another hypothetical subnetwork of three genes PDK1, AKT3 and PIK3CA with two interactions <code>(PDK1-PIK3CA, AKT3-PIK3CA)</code> using Entrez Gene IDs would look like (tab-delimited):</p>
+<p>File <code>pathway_based_sub_networks.txt</code> contains all the subnetworks. For instance a hypothetical subnetwork of five genes <code>ERBB2, EGFR, MKI67, ESR1, PGR</code> with four interactions <code>(PGR-ESR1, EGFR-ERBB2, EGFR-PGR, MKI67-ESR1)</code>, and another hypothetical subnetwork of three genes PDK1, AKT3 and PIK3CA with two interactions <code>(PDK1-PIK3CA, AKT3-PIK3CA)</code> using Entrez Gene IDs would look like (tab-delimited):</p>
 <pre><code>#ID=0001    NAME=Module.1
 ID=0001 5241    2099
 ID=0001 1956    2064
@@ -139,7 +139,7 @@ ID=0001 4288    2099
 ID=0002 5163    5290
 ID=0002 10000   5290</code></pre>
 <p>Please note that the only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional _at suffix in the molecular data files).</p>
-<p>File <code>pathway_based_networks_flattened.txt</code> is a non-redundant, without self-interactions, quick lookup table of all the pairwise interactions present in the file <code>pathway_based_networks.txt</code>. This should not contain the subnetwork name and ID annotations. For example, the contents of this file for the above-mentioned subnetworks would look like (tab-delimited):</p>
+<p>File <code>pathway_based_networks_flattened.txt</code> is a non-redundant, without self-interactions, quick lookup table of all the pairwise interactions present in the file <code>pathway_based_sub_networks.txt</code>. This should not contain the subnetwork name and ID annotations. For example, the contents of this file for the above-mentioned subnetworks would look like (tab-delimited):</p>
 <pre><code>GeneID1 GeneID2
 5241    2099
 1956    2064
@@ -147,7 +147,7 @@ ID=0002 10000   5290</code></pre>
 4288    2099
 5163    5290
 10000   5290    </code></pre>
-<p>Please note that only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional _at suffix in the molecular data files). If you have a gene list without known interactions, and would like to try Node-only model (model 2), you can create a subnetwork with random interactions in <code>pathway_based_networks.txt</code> as long as all the features (genes) are present and connected. Same goes for <code>pathway_based_networks_flattened.txt</code>.</p>
+<p>Please note that only Entrez IDs are supported in this file, which should match the Entrez IDs format in the molecular data files (except additional _at suffix in the molecular data files). If you have a gene list without known interactions, and would like to try Node-only model (model 2), you can create a subnetwork with random interactions in <code>pathway_based_sub_networks.txt</code> as long as all the features (genes) are present and connected. Same goes for <code>pathway_based_networks_flattened.txt</code>.</p>
 <p>The two database files are placed inside a directory you wish to call your database. For example: <code>MyNetworkDB</code>, and this directory should be placed under:</p>
 <blockquote>
 <p>SIMMS/inst/programdata/networkdb/</p>
@@ -158,7 +158,7 @@ ID=0002 10000   5290</code></pre>
 <h2><a id="Molecular-profiles-and-clinical-data"></a> Molecular profiles and clinical data</h2>
 <p>The main input to SIMMS is molecular and clinical data. Currently tested datatypes are mRNA abundance, DNA copy-number and DNA methylation datasets. mRNA abundance and DNA methylation profiles are expected to be in continuous scale, while DNA copy-number profiles are expected to be gene copy-number calls <code>(-2,-1,0,1,2) or (-1,0,1)</code> representing deletions (-ve), neutral (0), and gains/amplifications (+ve) calls. Given that SIMMS support both continuous and categorical/ordinal profiles, any datatype can be used as input. The table below shows the supported/unsupported datatypes and respective examples:</p>
 <!-- html table generated in R 3.4.4 by xtable 1.8-3 package -->
-<!-- Thu Mar  7 17:44:29 2019 -->
+<!-- Sun May  5 12:16:19 2019 -->
 <table border="1">
 <tr>
 <th>
@@ -244,7 +244,7 @@ Unsupported due to alphabets
 <pre><code>dataset mRNA    cna methylation annotations survstat    survtime    survtime.unit
 Breastdata1 mRNA_abundance.txt  CNA.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit
 Breastdata2 mRNA_abundance.txt  CNA.txt DNA_methylation.txt patient_annotation.txt  e.os    t.os    t.os.unit</code></pre>
-<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cna and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
+<p>Here, each row contain an entry for a dataset e.g Breastdata1 and Breastdata2, each having its own directory on the filesystem. mRNA, cna and methylation columns contain the file names of each of the these datatypes. annotations column contains the names of the annotation files for each dataset. All the datatypes and annotation files for a given dataset must be inside the dataset directory (e.g Breastdata1/). survstat, survtime, and survtime.unit columns contain the column names of <code>Survival status, Survival time and Survival time unit</code>, respectively. These column names are expected to match the column names in the annotations files. annotation data file must also have a column <code>Tumour</code> with possible values of <code>Yes|No</code>. All analyses will be limited to those samples with <code>Yes</code> in the <code>Tumour</code> column. Further subsetting of molecular and annotation datasets is enable using parameter <code>subset</code> in SIMMS’ functions <code>?derive.network.features</code> &amp; <code>?prepare.training.validation.datasets</code>. For convenience sake, an example test dataset <code>testdata</code> containing metadata file <code>datasets.txt</code>, mRNA abundance profiles and respective clinical data is bundled with SIMMS package, and can be found under:</p>
 <blockquote>
 <p>SIMMS/inst/programdata/testdata/</p>
 </blockquote>
@@ -312,6 +312,7 @@ truncate.survival &lt;-<span class="st"> </span><span class="dv">10</span>;
     <span class="dt">data.directory =</span> data.directory,
     <span class="dt">output.directory =</span> output.directory,
     <span class="dt">data.types =</span> data.types,
+    <span class="dt">p.threshold =</span> feature.selection.p.threshold,
     <span class="dt">feature.selection.datasets =</span> feature.selection.datasets,
     <span class="dt">datasets =</span> <span class="kw">c</span>(training.datasets, validation.datasets),
     <span class="dt">networks.database =</span> <span class="st">&quot;test&quot;</span>, <span class="co"># or &quot;default&quot; for Reactome/BioCarta/NCI-PID</span>

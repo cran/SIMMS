@@ -1,8 +1,8 @@
 Package: SIMMS
-Version: 1.1.2
+Version: 1.2.0
 Type: Package
 Title: Subnetwork Integration for Multi-Modal Signatures
-Date: 2019-03-07
+Date: 2019-05-05
 Authors@R: c(
   person("Syed", "Haider", role = c("aut", "cre"), email = "Syed.Haider@icr.ac.uk"),
   person("Paul", "C. Boutros", role = "aut"),
@@ -22,6 +22,6 @@ Suggests: knitr (>= 1.4), rmarkdown (>= 0.9.5), xtable (>= 1.7-4)
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-03-07 17:44:43 UTC; shaider
+Packaged: 2019-05-05 11:16:32 UTC; shaider
 Repository: CRAN
-Date/Publication: 2019-03-07 21:43:11 UTC
+Date/Publication: 2019-05-05 11:50:03 UTC

@@ -6,7 +6,7 @@
 \alias{SIMMS}
 \title{SIMMS - Subnetwork Integration for Multi-Modal Signatures}
 \description{
-Algorithms to create prognostic biomarkers using biological genesets or networks
+Algorithms to create prognostic biomarkers using biological networks
 }
 \details{
 \tabular{ll}{ Package: \tab SIMMS\cr Type: \tab Package\cr License: \tab
@@ -46,6 +46,7 @@ prepare.training.validation.datasets(
   data.directory = data.directory,
   output.directory = output.directory,
   data.types = data.types,
+  p.threshold = feature.selection.p.threshold,
   feature.selection.datasets = feature.selection.datasets,
   datasets = unique(c(training.datasets, validation.datasets)),
   networks.database = "test"

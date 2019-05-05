@@ -16,6 +16,11 @@
 #' @param survival.data A list where each component is an object of class Surv
 #' @param data.type.ordinal Logical indicating whether to treat this datatype
 #' as ordinal. Defaults to FALSE
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
 #' @return Returns a vector of six elements containing (HR,P) pairs for
 #' feature1, feature2, and the interaction
 #' @author Syed Haider & Paul C. Boutros
@@ -37,14 +42,15 @@
 #'   );
 #' 
 #' @export fit.interaction.model
-fit.interaction.model <- function(feature1, feature2, expression.data, survival.data, data.type.ordinal = FALSE) {
+fit.interaction.model <- function(feature1, feature2, expression.data, survival.data, data.type.ordinal = FALSE, centre.data = "median") {
 
 	groups1 <- SIMMS::dichotomize.meta.dataset(
 		expression.data = expression.data,
 		survival.data = survival.data,
 		feature.name = feature1,
 		other.data = NULL,
-		data.type.ordinal = data.type.ordinal
+		data.type.ordinal = data.type.ordinal,
+		centre.data = centre.data
 		);
 
 	groups2 <- SIMMS::dichotomize.meta.dataset(
@@ -52,7 +58,8 @@ fit.interaction.model <- function(feature1, feature2, expression.data, survival.
 		survival.data = survival.data,
 		feature.name = feature2,
 		other.data = NULL,
-		data.type.ordinal = data.type.ordinal
+		data.type.ordinal = data.type.ordinal,
+		centre.data = centre.data
 		);
 
 	# fit the interaction Cox model
@@ -105,14 +112,16 @@ fit.interaction.model <- function(feature1, feature2, expression.data, survival.
 		feature.name = feature1,
 		expression.data = expression.data,
 		survival.data = survival.data,
-		data.type.ordinal = data.type.ordinal
+		data.type.ordinal = data.type.ordinal,
+		centre.data = centre.data
 		);
 
 	survival2 <- SIMMS::calculate.meta.survival(
 		feature.name = feature2,
 		expression.data = expression.data,
 		survival.data = survival.data,
-		data.type.ordinal = data.type.ordinal
+		data.type.ordinal = data.type.ordinal,
+		centre.data = centre.data
 		);
 
 	# return the survival statistics

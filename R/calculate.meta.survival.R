@@ -15,6 +15,11 @@
 #' (all elements in this list are used
 #' @param data.type.ordinal Logical indicating whether to treat this datatype
 #' as ordinal. Defaults to FALSE
+#' @param centre.data A character string specifying the centre value to be used for 
+#' scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+#' e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+#' as well as for dichotomising data for estimating univariate betas from Cox model.
+#' Defaults to 'median'
 #' @return Returns a vector containing the HR, p-value, n, and 95\% confidence
 #' limits of the HR (see fit.coxmodel() for details)
 #' @author Paul C. Boutros
@@ -35,7 +40,7 @@
 #'   );
 #' 
 #' @export calculate.meta.survival
-calculate.meta.survival <- function(feature.name, expression.data, survival.data, rounding = 3, other.data = NULL, data.type.ordinal = FALSE) {
+calculate.meta.survival <- function(feature.name, expression.data, survival.data, rounding = 3, other.data = NULL, data.type.ordinal = FALSE, centre.data = "median") {
 
 	# verify that we got appropriate input data
 	to.abort <- FALSE;
@@ -60,7 +65,8 @@ calculate.meta.survival <- function(feature.name, expression.data, survival.data
 		expression.data = expression.data,
 		survival.data = survival.data,
 		other.data = other.data,
-		data.type.ordinal = data.type.ordinal
+		data.type.ordinal = data.type.ordinal,
+		centre.data = centre.data
 		);
 
 	# handle all-NA values (i.e. feature not in the dataset)

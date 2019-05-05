@@ -4,13 +4,14 @@
 \alias{dichotomize.dataset}
 \title{Dichotomize a single dataset}
 \usage{
-dichotomize.dataset(x, split.at = NA)
+dichotomize.dataset(x, split.at = "median")
 }
 \arguments{
 \item{x}{A vector of values to be dichotomized}
 
-\item{split.at}{An optional value that can be used to dichotomize instead of
-median}
+\item{split.at}{An character string or a numeric value that is be used to dichotomize. 
+Valid values are: 'median', 'mean', or a user defined numeric threshold. Defaults to
+'median'}
 }
 \value{
 A vector of the data dichotomized onto a 0/1 (low/high) scale.
@@ -20,8 +21,10 @@ Split a dataset into two groups by median-dichotomization
 }
 \examples{
 
-tmp <- data.frame(y = rnorm(100));
-tmp$x <- dichotomize.dataset(tmp$y);
+tmp <- rnorm(100);
+tmp.groups.median <- dichotomize.dataset(tmp);
+tmp.groups.mean <- dichotomize.dataset(tmp, split.at = "mean");
+tmp.groups.custom <- dichotomize.dataset(tmp, split.at = 0.3);
 
 }
 \author{

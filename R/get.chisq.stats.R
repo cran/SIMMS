@@ -27,7 +27,7 @@
 get.chisq.stats <- function(groups, survobj) {
 
 	# verify we have appropriate information
-	if (nrow(survobj) != length(groups)) { return( rep(NA,3) ); }
+	if (nrow(survobj) != length(groups)) { return( rep(NA, 3) ); }
 
 	# survdiff between the groups
 	survdiff.obj <- survdiff(survobj ~ groups);

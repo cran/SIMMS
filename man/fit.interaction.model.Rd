@@ -5,7 +5,7 @@
 \title{Cox model two features separately and together}
 \usage{
 fit.interaction.model(feature1, feature2, expression.data, survival.data,
-  data.type.ordinal = FALSE)
+  data.type.ordinal = FALSE, centre.data = "median")
 }
 \arguments{
 \item{feature1}{String indicate what feature (gene/probe/etc.) should be
@@ -21,6 +21,12 @@ extracted for analysis}
 
 \item{data.type.ordinal}{Logical indicating whether to treat this datatype
 as ordinal. Defaults to FALSE}
+
+\item{centre.data}{A character string specifying the centre value to be used for 
+scaling data. Valid values are: 'median', 'mean', or a user defined numeric threshold
+e.g. '0.3' when modelling methylation beta values. This value is used for both scaling
+as well as for dichotomising data for estimating univariate betas from Cox model.
+Defaults to 'median'}
 }
 \value{
 Returns a vector of six elements containing (HR,P) pairs for
