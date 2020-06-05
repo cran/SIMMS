@@ -4,11 +4,17 @@
 \alias{calculate.network.coefficients}
 \title{Calculate Cox statistics for input dataset}
 \usage{
-calculate.network.coefficients(data.directory = ".",
-  output.directory = ".", training.datasets = NULL,
-  data.types = c("mRNA"), data.types.ordinal = c("cna"),
-  centre.data = "median", subnets.file.flattened = NULL,
-  truncate.survival = 100, subset = NULL)
+calculate.network.coefficients(
+  data.directory = ".",
+  output.directory = ".",
+  training.datasets = NULL,
+  data.types = c("mRNA"),
+  data.types.ordinal = c("cna"),
+  centre.data = "median",
+  subnets.file.flattened = NULL,
+  truncate.survival = 100,
+  subset = NULL
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -56,9 +62,10 @@ options("warn" = -1);
 program.data <- get.program.defaults(networks.database = "test");
 data.directory <- program.data[["test.data.dir"]];
 subnets.file.flattened <- program.data[["subnets.file.flattened"]];
+output.directory = tempdir();
 coef.nodes.edges <- calculate.network.coefficients(
   data.directory = data.directory,
-  output.directory = ".",
+  output.directory = output.directory,
   training.datasets = c("Breastdata1"),
   data.types = c("mRNA"),
   subnets.file.flattened = subnets.file.flattened

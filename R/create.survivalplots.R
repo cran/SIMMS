@@ -17,7 +17,7 @@
 #' @param learning.algorithms A character vector specifying which learning
 #' algorithm to be used for model fitting and feature selection. Defaults to
 #' c('backward', 'forward'). Available options are: c('backward', 'forward',
-#' 'glm')
+#' 'glm', 'randomforest')
 #' @param truncate.survival A numeric value specifying survival truncation in
 #' years. Defaults to 100 years which effectively means no truncation
 #' @param survtime.cutoffs A vector containing survival cutoff time points to
@@ -35,13 +35,27 @@
 #' @return The KM survival curves are stored under
 #' \code{output.directory}/graphs/
 #' @author Syed Haider
-#' @keywords survival,Kaplan-meier
+#' @keywords survival Kaplan-meier
 #' @examples
 #' 
 #' # see package's main documentation
 #' 
 #' @export create.survivalplots
-create.survivalplots <- function(data.directory = ".", output.directory = ".", training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, learning.algorithms = c("backward", "forward"), truncate.survival = 100, survtime.cutoffs = c(seq(5,10,1)), main.title = FALSE, KM.plotting.fun = "create.KM.plot", plot.univariate.data = FALSE, plot.multivariate.data = TRUE, resolution = 100) {
+create.survivalplots <- function(
+	data.directory = ".", 
+	output.directory = ".", 
+	training.datasets = NULL, 
+	validation.datasets = NULL, 
+	top.n.features = 25, 
+	learning.algorithms = c("backward", "forward"), 
+	truncate.survival = 100, 
+	survtime.cutoffs = c(seq(5,10,1)), 
+	main.title = FALSE, 
+	KM.plotting.fun = "create.KM.plot", 
+	plot.univariate.data = FALSE, 
+	plot.multivariate.data = TRUE, 
+	resolution = 100
+	) {
 
 	# output directories
 	out.dir <- paste(output.directory, "/output/", sep = "");

@@ -20,4 +20,5 @@ Accuracy
 \author{
 Syed Haider
 }
-\keyword{Sensitivity,Specificity}
+\keyword{Sensitivity}
+\keyword{Specificity}

@@ -4,13 +4,20 @@
 \alias{derive.network.features}
 \title{Derive univariate features from pathway-derived networks}
 \usage{
-derive.network.features(data.directory = ".", output.directory = ".",
-  data.types = c("mRNA"), data.types.ordinal = c("cna"),
+derive.network.features(
+  data.directory = ".",
+  output.directory = ".",
+  data.types = c("mRNA"),
+  data.types.ordinal = c("cna"),
   centre.data = "median",
   feature.selection.fun = "calculate.network.coefficients",
   feature.selection.datasets = NULL,
-  feature.selection.p.thresholds = c(0.05), truncate.survival = 100,
-  networks.database = "default", subset = NULL, ...)
+  feature.selection.p.thresholds = c(0.05),
+  truncate.survival = 100,
+  networks.database = "default",
+  subset = NULL,
+  ...
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -70,7 +77,7 @@ options("warn" = -1);
 data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
 
 # initialise params
-output.directory <- ".";
+output.directory <- tempdir();
 data.types <- c("mRNA");
 feature.selection.datasets <- c("Breastdata1");
 feature.selection.p.thresholds <- c(0.05);

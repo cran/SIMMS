@@ -4,10 +4,15 @@
 \alias{fit.survivalmodel}
 \title{Trains a multivariate survival model}
 \usage{
-fit.survivalmodel(data.directory = ".", output.directory = ".",
+fit.survivalmodel(
+  data.directory = ".",
+  output.directory = ".",
   feature.selection.datasets = NULL,
-  feature.selection.p.threshold = 0.05, training.datasets = NULL,
-  top.n.features = 25, models = c("1", "2", "3"))
+  feature.selection.p.threshold = 0.05,
+  training.datasets = NULL,
+  top.n.features = 25,
+  models = c("1", "2", "3")
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified

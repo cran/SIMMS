@@ -8,7 +8,7 @@
 #' @return A vector containing TP, FP, TN, FN, Sensitivity, Specificity,
 #' Accuracy
 #' @author Syed Haider
-#' @keywords Sensitivity,Specificity
+#' @keywords Sensitivity Specificity
 #' @export calculate.sensitivity.stats
 calculate.sensitivity.stats <- function(all.data = NULL) {
 

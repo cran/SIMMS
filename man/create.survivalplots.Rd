@@ -4,13 +4,21 @@
 \alias{create.survivalplots}
 \title{Plots Kaplan-meier survival curves}
 \usage{
-create.survivalplots(data.directory = ".", output.directory = ".",
-  training.datasets = NULL, validation.datasets = NULL,
-  top.n.features = 25, learning.algorithms = c("backward", "forward"),
-  truncate.survival = 100, survtime.cutoffs = c(seq(5, 10, 1)),
-  main.title = FALSE, KM.plotting.fun = "create.KM.plot",
-  plot.univariate.data = FALSE, plot.multivariate.data = TRUE,
-  resolution = 100)
+create.survivalplots(
+  data.directory = ".",
+  output.directory = ".",
+  training.datasets = NULL,
+  validation.datasets = NULL,
+  top.n.features = 25,
+  learning.algorithms = c("backward", "forward"),
+  truncate.survival = 100,
+  survtime.cutoffs = c(seq(5, 10, 1)),
+  main.title = FALSE,
+  KM.plotting.fun = "create.KM.plot",
+  plot.univariate.data = FALSE,
+  plot.multivariate.data = TRUE,
+  resolution = 100
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -29,7 +37,7 @@ features will be used for univariate survival modelling}
 \item{learning.algorithms}{A character vector specifying which learning
 algorithm to be used for model fitting and feature selection. Defaults to
 c('backward', 'forward'). Available options are: c('backward', 'forward',
-'glm')}
+'glm', 'randomforest')}
 
 \item{truncate.survival}{A numeric value specifying survival truncation in
 years. Defaults to 100 years which effectively means no truncation}
@@ -70,4 +78,5 @@ datasets cohort. The function also plots KM survival curves for each of the
 \author{
 Syed Haider
 }
-\keyword{survival,Kaplan-meier}
+\keyword{Kaplan-meier}
+\keyword{survival}

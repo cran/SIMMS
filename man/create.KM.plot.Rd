@@ -5,8 +5,14 @@
 \title{Plots Kaplan-meier survival curve for a given risk grouping & survival
 params}
 \usage{
-create.KM.plot(riskgroup = NULL, survtime = NULL, survstat = NULL,
-  file.name = NULL, main.title = "", resolution = 100)
+create.KM.plot(
+  riskgroup = NULL,
+  survtime = NULL,
+  survstat = NULL,
+  file.name = NULL,
+  main.title = "",
+  resolution = 100
+)
 }
 \arguments{
 \item{riskgroup}{A vector containing dichotomized risk groups}
@@ -32,4 +38,5 @@ A generic method to plot KM curves
 \author{
 Syed Haider
 }
-\keyword{survival,Kaplan-meier}
+\keyword{Kaplan-meier}
+\keyword{survival}

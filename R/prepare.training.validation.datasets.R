@@ -44,7 +44,7 @@
 #' data.directory <- get.program.defaults()[["test.data.dir"]];
 #' 
 #' # initialise params
-#' output.directory <- ".";
+#' output.directory <- tempdir();
 #' data.types <- c("mRNA");
 #' feature.selection.datasets <- c("Breastdata1");
 #' training.datasets <- c("Breastdata1");
@@ -62,7 +62,21 @@
 #'   );
 #' 
 #' @export prepare.training.validation.datasets
-prepare.training.validation.datasets <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), min.ordinal.threshold = c("cna" = 3), centre.data = "median", p.threshold = 0.5, feature.selection.datasets = NULL, datasets = NULL, truncate.survival = 100, networks.database = "default", write.normed.datasets = TRUE, subset = NULL) {
+prepare.training.validation.datasets <- function(
+	data.directory = ".", 
+	output.directory = ".", 
+	data.types = c("mRNA"), 
+	data.types.ordinal = c("cna"), 
+	min.ordinal.threshold = c("cna" = 3), 
+	centre.data = "median", 
+	p.threshold = 0.5, 
+	feature.selection.datasets = NULL, 
+	datasets = NULL, 
+	truncate.survival = 100, 
+	networks.database = "default", 
+	write.normed.datasets = TRUE, 
+	subset = NULL
+	) {
 
 	# output directory
 	out.dir <- paste(output.directory, "/output/", sep = "");
@@ -347,7 +361,7 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 				}
 			}
 
-		# save patient subnet scores this dataset
+		# save patient subnet scores for this dataset
 		for (model in names(subnet.scores)) {
 			x <- do.call(rbind, subnet.scores[[model]]);
 			x <- rbind(
@@ -363,18 +377,19 @@ prepare.training.validation.datasets <- function(data.directory = ".", output.di
 				sep = "\t"
 				);
 			}
-		}
 
-	# save selected features per subnet to filesystem
-	for (data.type in names(subnets.selected.features)) {
-		write.table(
-			x = as.matrix(subnets.selected.features[[data.type]]),
-			file = paste(out.dir, "/subnets_selected_features__TRAINING_", all.feature.selection.names, "__datatype_", data.type, ".txt", sep=""),
-			row.names = TRUE,
-			col.names = NA,
-			sep = "\t"
-			);
-		}
+		# save selected features per subnet for this dataset
+		for (data.type in names(subnets.selected.features)) {
+			write.table(
+				x = as.matrix(subnets.selected.features[[data.type]]),
+				file = paste(out.dir, "/subnets_selected_features__", dataset, "__TRAINING_", all.feature.selection.names, "__datatype_", data.type, ".txt", sep=""),
+				row.names = TRUE,
+				col.names = NA,
+				sep = "\t"
+				);
+			}
+
+		} # end of dataset loop
 
 	# recover memory
 	gc.tmp <- gc();

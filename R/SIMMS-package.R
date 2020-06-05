@@ -1,5 +1,3 @@
-
-
 #' SIMMS - Subnetwork Integration for Multi-Modal Signatures
 #' 
 #' Algorithms to create prognostic biomarkers using biological networks
@@ -20,6 +18,7 @@
 #' @importFrom survival coxph Surv survfit survdiff
 #' @importFrom MASS stepAIC
 #' @importFrom glmnet cv.glmnet
+#' @importFrom randomForestSRC rfsrc
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel makeCluster stopCluster
 #' @importFrom foreach %dopar% foreach registerDoSEQ
@@ -32,7 +31,7 @@
 #' data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
 #' 
 #' # initialise params
-#' output.directory <- ".";
+#' output.directory  <- tempdir();
 #' data.types <- c("mRNA");
 #' feature.selection.datasets <- c("Breastdata1");
 #' training.datasets <- c("Breastdata1");

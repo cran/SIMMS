@@ -4,9 +4,14 @@
 \alias{dichotomize.meta.dataset}
 \title{Dichotomize and unlist a meta-analysis list}
 \usage{
-dichotomize.meta.dataset(feature.name, expression.data, survival.data,
-  other.data = NULL, data.type.ordinal = FALSE,
-  centre.data = "median")
+dichotomize.meta.dataset(
+  feature.name,
+  expression.data,
+  survival.data,
+  other.data = NULL,
+  data.type.ordinal = FALSE,
+  centre.data = "median"
+)
 }
 \arguments{
 \item{feature.name}{Character indicate what feature (gene/probe/etc.) should

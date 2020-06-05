@@ -4,13 +4,27 @@
 \alias{create.classifier.multivariate}
 \title{Trains and tests a multivariate survival model}
 \usage{
-create.classifier.multivariate(data.directory = ".",
-  output.directory = ".", feature.selection.datasets = NULL,
-  feature.selection.p.threshold = 0.05, training.datasets = NULL,
-  validation.datasets = NULL, top.n.features = 25, models = c("1",
-  "2", "3"), learning.algorithms = c("backward", "forward"),
-  alpha.glm = c(1), k.fold.glm = 10, seed.cv.glm = 51214,
-  cores.glm = 1)
+create.classifier.multivariate(
+  data.directory = ".",
+  output.directory = ".",
+  feature.selection.datasets = NULL,
+  feature.selection.p.threshold = 0.05,
+  training.datasets = NULL,
+  validation.datasets = NULL,
+  top.n.features = 25,
+  models = c("1", "2", "3"),
+  learning.algorithms = c("backward", "forward"),
+  alpha.glm = c(1),
+  k.fold.glm = 10,
+  seed.value = 51214,
+  cores.glm = 1,
+  rf.ntree = 1000,
+  rf.mtry = NULL,
+  rf.nodesize = 15,
+  rf.samptype = "swor",
+  rf.sampsize = function(x) {     x * 0.66 },
+  ...
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -41,7 +55,7 @@ features will be used for univariate survival modelling}
 \item{learning.algorithms}{A character vector specifying which learning
 algorithm to be used for model fitting and feature selection. Defaults to
 c('backward', 'forward'). Available options are: c('backward', 'forward',
-'glm')}
+'glm', 'randomforest')}
 
 \item{alpha.glm}{A numeric vector specifying elastic-net mixing parameter
 alpha, with range alpha raning from [0,1]. 1 for LASSO (default) and 0 for
@@ -51,11 +65,34 @@ cross validation on training set}
 \item{k.fold.glm}{A numeric value specifying k-fold cross validation if glm
 was chosen in \code{learning.algorithms}}
 
-\item{seed.cv.glm}{A numeric value specifying seed for k-fold cross
+\item{seed.value}{A numeric value specifying seed for glm k-fold cross or random forest
 validation if glm was chosen in \code{learning.algorithms}}
 
 \item{cores.glm}{An integer value specifying number of cores to be used for
 glm if it was chosen in \code{learning.algorithms}}
+
+\item{rf.ntree}{An integer value specifying the number of trees in random forest. 
+Defaults to 1000. This should be tuned after starting with a large forest such as 1000 
+in the initial run and assessing the results in output\/OOB_error__TRAINING_* to see 
+where the OOB error rate stablises, and then rerunning with the stablised rf.ntree 
+parameter}
+
+\item{rf.mtry}{An integer value specifying the number of variables randomly selected 
+for splitting a node. Defaults to sqrt(features), which is the same as in the 
+underlying R package random survival forest \code{randomForestSRC::rfsrc}}
+
+\item{rf.nodesize}{An integer value specifying number of unique cases in a terminal 
+node. Defaults to 15, which is the same as in the underlying R package random survival 
+forest \code{randomForestSRC::rfsrc}}
+
+\item{rf.samptype}{An character string specifying name of sampling. Defaults to 
+sampling without replacement 'swor'. Available options are: c('swor', 'swr')}
+
+\item{rf.sampsize}{A function specifying sampling size when \code{rf.samptype} is set 
+to sampling without replacement ('swor'). Defaults to 66\%: \code{function(x){x * .66}}}
+
+\item{...}{other params to be passed on to the random forest call to the underlying 
+R package random survival forest \code{randomForestSRC::rfsrc}}
 }
 \value{
 The output files are stored under \code{output.directory}/output/

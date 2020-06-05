@@ -36,9 +36,10 @@
 #' program.data <- get.program.defaults(networks.database = "test");
 #' data.directory <- program.data[["test.data.dir"]];
 #' subnets.file.flattened <- program.data[["subnets.file.flattened"]];
+#' output.directory = tempdir();
 #' coef.nodes.edges <- calculate.network.coefficients(
 #'   data.directory = data.directory,
-#'   output.directory = ".",
+#'   output.directory = output.directory,
 #'   training.datasets = c("Breastdata1"),
 #'   data.types = c("mRNA"),
 #'   subnets.file.flattened = subnets.file.flattened

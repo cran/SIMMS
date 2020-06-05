@@ -4,9 +4,15 @@
 \alias{calculate.meta.survival}
 \title{Fit a meta-analytic Cox proportional hazards model to a single feature}
 \usage{
-calculate.meta.survival(feature.name, expression.data, survival.data,
-  rounding = 3, other.data = NULL, data.type.ordinal = FALSE,
-  centre.data = "median")
+calculate.meta.survival(
+  feature.name,
+  expression.data,
+  survival.data,
+  rounding = 3,
+  other.data = NULL,
+  data.type.ordinal = FALSE,
+  centre.data = "median"
+)
 }
 \arguments{
 \item{feature.name}{Character indicate what feature (gene/probe/etc.) should

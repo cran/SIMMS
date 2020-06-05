@@ -14,7 +14,7 @@
 #' KM survival curves. Defaults to 100
 #' @return The KM survival curves are stored under \code{output.dir}/graphs/
 #' @author Syed Haider
-#' @keywords survival,Kaplan-meier
+#' @keywords survival Kaplan-meier
 #' @export create.KM.plot
 create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, file.name = NULL, main.title = "", resolution = 100) {
 	

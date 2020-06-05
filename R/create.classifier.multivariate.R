@@ -28,17 +28,35 @@
 #' @param learning.algorithms A character vector specifying which learning
 #' algorithm to be used for model fitting and feature selection. Defaults to
 #' c('backward', 'forward'). Available options are: c('backward', 'forward',
-#' 'glm')
+#' 'glm', 'randomforest')
 #' @param alpha.glm A numeric vector specifying elastic-net mixing parameter
 #' alpha, with range alpha raning from [0,1]. 1 for LASSO (default) and 0 for
 #' ridge. For multiple values of alpha, most optimal value is selected through
 #' cross validation on training set
 #' @param k.fold.glm A numeric value specifying k-fold cross validation if glm
 #' was chosen in \code{learning.algorithms}
-#' @param seed.cv.glm A numeric value specifying seed for k-fold cross
+#' @param seed.value A numeric value specifying seed for glm k-fold cross or random forest
 #' validation if glm was chosen in \code{learning.algorithms}
 #' @param cores.glm An integer value specifying number of cores to be used for
 #' glm if it was chosen in \code{learning.algorithms}
+#' @param rf.ntree An integer value specifying the number of trees in random forest. 
+#' Defaults to 1000. This should be tuned after starting with a large forest such as 1000 
+#' in the initial run and assessing the results in output\/OOB_error__TRAINING_* to see 
+#' where the OOB error rate stablises, and then rerunning with the stablised rf.ntree 
+#' parameter
+#' @param rf.mtry An integer value specifying the number of variables randomly selected 
+#' for splitting a node. Defaults to sqrt(features), which is the same as in the 
+#' underlying R package random survival forest \code{randomForestSRC::rfsrc} 
+#' @param rf.nodesize An integer value specifying number of unique cases in a terminal 
+#' node. Defaults to 15, which is the same as in the underlying R package random survival 
+#' forest \code{randomForestSRC::rfsrc} 
+#' @param rf.samptype An character string specifying name of sampling. Defaults to 
+#' sampling without replacement 'swor'. Available options are: c('swor', 'swr')
+#' @param rf.sampsize A function specifying sampling size when \code{rf.samptype} is set 
+#' to sampling without replacement ('swor'). Defaults to 66\%: \code{function(x){x * .66}}
+#' @param ... other params to be passed on to the random forest call to the underlying 
+#' R package random survival forest \code{randomForestSRC::rfsrc} 
+#' 
 #' @return The output files are stored under \code{output.directory}/output/
 #' @author Syed Haider & Vincent Stimper
 #' @keywords survival
@@ -46,8 +64,29 @@
 #' 
 #' # see package's main documentation
 #' 
+#' @import randomForestSRC
 #' @export create.classifier.multivariate
-create.classifier.multivariate <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), learning.algorithms = c("backward", "forward"), alpha.glm = c(1), k.fold.glm = 10, seed.cv.glm = 51214, cores.glm = 1) {
+create.classifier.multivariate <- function(
+	data.directory = ".", 
+	output.directory = ".", 
+	feature.selection.datasets = NULL, 
+	feature.selection.p.threshold = 0.05, 
+	training.datasets = NULL, 
+	validation.datasets = NULL, 
+	top.n.features = 25, 
+	models = c("1", "2", "3"), 
+	learning.algorithms = c("backward", "forward"), 
+	alpha.glm = c(1), 
+	k.fold.glm = 10, 
+	seed.value = 51214, 
+	cores.glm = 1,
+	rf.ntree = 1000,
+	rf.mtry = NULL,
+	rf.nodesize = 15,
+	rf.samptype = "swor",
+	rf.sampsize = function(x){x * .66},
+	...
+	) {
 
 	# sanity checks
 	if (top.n.features < 2) {
@@ -107,14 +146,14 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 	
 	# create and register cluster in case of parallel computing for glmnet
 	if ("glm" %in% learning.algorithms) {
-	  if (cores.glm > 1) {
-	    computing.cluster <- makeCluster(cores.glm);
-	    registerDoParallel(computing.cluster);
-	  } else {
-	    registerDoSEQ();
-	  }
-	}
-	
+		if (cores.glm > 1) {
+			computing.cluster <- makeCluster(cores.glm);
+			registerDoParallel(computing.cluster);
+			} else {
+			registerDoSEQ();
+			}
+		}
+
 	# run learning algorithm for each model, for feature selection followed by patient risk score prediction
 	for (model in models) {
 
@@ -238,12 +277,13 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 
 			# GLM net refinement algorithm
 			if (learning.algorithm == "glm") {
+
 				which.surv.cols <- which(colnames(training.data) %in% c("survtime", "survstat"));
 				x.T <- as.matrix(training.data[, -which.surv.cols]);
 				y.T <- cbind("time" = training.data[, "survtime"], "status" = training.data[, "survstat"]);
 
 				# initialise glm params
-				set.seed(seed.cv.glm);
+				set.seed(seed.value);
 				foldid <- sample(rep(seq(k.fold.glm), length.out = nrow(x.T)));
 				cvm <- rep(NA, length(alpha.glm));
 				model.fit.tmp <- vector("list", length(alpha.glm));
@@ -307,6 +347,55 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 					);
 				}
 
+			# Random survival forest implementation
+			if (learning.algorithm == "randomforest") {
+
+				# create random forest
+				model.fit <- rfsrc(
+					Surv(survtime, survstat) ~ ., 
+					data = training.data, 
+					importance = TRUE,
+					ntree = rf.ntree,
+					mtry = ifelse(is.null(rf.mtry), round(sqrt(ncol(training.data)-2)), rf.mtry),
+					nodesize = rf.nodesize,
+					samptype = rf.samptype,
+					sampsize = rf.sampsize,
+					block.size = 1, # calculate error rate on every nth tree. default to NULL with error rate of last tree only,
+					var.used = "by.tree",
+					statistics = TRUE,
+					membership = TRUE,
+					seed = seed.value
+					);
+
+				print(model.fit);
+
+				# store random forest object for subsequent post-processing of trees
+				save(
+					model.fit, 
+					file = paste(out.dir, "/model_object__TRAINING_", all.training.names, "__", learning.algorithm, "__model_", model, "__top_", top.n.features, ".RData", sep = "")
+					);
+
+				# store random forest vimp
+				cat("\nstoring Random Forest variables with their importance");
+				write.table(
+					cbind("vimp" = sort(model.fit$importance, decreasing = TRUE)),
+					file = paste(out.dir, "/vimp__TRAINING_", all.training.names, "__", learning.algorithm, "__model_", model, "__top_", top.n.features, ".txt", sep = ""),
+					row.names = TRUE,
+					col.names = NA,
+					sep = "\t"
+					);
+
+				# store random forest OOB error rate
+				cat("\nstoring Random Forest OOB error rate");
+				write.table(
+					cbind("Number of trees" = 1:length(model.fit$err.rate), "OOB error rate" = model.fit$err.rate),
+					file = paste(out.dir, "/OOB_error__TRAINING_", all.training.names, "__", learning.algorithm, "__model_", model, "__top_", top.n.features, ".txt", sep = ""),
+					row.names = FALSE,
+					sep = "\t"
+					);
+
+				}
+
 			# estimate risk scores over TRAINING datasets
 			all.training.risk.scores <- NULL;
 			all.training.groups <- NULL;
@@ -323,7 +412,7 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 				if (learning.algorithm %in% c("backward", "forward")) {
 					risk.scores <- predict(model.fit, newdata = new.data, type = "risk");
 					}
-				if (learning.algorithm %in% c("glm")) {
+				if (learning.algorithm == "glm") {
 					risk.scores <- predict(
 						model.fit, 
 						newx = as.matrix(new.data[, -which(colnames(new.data) %in% c("survtime", "survstat"))]), 
@@ -331,8 +420,15 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 						s = lambda.to.use
 						)[, 1];
 					}
+				if (learning.algorithm == "randomforest") {
+					risk.scores <- predict(
+						model.fit, 
+						newdata = new.data[, -which(colnames(new.data) %in% c("survtime", "survstat"))] 
+						)$predicted;
+					}
 
 				risk.groups <- SIMMS::dichotomize.dataset(risk.scores);
+				names(risk.scores) <- rownames(new.data);
 				names(risk.groups) <- rownames(new.data);
 				survtime <- new.data$survtime;
 				survstat <- new.data$survstat;
@@ -459,8 +555,15 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 						s = lambda.to.use
 						)[, 1];
 					}
+				if (learning.algorithm == "randomforest") {
+					risk.scores <- predict(
+						model.fit, 
+						newdata = new.data[, -which(colnames(new.data) %in% c("survtime", "survstat"))]
+						)$predicted;
+					}
 
 				risk.groups <- SIMMS::dichotomize.dataset(risk.scores, split.at = all.training.median);
+				names(risk.scores) <- rownames(new.data); 
 				names(risk.groups) <- rownames(new.data); 
 				survtime <- new.data$survtime;
 				survstat <- new.data$survstat;
@@ -557,11 +660,11 @@ create.classifier.multivariate <- function(data.directory = ".", output.director
 	  }
 	  
   	# stop cluster
-	  if ("glm" %in% learning.algorithms) {
-	    if (cores.glm > 1) {
-	      registerDoSEQ();
-	      stopCluster(computing.cluster);
-	      remove(computing.cluster);
-	    }
-	  }
+	if ("glm" %in% learning.algorithms) {
+		if (cores.glm > 1) {
+			registerDoSEQ();
+			stopCluster(computing.cluster);
+			remove(computing.cluster);
+			}
+		}
 	}

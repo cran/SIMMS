@@ -4,13 +4,21 @@
 \alias{prepare.training.validation.datasets}
 \title{Prepare training and validation datasets}
 \usage{
-prepare.training.validation.datasets(data.directory = ".",
-  output.directory = ".", data.types = c("mRNA"),
-  data.types.ordinal = c("cna"), min.ordinal.threshold = c(cna = 3),
-  centre.data = "median", p.threshold = 0.5,
-  feature.selection.datasets = NULL, datasets = NULL,
-  truncate.survival = 100, networks.database = "default",
-  write.normed.datasets = TRUE, subset = NULL)
+prepare.training.validation.datasets(
+  data.directory = ".",
+  output.directory = ".",
+  data.types = c("mRNA"),
+  data.types.ordinal = c("cna"),
+  min.ordinal.threshold = c(cna = 3),
+  centre.data = "median",
+  p.threshold = 0.5,
+  feature.selection.datasets = NULL,
+  datasets = NULL,
+  truncate.survival = 100,
+  networks.database = "default",
+  write.normed.datasets = TRUE,
+  subset = NULL
+)
 }
 \arguments{
 \item{data.directory}{Path to the directory containing datasets as specified
@@ -70,7 +78,7 @@ datasets, independently
 data.directory <- get.program.defaults()[["test.data.dir"]];
 
 # initialise params
-output.directory <- ".";
+output.directory <- tempdir();
 data.types <- c("mRNA");
 feature.selection.datasets <- c("Breastdata1");
 training.datasets <- c("Breastdata1");

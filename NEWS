@@ -1,6 +1,13 @@
 TODO:
 - predictive models (logistic regression)
 
+# SIMMS 1.3.0
+==========================
+
+- implemented ensemble learning using random forest (survival) to create multivariate
+  models
+- [bug fix] saving subnet selected features for each dataset separately
+
 # SIMMS 1.2.0
 ==========================
 

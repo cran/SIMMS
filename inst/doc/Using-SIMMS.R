@@ -1,4 +1,4 @@
-## ----xtable, echo=FALSE, results="asis"----------------------------------
+## ----xtable, echo=FALSE, results="asis"---------------------------------------
 library(xtable);
 
 x <- matrix(
@@ -21,7 +21,7 @@ tab <- xtable(x);
 
 print(tab, type = "html", include.rownames = FALSE);
 
-## ---- results = "hide", message = FALSE, eval = TRUE---------------------
+## ---- results = "hide", message = FALSE, eval = TRUE--------------------------
 options("warn" = -1);
 
 # load SIMMS library
@@ -56,9 +56,9 @@ feature.selection.p.thresholds <- c(0.5);
 feature.selection.p.threshold <- 0.5;
 
 # names of the learning algorithms to be used for the final multivarite model
-learning.algorithms <- c("backward", "forward", "glm");
+learning.algorithms <- c("backward", "forward", "glm", "randomforest");
 
-# top features to be used for model selection (Backwards elimination, Forward selection, GLM)
+# top features to be used for model selection (Backwards elimination, Forward selection, GLM, Random survival forest)
 # you can try a number of different model selection runs by specifying a vector of top n features
 top.n.features <- c(5);
 

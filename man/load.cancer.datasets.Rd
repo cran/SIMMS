@@ -4,10 +4,17 @@
 \alias{load.cancer.datasets}
 \title{Load all cancer meta-analysis datasets}
 \usage{
-load.cancer.datasets(tumour.only = TRUE, with.survival.only = TRUE,
-  truncate.survival = 100, datasets.to.load = "all",
-  data.types = c("mRNA"), datasets.file = "datasets.txt",
-  data.directory = ".", verbose = FALSE, subset = NULL)
+load.cancer.datasets(
+  tumour.only = TRUE,
+  with.survival.only = TRUE,
+  truncate.survival = 100,
+  datasets.to.load = "all",
+  data.types = c("mRNA"),
+  datasets.file = "datasets.txt",
+  data.directory = ".",
+  verbose = FALSE,
+  subset = NULL
+)
 }
 \arguments{
 \item{tumour.only}{Logical indicating if we should only load tumour samples

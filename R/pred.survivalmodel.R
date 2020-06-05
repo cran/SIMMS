@@ -1,6 +1,6 @@
 #' Apply a multivariate survival model to validation datasets
 #' 
-#' Predicts the risk score for all the training & datasets, independently. This
+#' Predicts the risk score for all the training & validation datasets, independently. This
 #' function also predicts the risk score for combined training datasets cohort
 #' and validation datasets cohort. The risk score estimation is done by
 #' multivariate models fit by \code{fit.survivalmodel}. The function also
@@ -36,7 +36,17 @@
 #' # see package's main documentation
 #' 
 #' @export pred.survivalmodel
-pred.survivalmodel <- function(data.directory = ".", output.directory = ".", feature.selection.datasets = NULL, feature.selection.p.threshold = 0.05, training.datasets = NULL, validation.datasets = NULL, top.n.features = 25, models = c("1", "2", "3"), write.risk.data = TRUE) {
+pred.survivalmodel <- function(
+	data.directory = ".", 
+	output.directory = ".", 
+	feature.selection.datasets = NULL, 
+	feature.selection.p.threshold = 0.05, 
+	training.datasets = NULL, 
+	validation.datasets = NULL, 
+	top.n.features = 25, 
+	models = c("1", "2", "3"), 
+	write.risk.data = TRUE
+	) {
 
 	# output directories
 	out.dir <- paste(output.directory, "/output/", sep = "");

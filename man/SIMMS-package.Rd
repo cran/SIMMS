@@ -20,7 +20,7 @@ options("warn" = -1);
 data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
 
 # initialise params
-output.directory <- ".";
+output.directory  <- tempdir();
 data.types <- c("mRNA");
 feature.selection.datasets <- c("Breastdata1");
 training.datasets <- c("Breastdata1");

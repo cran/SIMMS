@@ -4,8 +4,14 @@
 \alias{fit.coxmodel}
 \title{Fit a Cox proportional hazards model}
 \usage{
-fit.coxmodel(groups, survobj, stages = NA, rounding = 3,
-  other.data = NULL, data.type.ordinal = FALSE)
+fit.coxmodel(
+  groups,
+  survobj,
+  stages = NA,
+  rounding = 3,
+  other.data = NULL,
+  data.type.ordinal = FALSE
+)
 }
 \arguments{
 \item{groups}{Grouping of patients (passed directly to coxph, so factors &

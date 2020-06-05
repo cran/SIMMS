@@ -30,7 +30,7 @@ annotation <- read.table(
   annotation.file,
   header = TRUE,
   row.names = 1,
-  sep = "\\t"
+  sep = "\t"
   );
 
 # select the appropriate survtime and survstat variable for this dataset

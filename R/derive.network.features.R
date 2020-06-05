@@ -34,6 +34,7 @@
 #' Entry
 #' @param ... other params to be passed on to user-defined method for
 #' estimating coefficients of network features
+#'
 #' @return The output files are stored under \code{data.directory}/output/
 #' @author Syed Haider
 #' @keywords FeatureSelection
@@ -45,7 +46,7 @@
 #' data.directory <- get.program.defaults(networks.database = "test")[["test.data.dir"]];
 #' 
 #' # initialise params
-#' output.directory <- ".";
+#' output.directory <- tempdir();
 #' data.types <- c("mRNA");
 #' feature.selection.datasets <- c("Breastdata1");
 #' feature.selection.p.thresholds <- c(0.05);
@@ -62,7 +63,20 @@
 #'   );
 #' 
 #' @export derive.network.features
-derive.network.features <- function(data.directory = ".", output.directory = ".", data.types = c("mRNA"), data.types.ordinal = c("cna"), centre.data = "median", feature.selection.fun = "calculate.network.coefficients", feature.selection.datasets = NULL, feature.selection.p.thresholds = c(0.05), truncate.survival = 100, networks.database = "default", subset = NULL, ...) {
+derive.network.features <- function(
+	data.directory = ".", 
+	output.directory = ".", 
+	data.types = c("mRNA"), 
+	data.types.ordinal = c("cna"), 
+	centre.data = "median", 
+	feature.selection.fun = "calculate.network.coefficients", 
+	feature.selection.datasets = NULL, 
+	feature.selection.p.thresholds = c(0.05), 
+	truncate.survival = 100, 
+	networks.database = "default", 
+	subset = NULL, 
+	...
+	) {
 
 	# verify that we got appropriate input data
 	to.abort <- FALSE;
@@ -209,7 +223,7 @@ derive.network.features <- function(data.directory = ".", output.directory = "."
 		# lets write subnetwork feature scores to file system
 		for (model in names(subnet.scores)) {
 			x <- as.matrix(subnet.scores[[model]]);
-			x <- as.matrix( x[order(x[, 1], decreasing = TRUE),] );
+			x <- as.matrix( x[order(unlist(x[, 1]), decreasing = TRUE), ] );
 			colnames(x) <- c("score");
 			write.table(
 				x = x,

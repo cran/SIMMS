@@ -5,10 +5,17 @@
 \title{Plots sensitivity analysis for class label dichotomization at supplied
 survtime cutoffs}
 \usage{
-create.sensitivity.plot(riskscore = NULL, riskgroup = NULL,
-  survtime = NULL, survstat = NULL, survtime.cutoffs = c(seq(5, 10,
-  1)), output.directory = ".", file.stem = NULL, main.title = "",
-  resolution = 100)
+create.sensitivity.plot(
+  riskscore = NULL,
+  riskgroup = NULL,
+  survtime = NULL,
+  survstat = NULL,
+  survtime.cutoffs = c(seq(5, 10, 1)),
+  output.directory = ".",
+  file.stem = NULL,
+  main.title = "",
+  resolution = 100
+)
 }
 \arguments{
 \item{riskscore}{A vector containing predicted risk scores}
@@ -45,4 +52,7 @@ survtime cutoff steps provided
 \author{
 Syed Haider
 }
-\keyword{survival,sensitivity,specificity,accuracy}
+\keyword{accuracy}
+\keyword{sensitivity}
+\keyword{specificity}
+\keyword{survival}

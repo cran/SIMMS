@@ -4,8 +4,14 @@
 \alias{fit.interaction.model}
 \title{Cox model two features separately and together}
 \usage{
-fit.interaction.model(feature1, feature2, expression.data, survival.data,
-  data.type.ordinal = FALSE, centre.data = "median")
+fit.interaction.model(
+  feature1,
+  feature2,
+  expression.data,
+  survival.data,
+  data.type.ordinal = FALSE,
+  centre.data = "median"
+)
 }
 \arguments{
 \item{feature1}{String indicate what feature (gene/probe/etc.) should be

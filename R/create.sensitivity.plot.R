@@ -22,7 +22,7 @@
 #' \code{output.directory}/graphs/. The sensitivity analysis results are stored
 #' under \code{output.directory}/output/
 #' @author Syed Haider
-#' @keywords survival,sensitivity,specificity,accuracy
+#' @keywords survival sensitivity specificity accuracy
 #' @export create.sensitivity.plot
 create.sensitivity.plot <- function(riskscore = NULL, riskgroup = NULL, survtime =  NULL, survstat = NULL, survtime.cutoffs = c(seq(5,10,1)), output.directory = ".", file.stem = NULL, main.title = "", resolution = 100) {
 
