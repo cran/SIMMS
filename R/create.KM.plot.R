@@ -34,7 +34,7 @@ create.KM.plot <- function (riskgroup = NULL, survtime = NULL, survstat = NULL, 
 
 	# set the graphics driver
 	current.type <- getOption("bitmapType");
-	options(bitmapType = "cairo");
+	if (capabilities("cairo")) { options(bitmapType = "cairo"); }
 
 	png(
 		filename = file.name,

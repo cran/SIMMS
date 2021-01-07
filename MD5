@@ -1,4 +1,4 @@
-87bcbbd8093081f5c374852998d9bf6e *DESCRIPTION
+ebd2ecfa45909b7180d34903d31edbcd *DESCRIPTION
 7b34c75d23adfa5ead78ea78ced24026 *NAMESPACE
 d87248d539092abadd837e021e54ec9c *NEWS
 694547682501993905e1b6a8a32a134a *R/SIMMS-package.R
@@ -6,10 +6,10 @@ f3a6b1d6579e7dfa74fb87c9578dc98d *R/calculate.meta.survival.R
 a6dcda5aa46add4f9641fcb55d4501be *R/calculate.network.coefficients.R
 7604de3904f04f9d4bff9221a8eacab9 *R/calculate.sensitivity.stats.R
 8f271eb6d96c0a8eb6e94570cb8efa16 *R/centre.scale.R
-c690308467c1321196590ec99f2e4524 *R/create.KM.plot.R
+c09a9738ff32a7299bde3af29d464b99 *R/create.KM.plot.R
 b7c1f543c95c3e76072e363d3be31800 *R/create.classifier.multivariate.R
 9355852b966bca84a0d7d235bffe282f *R/create.classifier.univariate.R
-4d62f6a5fcbe9c0f9309e183b750ce88 *R/create.sensitivity.plot.R
+690abc72636ee36c1abe9cdd537451e0 *R/create.sensitivity.plot.R
 6115555e620ccb7405f5fdc0389d78b3 *R/create.survivalplots.R
 43b5c64f1aa4b18518ff3c313d783df0 *R/create.survobj.R
 6c4fa65e0e9893c94f7a7a91619cf1ac *R/derive.network.features.R
@@ -28,7 +28,7 @@ a6b4910b55421b1ef0d15e49b5d0da51 *R/prepare.training.validation.datasets.R
 234f5bf7e3a1b891767d22e93b79f69c *build/vignette.rds
 12eccbbf69a5c4e069e73de212e268ee *inst/doc/Using-SIMMS.R
 b66e33d4616fc4710334267eaa934286 *inst/doc/Using-SIMMS.Rmd
-2b8c2341a64b80d4bd5dd5b4b119f3c3 *inst/doc/Using-SIMMS.html
+6647d36194ec08871429a7fc1487d308 *inst/doc/Using-SIMMS.html
 94fd81bd78b72b5dff57c953e100b848 *inst/programdata/networkdb/MEMo.BRCA/pathway_based_networks_flattened.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks_all.txt

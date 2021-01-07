@@ -41,7 +41,7 @@ create.sensitivity.plot <- function(riskscore = NULL, riskgroup = NULL, survtime
 
 	# set the graphics driver
 	current.type <- getOption("bitmapType");
-	options(bitmapType = "cairo");
+	if (capabilities("cairo")) { options(bitmapType = "cairo"); }
 
 	png(
 		filename = paste(graphs.dir, file.stem, ".png", sep = ""),
