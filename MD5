@@ -1,6 +1,6 @@
-ebd2ecfa45909b7180d34903d31edbcd *DESCRIPTION
+4dc48d7748a60c1a19ef2e3b10ee27e3 *DESCRIPTION
 7b34c75d23adfa5ead78ea78ced24026 *NAMESPACE
-d87248d539092abadd837e021e54ec9c *NEWS
+e571d413ebf2c786ae5a93fb04598f50 *NEWS
 694547682501993905e1b6a8a32a134a *R/SIMMS-package.R
 f3a6b1d6579e7dfa74fb87c9578dc98d *R/calculate.meta.survival.R
 a6dcda5aa46add4f9641fcb55d4501be *R/calculate.network.coefficients.R
@@ -14,7 +14,7 @@ b7c1f543c95c3e76072e363d3be31800 *R/create.classifier.multivariate.R
 43b5c64f1aa4b18518ff3c313d783df0 *R/create.survobj.R
 6c4fa65e0e9893c94f7a7a91619cf1ac *R/derive.network.features.R
 096c2558b8fcb53d95eb02a4e6c005da *R/dichotomize.dataset.R
-48a5b08f7934a11a7c95775aa95e15db *R/dichotomize.meta.dataset.R
+899c772b82354daa3ffc25e0ec636d31 *R/dichotomize.meta.dataset.R
 603a81d60a69dc2bdd65fc4de25865f8 *R/fit.coxmodel.R
 c2828ea898a369a74dd31b40ea6a6d2a *R/fit.interaction.model.R
 f5498d499ee353b0f57a1629497451e9 *R/fit.survivalmodel.R
@@ -25,10 +25,10 @@ d3241b3bf5d8d9c1c81a57aac3b16f37 *R/get.chisq.stats.R
 d4dec9f5492b6115634410706c734c53 *R/make.matrix.R
 44ad81d721e9d1437c4f33521270da65 *R/pred.survivalmodel.R
 a6b4910b55421b1ef0d15e49b5d0da51 *R/prepare.training.validation.datasets.R
-234f5bf7e3a1b891767d22e93b79f69c *build/vignette.rds
+3684c09440035092946963e4bbcbfd7c *build/vignette.rds
 12eccbbf69a5c4e069e73de212e268ee *inst/doc/Using-SIMMS.R
 b66e33d4616fc4710334267eaa934286 *inst/doc/Using-SIMMS.Rmd
-6647d36194ec08871429a7fc1487d308 *inst/doc/Using-SIMMS.html
+26d9406c1c8fef0bacbb3c1cc8ad6c11 *inst/doc/Using-SIMMS.html
 94fd81bd78b72b5dff57c953e100b848 *inst/programdata/networkdb/MEMo.BRCA/pathway_based_networks_flattened.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks.txt
 951c87aaaf9e77462c8ba304b84132ac *inst/programdata/networkdb/MEMo.BRCA/pathway_based_sub_networks_all.txt
@@ -59,6 +59,10 @@ ff792f3e5607acd82bdde91f18e26703 *inst/programdata/networkdb/Oncotypedx/pathway_
 296853f8c261cfb33acd3ace54a73675 *inst/programdata/networkdb/PI3K/pathway_based_networks_flattened.txt
 c9897060bd0542c1f7d32db2fbece17e *inst/programdata/networkdb/PI3K/pathway_based_sub_networks.txt
 c9897060bd0542c1f7d32db2fbece17e *inst/programdata/networkdb/PI3K/pathway_based_sub_networks_all.txt
+bf831f954d4522ba8c6deae917484cbb *inst/programdata/networkdb/deILC.NR30/pathway_based_networks_flattened.txt
+0336dba0d814ef687eb720e7f37b6bbf *inst/programdata/networkdb/deILC.NR30/pathway_based_sub_networks.txt
+8b21592443c59706ea686add0b4eb438 *inst/programdata/networkdb/deILC30/pathway_based_networks_flattened.txt
+19d952dafa5123e03cef83df0b63741e *inst/programdata/networkdb/deILC30/pathway_based_sub_networks.txt
 89d7484164ab9c2ee49b3b9673be3425 *inst/programdata/networkdb/default/pathway_based_networks.txt
 7bee9e945c2d2339da451f7c4e3b1867 *inst/programdata/networkdb/default/pathway_based_networks_flattened.txt
 754f477e0b3de7e289a7cbd91d8b8a3b *inst/programdata/networkdb/default/pathway_based_sub_networks.txt

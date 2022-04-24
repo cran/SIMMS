@@ -80,7 +80,7 @@ dichotomize.meta.dataset <- function(feature.name, expression.data, survival.dat
 		);
 
 	# if there is an extra data unlist it and pass it back
-	if (!is.null(other.data) & class(other.data) == 'list') {
+	if (!is.null(other.data) && is.list(other.data)) {
 
 		# loop over all elements
 		for (i in 1:length(other.data)) {
